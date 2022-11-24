@@ -1,0 +1,18 @@
+chapter HOL
+
+session Transport = "HOL" +
+  description
+    "Transport of definitions and theorems via Galois connections and equivalences."
+  options
+    [timeout = 120]
+  sessions
+    HOL_Basics
+  directories
+    "Compositions"
+    "Compositions/Agree"
+    "Compositions/Generic"
+    "Functions"
+    "Natural_Functors"
+  theories
+    Transport
+

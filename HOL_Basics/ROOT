@@ -1,0 +1,27 @@
+chapter HOL
+
+session HOL_Basics = "HOL" +
+  description
+    "Basic library on top of HOL axioms."
+  options
+    [timeout = 60]
+  directories
+    "Binary_Relations"
+    "Binary_Relations/Order"
+    "Binary_Relations/Properties"
+    "Functions"
+    "Functions/Properties"
+    "Orders"
+    "Orders/Functions"
+    "Orders/Functors"
+    "Predicates"
+    "Galois"
+  theories
+    LBinary_Relations 
+    LFunctions
+    Galois
+    Lattices_Syntax
+    Orders
+    Predicates
+
+
