@@ -7,10 +7,10 @@ begin
 
 paragraph \<open>Dependent Function Relator\<close>
 
-context transport_Dep_Fun_Rel_rel
+context transport_Dep_Fun_Rel
 begin
 
-interpretation flip : transport_Dep_Fun_Rel_rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation flip : transport_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
 lemma mono_wrt_rel_leftI:
   assumes mono_r1: "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
@@ -36,29 +36,41 @@ proof (intro dep_mono_wrt_relI flip.left_relI)
   then show "l f1 x1' \<le>\<^bsub>R2 x1' x2'\<^esub> l f2 x2'" by simp
 qed
 
+lemma mono_wrt_rel_left_in_dom_mono_left_assm:
+  assumes "([in_dom (\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 x1' x2'\<^esub>))
+    (l2\<^bsub>x1' (r1 x1')\<^esub>) (l2\<^bsub>x2' (r1 x1')\<^esub>)"
+  and "transitive (\<le>\<^bsub>R2 x1' x2'\<^esub>)"
+  and "x1' \<le>\<^bsub>R1\<^esub> x2'"
+  and "in_dom (\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>) y"
+  shows "(\<le>\<^bsub>R2 x1' x2'\<^esub>) (l2\<^bsub>x2' (r1 x1')\<^esub> y) \<le> (\<le>\<^bsub>R2 x1' x2'\<^esub>) (l2\<^bsub>x1' (r1 x1')\<^esub> y)"
+  using assms by blast
+
+lemma mono_wrt_rel_left_in_codom_mono_left_assm:
+  assumes "([in_codom (\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 x1' x2'\<^esub>))
+    (l2\<^bsub>x2' (r1 x1')\<^esub>) (l2\<^bsub>x2' (r1 x2')\<^esub>)"
+  and "transitive (\<le>\<^bsub>R2 x1' x2'\<^esub>)"
+  and "x1' \<le>\<^bsub>R1\<^esub> x2'"
+  and "in_codom (\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>) y"
+  shows "(\<ge>\<^bsub>R2 x1' x2'\<^esub>) (l2\<^bsub>x2' (r1 x1')\<^esub> y) \<le> (\<ge>\<^bsub>R2 x1' x2'\<^esub>) (l2\<^bsub>x2' (r1 x2')\<^esub> y)"
+  using assms by blast
+
 lemma mono_wrt_rel_left_if_transitiveI:
   assumes "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
     ((\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x1') x2'\<^esub>)) (l2\<^bsub>x2' (r1 x1')\<^esub>)"
   and "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow> (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x1') x2'\<^esub>) \<le> (\<le>\<^bsub>R2 x1' x2'\<^esub>)"
-  and mono_l2_1: "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
+  and "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
     ([in_dom (\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 x1' x2'\<^esub>)) (l2\<^bsub>x1' (r1 x1')\<^esub>) (l2\<^bsub>x2' (r1 x1')\<^esub>)"
-  and mono_l2_2: "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
+  and "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
     ([in_codom (\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 x1' x2'\<^esub>)) (l2\<^bsub>x2' (r1 x1')\<^esub>) (l2\<^bsub>x2' (r1 x2')\<^esub>)"
-  and trans_R2: "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow> transitive (\<le>\<^bsub>R2 x1' x2'\<^esub>)"
+  and "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow> transitive (\<le>\<^bsub>R2 x1' x2'\<^esub>)"
   shows "((\<le>\<^bsub>L\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R\<^esub>)) l"
-proof -
-  from mono_l2_1 have "\<And>x1' x2' y. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow> in_dom (\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>) y \<Longrightarrow>
-    (\<le>\<^bsub>R2 x1' x2'\<^esub>) (l2\<^bsub>x2' (r1 x1')\<^esub> y) \<le> (\<le>\<^bsub>R2 x1' x2'\<^esub>) (l2\<^bsub>x1' (r1 x1')\<^esub> y)"
-    using trans_R2 by blast
-  moreover from mono_l2_2 have "\<And>x1' x2' y. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
-    in_codom (\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>) y \<Longrightarrow>
-    (\<ge>\<^bsub>R2 x1' x2'\<^esub>) (l2\<^bsub>x2' (r1 x1')\<^esub> y) \<le> (\<ge>\<^bsub>R2 x1' x2'\<^esub>) (l2\<^bsub>x2' (r1 x2')\<^esub> y)"
-    using trans_R2 by blast
-  ultimately show ?thesis using assms by (intro mono_wrt_rel_leftI) auto
-qed
+  using assms by (intro mono_wrt_rel_leftI
+    mono_wrt_rel_left_in_dom_mono_left_assm
+    mono_wrt_rel_left_in_codom_mono_left_assm)
+  auto
 
-lemma mono_wrt_rel_left_mono_asm_if_mono_wrt_rel:
+lemma mono_wrt_rel_left2_if_mono_wrt_rel_left2_if_GaloisI:
   assumes "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>L2 x (r1 x')\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)) (l2\<^bsub>x' x\<^esub>)"
   shows "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
@@ -66,9 +78,9 @@ lemma mono_wrt_rel_left_mono_asm_if_mono_wrt_rel:
   using assms by (intro dep_mono_wrt_relI) fastforce
 
 interpretation flip_inv :
-  transport_Dep_Fun_Rel_rel "(\<ge>\<^bsub>R1\<^esub>)" "(\<ge>\<^bsub>L1\<^esub>)" r1 l1 "flip2 R2" "flip2 L2" r2 l2
+  transport_Dep_Fun_Rel "(\<ge>\<^bsub>R1\<^esub>)" "(\<ge>\<^bsub>L1\<^esub>)" r1 l1 "flip2 R2" "flip2 L2" r2 l2
   rewrites "flip_inv.R \<equiv> (\<ge>\<^bsub>L\<^esub>)" and "flip_inv.L \<equiv> (\<ge>\<^bsub>R\<^esub>)"
-  and "flip_inv.g1.counit \<equiv> \<eta>\<^sub>1"
+  and "flip_inv.t1.counit \<equiv> \<eta>\<^sub>1"
   and "\<And>R x y. (flip2 R x y)\<inverse> \<equiv> R y x"
   and "\<And>R x1 x2. in_dom (flip2 R x1 x2) \<equiv> in_codom (R x2 x1)"
   and "\<And>R x1 x2. in_codom (flip2 R x1 x2) \<equiv> in_dom (R x2 x1)"
@@ -83,7 +95,7 @@ interpretation flip_inv :
   and "\<And>P R. ([P] \<Rrightarrow> R\<inverse>) \<equiv> ([P] \<Rrightarrow> R)\<inverse>"
   and "\<And>x1 x2. transitive (flip2 L2 x1 x2) \<equiv> transitive (\<le>\<^bsub>L2 x2 x1\<^esub>)"
   by (simp_all add: flip_inv_left_eq_ge_right flip_inv_right_eq_ge_left
-    g1.flip_counit_eq_unit del: rel_inv_iff_rel)
+    t1.flip_counit_eq_unit del: rel_inv_iff_rel)
 
 lemma mono_wrt_rel_rightI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
@@ -109,7 +121,7 @@ lemma mono_wrt_rel_right_if_transitiveI:
   using assms by (intro flip_inv.mono_wrt_rel_left_if_transitiveI
     [simplified rel_inv_iff_rel])
 
-lemma mono_wrt_rel_right_mono_asm_if_mono_wrt_relI:
+lemma mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_GaloisI:
   assumes assms1: "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1" "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and mono_r2: "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
   shows "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x1) (l1 x2)\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)) (r2\<^bsub>x1 (l1 x2)\<^esub>)"
@@ -117,20 +129,44 @@ proof -
   show "((\<le>\<^bsub>R2 (l1 x1) (l1 x2)\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)) (r2\<^bsub>x1 (l1 x2)\<^esub>)" if "x1 \<le>\<^bsub>L1\<^esub> x2" for x1 x2
   proof -
     from \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close> have "x1 \<^bsub>L1\<^esub>\<lessapprox> l1 x2"
-      using assms1 by (intro g1.Galois_left_if_left_relI) blast
+      using assms1 by (intro t1.Galois_left_if_left_relI) blast
     with mono_r2 show ?thesis by auto
   qed
 qed
 
 end
 
-paragraph \<open>Reflexive Relator\<close>
 
-context transport_Refl_Rel_Dep_Fun_Rel_rel
+paragraph \<open>Function Relator\<close>
+
+context transport_Fun_Rel
+begin
+
+lemma mono_wrt_rel_leftI:
+  assumes "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
+  and "((\<le>\<^bsub>L2\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R2\<^esub>)) l2"
+  shows "((\<le>\<^bsub>L\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R\<^esub>)) l"
+  using assms by (intro tdfr.mono_wrt_rel_leftI) simp_all
+
+end
+
+
+paragraph \<open>Parametric Dependent Function Relator\<close>
+
+context transport_Param_Dep_Fun_Rel
 begin
 
 lemmas mono_wrt_rel_leftI = mono_wrt_rel_Refl_Rel_Refl_Rel_if_mono_wrt_rel
-  [of t.L t.R l, folded transport_defs]
+  [of tdfr.L tdfr.R l, folded transport_defs]
+
+end
+
+paragraph \<open>Parametric Function Relator\<close>
+
+context transport_Param_Fun_Rel
+begin
+
+lemmas mono_wrt_rel_leftI = tpdfr.mono_wrt_rel_leftI[OF tfr.mono_wrt_rel_leftI]
 
 end
 

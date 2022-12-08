@@ -231,15 +231,12 @@ lemma left_rel_if_left_right_rel_left_if_order_equivalenceI:
   and "in_dom (\<le>\<^bsub>L\<^esub>) x"
   and "in_codom (\<le>\<^bsub>L\<^esub>) x'"
   shows "x \<le>\<^bsub>L\<^esub> x'"
-  using assms
-  by (blast intro!:
-    flip_g.right_rel_if_right_left_rel_right_if_deflationary_onI
-    g.half_galois_prop_right_left_right_if_transitive_if_inflationary_on_if_mono_wrt_rel
-    inflationary_on_if_rel_equivalence_on
-    deflationary_on_if_rel_equivalence_on
-  intro:
-    rel_equivalence_on_if_le_pred_if_rel_equivalence_on
-    in_field_if_in_dom in_field_if_in_codom)
+  using assms by (auto intro!:
+      flip_g.right_rel_if_right_left_rel_right_if_deflationary_onI
+      g.half_galois_prop_right_left_right_if_transitive_if_inflationary_on_if_mono_wrt_rel
+    elim!: rel_equivalence_onE
+    intro: inflationary_on_if_le_pred_if_inflationary_on
+      in_field_if_in_dom in_field_if_in_codom)
 
 end
 

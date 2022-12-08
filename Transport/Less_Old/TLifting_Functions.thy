@@ -19,7 +19,7 @@ lemma fun_map_type':
   and abs_type: "g : c \<Rightarrow> d"
   and f_type: "h : b \<Rightarrow> c"
   shows "fun_map f g h : a \<Rightarrow> d"
-  unfolding fun_map_def dep_fun_map_def
+  unfolding dep_fun_map_def
   apply (rule Dep_fun_typeI)
   apply (rule fun_typeE[OF abs_type])
   apply (rule fun_typeE[OF f_type])

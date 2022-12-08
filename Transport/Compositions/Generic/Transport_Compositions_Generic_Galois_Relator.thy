@@ -10,8 +10,8 @@ context transport_comp
 begin
 
 interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1
-  rewrites "flip.g2.unit \<equiv> \<epsilon>\<^sub>1"
-  by (simp only: g1.flip_unit_eq_counit)
+  rewrites "flip.t2.unit \<equiv> \<epsilon>\<^sub>1"
+  by (simp only: t1.flip_unit_eq_counit)
 
 lemma Galois_le_Galois_rel_compI:
   assumes mono_r1: "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
@@ -25,22 +25,22 @@ proof (rule le_relI)
   then have "in_codom (\<le>\<^bsub>R\<^esub>) z" "x \<le>\<^bsub>L\<^esub> r z" by auto
   with galois_prop1 obtain y y' where
     "in_dom (\<le>\<^bsub>L1\<^esub>) x" "l1 x \<le>\<^bsub>R1\<^esub> y" "y \<le>\<^bsub>L2\<^esub> y'" "y' \<le>\<^bsub>R1\<^esub> \<epsilon>\<^sub>1 (r2 z)"
-    by (auto elim!: left_relE g1.half_galois_prop_left_GaloisE flip.g2.GaloisE)
+    by (auto elim!: left_relE t1.half_galois_prop_left_GaloisE flip.t2.GaloisE)
   moreover  have "\<epsilon>\<^sub>1 (r2 z) \<le>\<^bsub>R1\<^esub> r2 z"
   proof -
     from mono_in_codom_r2 \<open>in_codom (\<le>\<^bsub>R\<^esub>) z\<close> have "in_codom (\<le>\<^bsub>R1\<^esub>) (r2 z)" by blast
     with mono_r1 galois_prop1 preorder_R1 show ?thesis by (blast intro!:
-      g1.counit_rel_if_reflexive_on_if_half_galois_prop_left_if_mono_wrt_rel)
+      t1.counit_rel_if_reflexive_on_if_half_galois_prop_left_if_mono_wrt_rel)
   qed
   ultimately have "y' \<le>\<^bsub>R1\<^esub> r2 z" using preorder_R1 by blast
   with \<open>l1 x \<le>\<^bsub>R1\<^esub> y\<close> \<open>y \<le>\<^bsub>L2\<^esub> y'\<close> have "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) (l1 x) (r2 z)"
     by blast
   with rel_comp_le obtain y'' where "l1 x \<le>\<^bsub>R1\<^esub> y''" "y'' \<le>\<^bsub>L2\<^esub> r2 z" by blast
   with galois_prop1 \<open>in_dom (\<le>\<^bsub>L1\<^esub>) x\<close>  have "x \<^bsub>L1\<^esub>\<lessapprox> y''"
-    by (intro g1.Galois_if_left_right_rel_if_in_dom_if_half_galois_prop_right)
+    by (intro t1.Galois_if_left_right_rel_if_in_dom_if_half_galois_prop_right)
     auto
   moreover from \<open>in_codom (\<le>\<^bsub>R\<^esub>) z\<close> \<open>y'' \<le>\<^bsub>L2\<^esub> r2 z\<close> have "y'' \<^bsub>L2\<^esub>\<lessapprox> z"
-    by (intro g2.GaloisI) auto
+    by (intro t2.GaloisI) auto
   ultimately show "((\<^bsub>L1\<^esub>\<lessapprox>) \<circ>\<circ> (\<^bsub>L2\<^esub>\<lessapprox>)) x z" by blast
 qed
 
@@ -51,7 +51,7 @@ lemma Galois_rel_comp_le_GaloisI:
   and refl_R1: "reflexive_on (in_codom (\<le>\<^bsub>R1\<^esub>)) (\<le>\<^bsub>R1\<^esub>)"
   and mono_l2: "((\<le>\<^bsub>L2\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R2\<^esub>)) l2"
   and refl_L2: "reflexive_on (in_dom (\<le>\<^bsub>L2\<^esub>)) (\<le>\<^bsub>L2\<^esub>)"
-  and in_codom_rel_comp_le: "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom ((\<le>\<^bsub>R1\<^esub>))"
+  and in_codom_rel_comp_le: "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
   shows "((\<^bsub>L1\<^esub>\<lessapprox>) \<circ>\<circ> (\<^bsub>L2\<^esub>\<lessapprox>)) \<le> (\<^bsub>L\<^esub>\<lessapprox>)"
 proof (intro le_relI GaloisI)
   fix x z assume "((\<^bsub>L1\<^esub>\<lessapprox>) \<circ>\<circ> (\<^bsub>L2\<^esub>\<lessapprox>)) x z"
@@ -67,7 +67,7 @@ proof (intro le_relI GaloisI)
   proof (intro left_relI)
     show "x \<^bsub>L1\<^esub>\<lessapprox> y" "y \<le>\<^bsub>L2\<^esub> r2 z" by fact+
     show "r2 z \<^bsub>R1\<^esub>\<lessapprox> r z"
-    proof (intro flip.g2.GaloisI)
+    proof (intro flip.t2.GaloisI)
       from \<open>y \<le>\<^bsub>L2\<^esub> y\<close> \<open>y \<le>\<^bsub>R1\<^esub> y\<close> \<open>y \<le>\<^bsub>L2\<^esub> r2 z\<close> have "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) y (r2 z)"
         by blast
       with in_codom_rel_comp_le have "in_codom (\<le>\<^bsub>R1\<^esub>) (r2 z)" by blast
@@ -75,7 +75,7 @@ proof (intro le_relI GaloisI)
       with mono_r1 show "in_codom (\<le>\<^bsub>L1\<^esub>) (r z)" by auto
       with \<open>r2 z \<le>\<^bsub>R1\<^esub> r2 z\<close>  half_galois_prop_right1 mono_r1
         show "r2 z \<le>\<^bsub>R1\<^esub> l1 (r z)" by (auto intro:
-        flip.g2.rel_unit_if_left_rel_if_half_galois_prop_right_if_mono_wrt_rel)
+        flip.t2.rel_unit_if_left_rel_if_half_galois_prop_right_if_mono_wrt_rel)
     qed
   qed
 qed
@@ -89,7 +89,7 @@ corollary Galois_eq_Galois_rel_compI:
   and "reflexive_on (in_dom (\<le>\<^bsub>L2\<^esub>)) (\<le>\<^bsub>L2\<^esub>)"
   and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
   and "([in_codom (\<le>\<^bsub>R\<^esub>)] \<Rrightarrow>\<^sub>m in_codom (\<le>\<^bsub>R1\<^esub>)) r2"
-  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom ((\<le>\<^bsub>R1\<^esub>))"
+  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ((\<^bsub>L1\<^esub>\<lessapprox>) \<circ>\<circ> (\<^bsub>L2\<^esub>\<lessapprox>))"
   using assms
   by (intro antisym Galois_le_Galois_rel_compI Galois_rel_comp_le_GaloisI)
@@ -105,7 +105,7 @@ corollary Galois_eq_Galois_rel_compI':
   and "((\<le>\<^bsub>R2\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>L2\<^esub>)) r2 l2"
   and "reflexive_on (in_dom (\<le>\<^bsub>L2\<^esub>)) (\<le>\<^bsub>L2\<^esub>)"
   and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom ((\<le>\<^bsub>R1\<^esub>))"
+  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ((\<^bsub>L1\<^esub>\<lessapprox>) \<circ>\<circ> (\<^bsub>L2\<^esub>\<lessapprox>))"
   using assms by (intro Galois_eq_Galois_rel_compI
     flip.mono_in_codom_left_rel_left1_if_in_codom_rel_comp_le)
@@ -117,41 +117,35 @@ theorem Galois_eq_Galois_rel_comp_if_galois_connection_if_galois_equivalenceI':
   and "((\<le>\<^bsub>R2\<^esub>) \<stileturn> (\<le>\<^bsub>L2\<^esub>)) r2 l2"
   and "reflexive_on (in_dom (\<le>\<^bsub>L2\<^esub>)) (\<le>\<^bsub>L2\<^esub>)"
   and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom ((\<le>\<^bsub>R1\<^esub>))"
+  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ((\<^bsub>L1\<^esub>\<lessapprox>) \<circ>\<circ> (\<^bsub>L2\<^esub>\<lessapprox>))"
   using assms by (intro Galois_eq_Galois_rel_compI')
-  (auto elim!: g1.galois_equivalenceE)
+  (auto elim!: t1.galois_equivalenceE)
 
 corollary Galois_eq_Galois_rel_comp_if_galois_connection_if_galois_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "preorder_on (in_field (\<le>\<^bsub>R1\<^esub>)) (\<le>\<^bsub>R1\<^esub>)"
   and "((\<le>\<^bsub>R2\<^esub>) \<stileturn> (\<le>\<^bsub>L2\<^esub>)) r2 l2"
   and "reflexive_on (in_field (\<le>\<^bsub>L2\<^esub>)) (\<le>\<^bsub>L2\<^esub>)"
-  and "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom ((\<le>\<^bsub>L2\<^esub>))"
-  and "(\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<le> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)"
-  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom ((\<le>\<^bsub>R1\<^esub>))"
+  and "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom (\<le>\<^bsub>L2\<^esub>)"
+  and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
+  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ((\<^bsub>L1\<^esub>\<lessapprox>) \<circ>\<circ> (\<^bsub>L2\<^esub>\<lessapprox>))"
   using assms
   by (intro Galois_eq_Galois_rel_comp_if_galois_connection_if_galois_equivalenceI'
     flip.left2_right1_left2_le_left2_right1_if_right1_left2_right1_le_left2_right1)
   auto
 
-corollary Galois_eq_Galois_rel_comp_if_order_equivalenceI:
-  assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^sub>o (\<le>\<^bsub>R1\<^esub>)) l1 r1"
-  and "transitive (\<le>\<^bsub>L1\<^esub>)" "transitive (\<le>\<^bsub>R1\<^esub>)"
-  and "((\<le>\<^bsub>R2\<^esub>) \<equiv>\<^sub>o (\<le>\<^bsub>L2\<^esub>)) r2 l2"
-  and "transitive (\<le>\<^bsub>L2\<^esub>)" "transitive (\<le>\<^bsub>R2\<^esub>)"
-  and "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom ((\<le>\<^bsub>L2\<^esub>))"
+corollary Galois_eq_Galois_rel_comp_if_preorder_equivalenceI:
+  assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
+  and "((\<le>\<^bsub>R2\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>L2\<^esub>)) r2 l2"
+  and "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom (\<le>\<^bsub>L2\<^esub>)"
   and "(\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<le> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)"
-  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom ((\<le>\<^bsub>R1\<^esub>))"
+  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ((\<^bsub>L1\<^esub>\<lessapprox>) \<circ>\<circ> (\<^bsub>L2\<^esub>\<lessapprox>))"
   using assms by (intro
-    Galois_eq_Galois_rel_comp_if_galois_connection_if_galois_equivalenceI
-    g1.galois_equivalence_left_right_if_transitive_if_order_equivalence
-    preorder_on_in_field_if_transitive_if_rel_equivalence_on
-    flip.g1.galois_connection_left_right_if_transitive_if_order_equivalence
-    reflexive_on_in_field_if_transitive_if_rel_equivalence_on)
-  (auto intro: reflexive_on_if_le_pred_if_reflexive_on in_field_if_in_dom)
+    Galois_eq_Galois_rel_comp_if_galois_connection_if_galois_equivalenceI)
+  auto
 
 end
 

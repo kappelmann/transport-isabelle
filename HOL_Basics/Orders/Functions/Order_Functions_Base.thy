@@ -6,6 +6,8 @@ theory Order_Functions_Base
     Restricted_Equality
 begin
 
+paragraph \<open>Bi-Relation\<close>
+
 definition "bi_related R x y \<equiv> R x y \<and> R y x"
 
 (*Note: we are not using (\<equiv>\<index>) as infix here because it would produce an ambiguous
@@ -107,6 +109,9 @@ corollary eq_if_all_rel_iff_if_antisymmetric_on_if_reflexive_on':
   using assms by (blast intro: eq_if_bi_related_if_antisymmetric_on
     bi_related_if_all_rel_iff_if_reflexive_on')
 
+
+paragraph \<open>Inflationary\<close>
+
 consts inflationary_on :: "'a \<Rightarrow> ('b \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow> ('b \<Rightarrow> 'b) \<Rightarrow> bool"
 
 overloading
@@ -190,6 +195,8 @@ lemma inflationary_on_if_inflationary:
 lemma inflationary_eq_dep_mono_wrt_pred: "inflationary = dep_mono_wrt_pred \<top>"
   by (intro ext) (fastforce dest: inflationaryD)
 
+
+paragraph \<open>Deflationary\<close>
 
 definition "deflationary_on P R \<equiv> inflationary_on P R\<inverse>"
 
@@ -276,6 +283,9 @@ lemma deflationary_eq_dep_mono_wrt_pred_rel_inv:
   "deflationary R = dep_mono_wrt_pred \<top> R\<inverse>"
   by (intro ext) (fastforce dest: deflationaryD)
 
+
+paragraph \<open>Relational Equivalence\<close>
+
 definition "rel_equivalence_on \<equiv> inflationary_on \<sqinter> deflationary_on"
 
 lemma rel_equivalence_on_eq:
@@ -292,16 +302,6 @@ lemma rel_equivalence_onE [elim]:
   assumes "rel_equivalence_on P R f"
   obtains "inflationary_on P R f" "deflationary_on P R f"
   using assms unfolding rel_equivalence_on_eq by auto
-
-lemma inflationary_on_if_rel_equivalence_on:
-  assumes "rel_equivalence_on P R f"
-  shows "inflationary_on P R f"
-  using assms by (elim rel_equivalence_onE)
-
-lemma deflationary_on_if_rel_equivalence_on:
-  assumes "rel_equivalence_on P R f"
-  shows "deflationary_on P R f"
-  using assms by (elim rel_equivalence_onE)
 
 lemma rel_equivalence_on_eq_dep_mono_wrt_pred_inf:
   "rel_equivalence_on P R = dep_mono_wrt_pred P (R \<sqinter> R\<inverse>)"
@@ -331,7 +331,7 @@ lemma rel_equivalence_onD [dest]:
 
 lemma rel_equivalence_on_rel_inv_eq_rel_equivalence_on [simp]:
   "rel_equivalence_on P R\<inverse> = rel_equivalence_on P R"
-  by (intro ext) (auto intro!: rel_equivalence_onI)
+  by (intro ext) fastforce
 
 lemma antimono'_rel_equivalence_on_pred [iff]:
   "antimono' (\<lambda>(P :: 'a \<Rightarrow> bool). rel_equivalence_on P (R :: 'a \<Rightarrow> _))"
@@ -372,6 +372,7 @@ lemma deflationary_on_eq_rel_equivalence_on_if_symmetric:
   shows "deflationary_on P R = rel_equivalence_on P R"
   using assms
   by (simp add: deflationary_on_eq_inflationary_on_rel_inv rel_equivalence_on_eq)
+
 
 definition "rel_equivalence (R :: 'a \<Rightarrow> _) f \<equiv> rel_equivalence_on (\<top> :: 'a \<Rightarrow> bool) R f"
 
@@ -438,38 +439,6 @@ corollary preorder_on_in_field_if_transitive_if_rel_equivalence_on:
   shows "preorder_on (in_field R) R"
   using assms reflexive_on_in_field_if_transitive_if_rel_equivalence_on
   using assms by blast
-
-
-paragraph \<open>Instantiations\<close>
-
-context
-  fixes P P' :: "'a \<Rightarrow> bool"
-begin
-
-lemma inflationary_on_eq_restrict_id_iff_le:
-  "inflationary_on P (=\<^bsub>P'\<^esub> :: 'a \<Rightarrow> _) id \<longleftrightarrow> P \<le> P'"
-  by fastforce
-
-lemma inflationary_on_eq_restrict_id: "inflationary_on P (=\<^bsub>P\<^esub> :: 'a \<Rightarrow> _) id"
-  by fastforce
-
-lemma deflationary_on_eq_restrict_id_iff_le:
-  "deflationary_on P (=\<^bsub>P'\<^esub> :: 'a \<Rightarrow> _) id \<longleftrightarrow> P \<le> P'"
-  by fastforce
-
-lemma deflationary_on_eq_restrict_id:
-  "deflationary_on P (=\<^bsub>P\<^esub> :: 'a \<Rightarrow> _) id"
-  by fastforce
-
-lemma rel_equivalence_on_eq_restrict_id_iff_le:
-  "rel_equivalence_on P (=\<^bsub>P'\<^esub> :: 'a \<Rightarrow> _) id \<longleftrightarrow> P \<le> P'"
-  by fastforce
-
-lemma rel_equivalence_on_eq_restrict_id:
-  "rel_equivalence_on P (=\<^bsub>P\<^esub> :: 'a \<Rightarrow> _) id"
-  by fastforce
-
-end
 
 
 end

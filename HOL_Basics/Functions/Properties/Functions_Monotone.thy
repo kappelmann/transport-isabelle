@@ -218,16 +218,16 @@ lemma antimono'D:
   shows "f y \<le> f x"
   using assms by blast
 
-lemma antimono'_Dep_Fun_Rel_rel_left [iff]: "antimono' (\<lambda>R. [x y \<Colon> R] \<Rrightarrow> S x y)"
+lemma antimono'_Dep_Fun_Rel_rel_left: "antimono' (\<lambda>R. [x y \<Colon> R] \<Rrightarrow> S x y)"
   by (intro antimono'I) auto
 
-lemma antimono'_Dep_Fun_Rel_pred_left [iff]: "antimono' (\<lambda>P. [x \<Colon> P] \<Rrightarrow> Q x)"
+lemma antimono'_Dep_Fun_Rel_pred_left: "antimono' (\<lambda>P. [x \<Colon> P] \<Rrightarrow> Q x)"
   by (intro antimono'I) auto
 
-lemma antimono'_dep_mono_wrt_rel_left [iff]: "antimono' (\<lambda>R. [x y \<Colon> R] \<Rrightarrow>\<^sub>m S x y)"
+lemma antimono'_dep_mono_wrt_rel_left: "antimono' (\<lambda>R. [x y \<Colon> R] \<Rrightarrow>\<^sub>m S x y)"
   by (intro antimono'I) auto
 
-lemma antimono'_dep_mono_wrt_pred_left [iff]: "antimono' (\<lambda>P. [x \<Colon> P] \<Rrightarrow>\<^sub>m Q x)"
+lemma antimono'_dep_mono_wrt_pred_left: "antimono' (\<lambda>P. [x \<Colon> P] \<Rrightarrow>\<^sub>m Q x)"
   by (intro antimono'I) auto
 
 lemma Dep_Fun_Rel_rel_if_le_left_if_Dep_Fun_Rel_rel:
@@ -254,16 +254,16 @@ lemma dep_mono_wrt_pred_if_le_left_if_dep_mono_wrt_pred:
   shows "([x \<Colon> T] \<Rrightarrow>\<^sub>m Q x) f"
   using assms by blast
 
-lemma mono'_Dep_Fun_Rel_rel_right [iff]: "mono' (\<lambda>S. [x y \<Colon> R] \<Rrightarrow> S x y)"
+lemma mono'_Dep_Fun_Rel_rel_right: "mono' (\<lambda>S. [x y \<Colon> R] \<Rrightarrow> S x y)"
   by (intro mono'I) blast
 
-lemma mono'_Dep_Fun_Rel_pred_right [iff]: "mono' (\<lambda>Q. [x \<Colon> P] \<Rrightarrow> Q x)"
+lemma mono'_Dep_Fun_Rel_pred_right: "mono' (\<lambda>Q. [x \<Colon> P] \<Rrightarrow> Q x)"
   by (intro mono'I) blast
 
-lemma mono'_dep_mono_wrt_rel_right [iff]: "mono' (\<lambda>S. [x y \<Colon> R] \<Rrightarrow>\<^sub>m S x y)"
+lemma mono'_dep_mono_wrt_rel_right: "mono' (\<lambda>S. [x y \<Colon> R] \<Rrightarrow>\<^sub>m S x y)"
   by (intro mono'I) blast
 
-lemma mono'_dep_mono_wrt_pred_right [iff]: "mono' (\<lambda>Q. [x \<Colon> P] \<Rrightarrow>\<^sub>m Q x)"
+lemma mono'_dep_mono_wrt_pred_right: "mono' (\<lambda>Q. [x \<Colon> P] \<Rrightarrow>\<^sub>m Q x)"
   by (intro mono'I) blast
 
 lemma Dep_Fun_Rel_rel_if_le_right_if_Dep_Fun_Rel_rel:

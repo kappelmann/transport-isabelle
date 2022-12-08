@@ -18,6 +18,17 @@ lemma equivalence_onE [elim]:
   obtains "partial_equivalence_on P R" "reflexive_on P R"
   using assms unfolding equivalence_on_def by blast
 
+lemma equivalence_on_in_field_if_partial_equivalence:
+  assumes "partial_equivalence R"
+  shows "equivalence_on (in_field R) R"
+  using assms
+  by (intro equivalence_onI reflexive_on_in_field_if_partial_equivalence) auto
+
+corollary partial_equivalence_iff_equivalence_on_in_field:
+  "partial_equivalence R \<longleftrightarrow> equivalence_on (in_field R) R"
+  using equivalence_on_in_field_if_partial_equivalence by auto
+
+
 definition "equivalence (R :: 'a \<Rightarrow> _) \<equiv> equivalence_on (\<top> :: 'a \<Rightarrow> bool) R"
 
 lemma equivalence_eq_equivalence_on:

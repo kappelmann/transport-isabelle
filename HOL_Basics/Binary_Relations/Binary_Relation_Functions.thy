@@ -223,6 +223,17 @@ lemma restrict_rightE [elim]:
   obtains "P y" "R x y"
   using assms by (auto iff: restrict_right_iff_restrict_left)
 
+lemma rel_inv_restrict_left_inv_restrict_left_eq:
+  fixes R :: "'a \<Rightarrow> 'b \<Rightarrow> bool" and P :: "'a \<Rightarrow> bool" and Q :: "'b \<Rightarrow> bool"
+  shows "(((R\<restriction>\<^bsub>P\<^esub>)\<inverse>)\<restriction>\<^bsub>Q\<^esub>)\<inverse> = (((R\<inverse>)\<restriction>\<^bsub>Q\<^esub>)\<inverse>)\<restriction>\<^bsub>P\<^esub>"
+  by (intro ext iffI restrict_leftI rel_invI) auto
+
+lemma restrict_left_right_eq_restrict_right_left:
+  fixes R :: "'a \<Rightarrow> 'b \<Rightarrow> bool" and P :: "'a \<Rightarrow> bool" and Q :: "'b \<Rightarrow> bool"
+  shows "R\<restriction>\<^bsub>P\<^esub>\<upharpoonleft>\<^bsub>Q\<^esub> = R\<upharpoonleft>\<^bsub>Q\<^esub>\<restriction>\<^bsub>P\<^esub>"
+  unfolding restrict_right_eq
+  by (fact rel_inv_restrict_left_inv_restrict_left_eq)
+
 lemma in_dom_restrict_leftI [intro]:
   assumes "R x y"
   and "P x"

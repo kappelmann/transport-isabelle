@@ -2,6 +2,7 @@
 subsubsection \<open>Basic Setup and Results\<close>
 theory Order_Functors_Base
   imports
+    Functions_Inverse
     Order_Functions_Base
 begin
 
@@ -24,7 +25,12 @@ notation ge_right (infix "\<ge>\<^bsub>R\<^esub>" 50)
 
 end
 
-locale order_functor = orders L R
+text \<open>Homogeneous orders\<close>
+locale hom_orders = orders L R
+  for L :: "'a \<Rightarrow> 'a \<Rightarrow> bool"
+  and R :: "'b \<Rightarrow> 'b \<Rightarrow> bool"
+
+locale order_functor = hom_orders L R
   for L :: "'a \<Rightarrow> 'a \<Rightarrow> bool"
   and R :: "'b \<Rightarrow> 'b \<Rightarrow> bool"
   and l :: "'a \<Rightarrow> 'b"
@@ -58,10 +64,17 @@ lemma left_right_rel_left_self_if_reflexive_on_in_field_right_if_mono_left:
   shows "l x \<le>\<^bsub>R\<^esub> l x"
   using assms by blast
 
+lemma mono_wrt_rel_left_if_reflexive_on_if_le_eq_if_mono_wrt_in_field:
+  assumes "([in_field (\<le>\<^bsub>L\<^esub>)] \<Rrightarrow>\<^sub>m P) l"
+  and "(\<le>\<^bsub>L\<^esub>) \<le> (=)"
+  and "reflexive_on P (\<le>\<^bsub>R\<^esub>)"
+  shows "((\<le>\<^bsub>L\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R\<^esub>)) l"
+  using assms by (intro dep_mono_wrt_relI) auto
+
 end
 
 
-locale order_functors = order_functor L R l + of_flip : order_functor R L r
+locale order_functors = order_functor L R l + flip_of : order_functor R L r
   for L R l r
 begin
 
@@ -119,7 +132,41 @@ lemma deflationary_on_unit_if_right_left_rel_if_right_rel_leftI:
   shows "deflationary_on P (\<le>\<^bsub>L\<^esub>) \<eta>"
   using assms by (intro deflationary_onI) auto
 
+context
+  fixes P :: "'a \<Rightarrow> bool"
+begin
+
+lemma rel_equivalence_on_unit_iff_inflationary_on_if_inverse_on:
+  assumes "inverse_on P l r"
+  shows "rel_equivalence_on P (\<le>\<^bsub>L\<^esub>) \<eta> \<longleftrightarrow> inflationary_on P (\<le>\<^bsub>L\<^esub>) \<eta>"
+  using assms by (intro iffI rel_equivalence_onI inflationary_onI deflationary_onI)
+  (auto dest!: inverse_onD)
+
+lemma reflexive_on_left_if_inflationary_on_unit_if_inverse_on:
+  assumes "inverse_on P l r"
+  and "inflationary_on P (\<le>\<^bsub>L\<^esub>) \<eta>"
+  shows "reflexive_on P (\<le>\<^bsub>L\<^esub>)"
+  using assms by (intro reflexive_onI) (auto dest!: inverse_onD)
+
+lemma rel_equivalence_on_unit_if_reflexive_on_if_inverse_on:
+  assumes "inverse_on P l r"
+  and "reflexive_on P (\<le>\<^bsub>L\<^esub>)"
+  shows "rel_equivalence_on P (\<le>\<^bsub>L\<^esub>) \<eta>"
+  using assms by (intro rel_equivalence_onI inflationary_onI deflationary_onI)
+  (auto dest!: inverse_onD)
+
 end
+
+corollary rel_equivalence_on_unit_iff_reflexive_on_if_inverse_on:
+  fixes P :: "'a \<Rightarrow> bool"
+  assumes "inverse_on P l r"
+  shows "rel_equivalence_on P (\<le>\<^bsub>L\<^esub>) \<eta> \<longleftrightarrow> reflexive_on P (\<le>\<^bsub>L\<^esub>)"
+  using assms reflexive_on_left_if_inflationary_on_unit_if_inverse_on
+    rel_equivalence_on_unit_if_reflexive_on_if_inverse_on
+  by (intro iffI) auto
+
+end
+
 
 text \<open>Here is an example of a free theorem.\<close>
 

@@ -140,8 +140,8 @@ lemmas rel_equivalence_on_in_field_unitI = rel_equivalence_on_in_field_FrelI
 
 interpretation flip :
   transport_natural_functor R1 L1 r1 l1 R2 L2 r2 l2 R3 L3 r3 l3
-  rewrites "flip.unit \<equiv> \<epsilon>" and "flip.g1.unit \<equiv> \<epsilon>\<^sub>1"
-  and "flip.g2.unit \<equiv> \<epsilon>\<^sub>2" and "flip.g3.unit \<equiv> \<epsilon>\<^sub>3"
+  rewrites "flip.unit \<equiv> \<epsilon>" and "flip.t1.unit \<equiv> \<epsilon>\<^sub>1"
+  and "flip.t2.unit \<equiv> \<epsilon>\<^sub>2" and "flip.t3.unit \<equiv> \<epsilon>\<^sub>3"
   by (simp_all only: order_functors.flip_counit_eq_unit)
 
 lemma order_equivalenceI:

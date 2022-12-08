@@ -35,10 +35,20 @@ lemma Refl_Rel_reflexive_on_in_field [iff]:
 
 lemma Refl_Rel_le_self [iff]: "R\<^sup>\<oplus> \<le> R" by blast
 
-corollary Refl_Rel_eq_if_reflexive_on [simp]:
+lemma Refl_Rel_eq_self_if_reflexive_on [simp]:
   assumes "reflexive_on (in_field R) R"
   shows "R\<^sup>\<oplus> = R"
   using assms by blast
+
+lemma reflexive_on_in_field_if_Refl_Rel_eq_self:
+  assumes "R\<^sup>\<oplus> = R"
+  shows "reflexive_on (in_field R) R"
+  by (fact Refl_Rel_reflexive_on_in_field[of R, simplified assms])
+
+corollary Refl_Rel_eq_self_iff_reflexive_on:
+  "R\<^sup>\<oplus> = R \<longleftrightarrow> reflexive_on (in_field R) R"
+  using Refl_Rel_eq_self_if_reflexive_on reflexive_on_in_field_if_Refl_Rel_eq_self
+  by blast
 
 lemma Refl_Rel_Refl_Rel_eq [simp]: "(R\<^sup>\<oplus>)\<^sup>\<oplus> = R\<^sup>\<oplus>"
   by (intro ext) auto
@@ -126,6 +136,15 @@ begin
 
 interpretation gR : galois "(\<le>\<^bsub>L\<^esub>)\<^sup>\<oplus>" "(\<le>\<^bsub>R\<^esub>)\<^sup>\<oplus>" l r .
 
+lemma Galois_Refl_RelI:
+  assumes "((\<le>\<^bsub>R\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L\<^esub>)) r"
+  and "in_field (\<le>\<^bsub>L\<^esub>)\<^sup>\<oplus> x"
+  and "in_field (\<le>\<^bsub>R\<^esub>)\<^sup>\<oplus> y"
+  and "in_codom (\<le>\<^bsub>R\<^esub>) y \<Longrightarrow> x \<^bsub>L\<^esub>\<lessapprox> y"
+  shows "(galois_rel.Galois ((\<le>\<^bsub>L\<^esub>)\<^sup>\<oplus>) ((\<le>\<^bsub>R\<^esub>)\<^sup>\<oplus>) r) x y"
+  using assms by (intro gR.GaloisI in_codomI Refl_Rel_app_rightI[where ?f=r])
+  auto
+
 lemma half_galois_prop_left_Refl_Rel_left_rightI:
   assumes "((\<le>\<^bsub>L\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R\<^esub>)) l"
   and "((\<le>\<^bsub>L\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R\<^esub>)) l r"
@@ -167,6 +186,11 @@ proof -
     galois_connection_Refl_Rel_left_rightI flip.galois_prop_Refl_Rel_left_rightI)
   auto
 qed
+
+end
+
+context order_functors
+begin
 
 lemma inflationary_on_in_field_Refl_Rel_left:
   assumes "((\<le>\<^bsub>L\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R\<^esub>)) l"
@@ -228,6 +252,8 @@ lemma rel_equivalence_on_in_field_Refl_Rel_leftI':
     deflationary_on_in_field_Refl_RelI_left')
   auto
 
+interpretation oR : order_functors "(\<le>\<^bsub>L\<^esub>)\<^sup>\<oplus>" "(\<le>\<^bsub>R\<^esub>)\<^sup>\<oplus>" l r .
+
 lemma order_equivalence_Refl_RelI:
   assumes "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^sub>o (\<le>\<^bsub>R\<^esub>)) l r"
   shows "((\<le>\<^bsub>L\<^esub>)\<^sup>\<oplus> \<equiv>\<^sub>o (\<le>\<^bsub>R\<^esub>)\<^sup>\<oplus>) l r"
@@ -235,22 +261,13 @@ proof -
   interpret flip : galois R L r l
     rewrites "flip.unit \<equiv> \<epsilon>"
     by (simp only: flip_unit_eq_counit)
-  show ?thesis using assms by (intro gR.order_equivalenceI
+  show ?thesis using assms by (intro oR.order_equivalenceI
     mono_wrt_rel_Refl_Rel_Refl_Rel_if_mono_wrt_rel
     rel_equivalence_on_in_field_Refl_Rel_leftI
     flip.rel_equivalence_on_in_field_Refl_Rel_leftI)
     (auto intro: rel_equivalence_on_if_le_pred_if_rel_equivalence_on
       in_field_if_in_dom)
 qed
-
-lemma Galois_Refl_RelI:
-  assumes "((\<le>\<^bsub>R\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L\<^esub>)) r"
-  and "in_field (\<le>\<^bsub>L\<^esub>)\<^sup>\<oplus> x"
-  and "in_field (\<le>\<^bsub>R\<^esub>)\<^sup>\<oplus> y"
-  and "x \<^bsub>L\<^esub>\<lessapprox> y"
-  shows "(galois_rel.Galois ((\<le>\<^bsub>L\<^esub>)\<^sup>\<oplus>) ((\<le>\<^bsub>R\<^esub>)\<^sup>\<oplus>) r) x y"
-  using assms by (intro gR.GaloisI in_codomI Refl_Rel_app_rightI[where ?f=r])
-  auto
 
 end
 

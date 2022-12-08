@@ -2,9 +2,8 @@
 subsubsection \<open>Basic Setup\<close>
 theory Transport_Compositions_Agree_Base
   imports
-    HOL_Basics.Binary_Relations_Order
-    HOL_Basics.Binary_Relations_Lattice
     HOL_Basics.Galois_Relator
+    Transport_Base
 begin
 
 locale transport_comp_agree =
@@ -89,7 +88,7 @@ lemmas transport_defs = left_eq_comp right_eq_comp
 
 end
 
-sublocale galois L R l r .
+sublocale transport L R l r .
 
 (*TODO: somehow the notation for the fixed parameters L and R, defined in
 Order_Functions_Base.thy, is lost. We hence re-declare it here.*)

@@ -2,7 +2,8 @@
 subsubsection \<open>Basic Setup\<close>
 theory Transport_Functions_Base
   imports
-    Reflexive_Relator
+    Parametric_Function_Relator
+    Transport_Base
 begin
 
 definition "flip2 f x1 x2 x3 x4 \<equiv> f x2 x1 x4 x3"
@@ -16,38 +17,14 @@ lemma flip2_eq_rel_inv [simp]: "flip2 R x y = (R y x)\<inverse>"
 lemma flip2_flip2_eq_self [simp]: "flip2 (flip2 f) = f"
   by (intro ext) (simp add: flip2_eq)
 
+lemma flip2_eq_flip2_iff_eq [iff]: "flip2 f = flip2 g \<longleftrightarrow> f = g"
+  unfolding flip2_def by (intro iffI ext) (auto dest: fun_cong)
+
 
 paragraph \<open>Dependent Function Relator\<close>
 
-locale Dep_Fun_Rel_orders =
-  fixes L :: "'a \<Rightarrow> 'b \<Rightarrow> bool"
-  and R :: "'a \<Rightarrow> 'b \<Rightarrow> 'c \<Rightarrow> 'd \<Rightarrow> bool"
-begin
-
-sublocale o : orders L "R a b" for a b .
-
-notation L (infix "\<le>\<^bsub>L\<^esub>" 50)
-notation o.ge_left (infix "\<ge>\<^bsub>L\<^esub>" 50)
-
-notation R ("(\<le>\<^bsub>R (_) (_)\<^esub>)" 50)
-abbreviation "right_infix c a b d \<equiv> (\<le>\<^bsub>R a b\<^esub>) c d"
-notation right_infix ("(_) \<le>\<^bsub>R (_) (_)\<^esub> (_)" [51,51,51,51] 50)
-
-notation o.ge_right ("(\<ge>\<^bsub>R (_) (_)\<^esub>)" 50)
-
-abbreviation (input) "ge_right_infix d a b c \<equiv> (\<ge>\<^bsub>R a b\<^esub>) d c"
-notation ge_right_infix ("(_) \<ge>\<^bsub>R (_) (_)\<^esub> (_)" [51,51,51,51] 50)
-
-abbreviation (input) "DFR \<equiv> ([a b \<Colon> L] \<Rrightarrow> R a b)"
-
-end
-
-locale hom_Dep_Fun_Rel_orders = Dep_Fun_Rel_orders L R
-  for L :: "'a \<Rightarrow> 'a \<Rightarrow> bool"
-  and R :: "'a \<Rightarrow> 'a \<Rightarrow> 'b \<Rightarrow> 'b \<Rightarrow> bool"
-
-locale transport_Dep_Fun_Rel_rel_syntax =
-  g1 : galois L1 R1 l1 r1 +
+locale transport_Dep_Fun_Rel_syntax =
+  t1 : transport L1 R1 l1 r1 +
   dfro1 : hom_Dep_Fun_Rel_orders L1 L2 +
   dfro2 : hom_Dep_Fun_Rel_orders R1 R2
   for L1 :: "'a1 \<Rightarrow> 'a1 \<Rightarrow> bool"
@@ -63,20 +40,20 @@ begin
 notation L1 (infix "\<le>\<^bsub>L1\<^esub>" 50)
 notation R1 (infix "\<le>\<^bsub>R1\<^esub>" 50)
 
-notation g1.ge_left (infix "\<ge>\<^bsub>L1\<^esub>" 50)
-notation g1.ge_right (infix "\<ge>\<^bsub>R1\<^esub>" 50)
+notation t1.ge_left (infix "\<ge>\<^bsub>L1\<^esub>" 50)
+notation t1.ge_right (infix "\<ge>\<^bsub>R1\<^esub>" 50)
 
-notation g1.Galois (infix "\<^bsub>L1\<^esub>\<lessapprox>" 50)
-notation g1.ge_Galois (infix "\<greaterapprox>\<^bsub>L1\<^esub>" 50)
-notation g1.flip_Galois (infix "\<^bsub>R1\<^esub>\<lessapprox>" 50)
-notation g1.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R1\<^esub>" 50)
-notation g1.flip_inv_Galois (infix "\<^bsub>R1\<^esub>\<greaterapprox>" 50)
-notation g1.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R1\<^esub>" 50)
-notation g1.flip_flip_inv_Galois (infix "\<^bsub>L1\<^esub>\<greaterapprox>" 50)
-notation g1.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L1\<^esub>" 50)
+notation t1.Galois (infix "\<^bsub>L1\<^esub>\<lessapprox>" 50)
+notation t1.ge_Galois (infix "\<greaterapprox>\<^bsub>L1\<^esub>" 50)
+notation t1.flip_Galois (infix "\<^bsub>R1\<^esub>\<lessapprox>" 50)
+notation t1.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R1\<^esub>" 50)
+notation t1.flip_inv_Galois (infix "\<^bsub>R1\<^esub>\<greaterapprox>" 50)
+notation t1.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R1\<^esub>" 50)
+notation t1.flip_flip_inv_Galois (infix "\<^bsub>L1\<^esub>\<greaterapprox>" 50)
+notation t1.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L1\<^esub>" 50)
 
-notation g1.unit ("\<eta>\<^sub>1")
-notation g1.counit ("\<epsilon>\<^sub>1")
+notation t1.unit ("\<eta>\<^sub>1")
+notation t1.counit ("\<epsilon>\<^sub>1")
 
 notation L2 ("(\<le>\<^bsub>L2 (_) (_)\<^esub>)" 50)
 notation R2 ("(\<le>\<^bsub>R2 (_) (_)\<^esub>)" 50)
@@ -93,58 +70,67 @@ notation dfro2.ge_right_infix ("(_) \<ge>\<^bsub>R2 (_) (_)\<^esub> (_)" [51,51,
 notation l2 ("l2\<^bsub>(_) (_)\<^esub>")
 notation r2 ("r2\<^bsub>(_) (_)\<^esub>")
 
-sublocale g2 : galois "(\<le>\<^bsub>L2 x (r1 x')\<^esub>)" "(\<le>\<^bsub>R2 (l1 x) x'\<^esub>)" "l2\<^bsub>x' x\<^esub>" "r2\<^bsub>x x'\<^esub>" for x x' .
+sublocale t2 : transport "(\<le>\<^bsub>L2 x (r1 x')\<^esub>)" "(\<le>\<^bsub>R2 (l1 x) x'\<^esub>)" "l2\<^bsub>x' x\<^esub>" "r2\<^bsub>x x'\<^esub>" for x x' .
 
-notation g2.Galois ("(\<^bsub>L2 (_) (_)\<^esub>\<lessapprox>)" 50)
-notation g2.flip_Galois ("(\<^bsub>R2 (_) (_)\<^esub>\<lessapprox>)" 50)
+notation t2.Galois ("(\<^bsub>L2 (_) (_)\<^esub>\<lessapprox>)" 50)
+notation t2.flip_Galois ("(\<^bsub>R2 (_) (_)\<^esub>\<lessapprox>)" 50)
 
 abbreviation "left2_Galois_infix y x x' y' \<equiv> (\<^bsub>L2 x x'\<^esub>\<lessapprox>) y y'"
 notation left2_Galois_infix ("(_) \<^bsub>L2 (_) (_)\<^esub>\<lessapprox> (_)" [51,51,51,51] 50)
 abbreviation "right2_Galois_infix y' x x' y \<equiv> (\<^bsub>R2 x x'\<^esub>\<lessapprox>) y' y"
 notation right2_Galois_infix ("(_) \<^bsub>R2 (_) (_)\<^esub>\<lessapprox> (_)" [51,51,51,51] 50)
 
-notation g2.ge_Galois ("(\<greaterapprox>\<^bsub>L2 (_) (_)\<^esub>)" 50)
-notation g2.flip_ge_Galois ("(\<greaterapprox>\<^bsub>R2 (_) (_)\<^esub>)" 50)
+notation t2.ge_Galois ("(\<greaterapprox>\<^bsub>L2 (_) (_)\<^esub>)" 50)
+notation t2.flip_ge_Galois ("(\<greaterapprox>\<^bsub>R2 (_) (_)\<^esub>)" 50)
 
 abbreviation (input) "ge_Galois_left2_infix y' x x' y \<equiv> (\<greaterapprox>\<^bsub>L2 x x'\<^esub>) y' y"
 notation ge_Galois_left2_infix ("(_) \<greaterapprox>\<^bsub>L2 (_) (_)\<^esub> (_)" [51,51,51,51] 50)
 abbreviation (input) "ge_Galois_right2_infix y x x' y' \<equiv> (\<greaterapprox>\<^bsub>R2 x x'\<^esub>) y y'"
 notation ge_Galois_right2_infix ("(_) \<greaterapprox>\<^bsub>R2 (_) (_)\<^esub> (_)" [51,51,51,51] 50)
 
-notation g2.flip_inv_Galois ("(\<^bsub>R2 (_) (_)\<^esub>\<greaterapprox>)" 50)
-notation g2.flip_flip_inv_Galois ("(\<^bsub>L2 (_) (_)\<^esub>\<greaterapprox>)" 50)
+notation t2.flip_inv_Galois ("(\<^bsub>R2 (_) (_)\<^esub>\<greaterapprox>)" 50)
+notation t2.flip_flip_inv_Galois ("(\<^bsub>L2 (_) (_)\<^esub>\<greaterapprox>)" 50)
 
 abbreviation "left2_ge_Galois_infix y x x' y' \<equiv> (\<^bsub>L2 x x'\<^esub>\<greaterapprox>) y y'"
 notation left2_ge_Galois_infix ("(_) \<^bsub>L2 (_) (_)\<^esub>\<greaterapprox> (_)" [51,51,51,51] 50)
 abbreviation "right2_ge_Galois_infix y' x x' y \<equiv> (\<^bsub>R2 x x'\<^esub>\<greaterapprox>) y' y"
 notation right2_ge_Galois_infix ("(_) \<^bsub>R2 (_) (_)\<^esub>\<greaterapprox> (_)" [51,51,51,51] 50)
 
-notation g2.flip_inv_ge_Galois ("(\<lessapprox>\<^bsub>R2 (_) (_)\<^esub>)" 50)
-notation g2.flip_flip_inv_ge_Galois ("(\<lessapprox>\<^bsub>L2 (_) (_)\<^esub>)" 50)
+notation t2.flip_inv_ge_Galois ("(\<lessapprox>\<^bsub>R2 (_) (_)\<^esub>)" 50)
+notation t2.flip_flip_inv_ge_Galois ("(\<lessapprox>\<^bsub>L2 (_) (_)\<^esub>)" 50)
 
 abbreviation (input) "Galois_left2_infix y' x x' y \<equiv> (\<lessapprox>\<^bsub>L2 x x'\<^esub>) y' y"
 notation Galois_left2_infix ("(_) \<lessapprox>\<^bsub>L2 (_) (_)\<^esub> (_)" [51,51,51,51] 50)
 abbreviation (input) "Galois_right2_infix y x x' y' \<equiv> (\<lessapprox>\<^bsub>R2 x x'\<^esub>) y y'"
 notation Galois_right2_infix ("(_) \<lessapprox>\<^bsub>R2 (_) (_)\<^esub> (_)" [51,51,51,51] 50)
 
-abbreviation "g2_unit x x' \<equiv> g2.unit x' x"
-notation g2_unit ("\<eta>\<^bsub>2 (_) (_)\<^esub>")
-abbreviation "g2_counit x x' \<equiv> g2.counit x' x"
-notation g2_counit ("\<epsilon>\<^bsub>2 (_) (_)\<^esub>")
+abbreviation "t2_unit x x' \<equiv> t2.unit x' x"
+notation t2_unit ("\<eta>\<^bsub>2 (_) (_)\<^esub>")
+abbreviation "t2_counit x x' \<equiv> t2.counit x' x"
+notation t2_counit ("\<epsilon>\<^bsub>2 (_) (_)\<^esub>")
 
 end
 
-locale transport_Dep_Fun_Rel_rel = transport_Dep_Fun_Rel_rel_syntax
+locale transport_Dep_Fun_Rel =
+  transport_Dep_Fun_Rel_syntax L1 R1 l1 r1 L2 R2 l2 r2
+  for L1 :: "'a1 \<Rightarrow> 'a1 \<Rightarrow> bool"
+  and R1 :: "'a2 \<Rightarrow> 'a2 \<Rightarrow> bool"
+  and l1 :: "'a1 \<Rightarrow> 'a2"
+  and r1 :: "'a2 \<Rightarrow> 'a1"
+  and L2 :: "'a1 \<Rightarrow> 'a1 \<Rightarrow> 'b1 \<Rightarrow> 'b1 \<Rightarrow> bool"
+  and R2 :: "'a2 \<Rightarrow> 'a2 \<Rightarrow> 'b2 \<Rightarrow> 'b2 \<Rightarrow> bool"
+  and l2 :: "'a2 \<Rightarrow> 'a1 \<Rightarrow> 'b1 \<Rightarrow> 'b2"
+  and r2 :: "'a1 \<Rightarrow> 'a2 \<Rightarrow> 'b2 \<Rightarrow> 'b1"
 begin
 
 definition "L \<equiv> [x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 x1 x2\<^esub>)"
 
-lemma left_rel_eq_Dep_Fun_Rel_rel: "L = ([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 x1 x2\<^esub>))"
+lemma left_rel_eq_Dep_Fun_Rel: "L = ([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 x1 x2\<^esub>))"
   unfolding L_def ..
 
-definition "l \<equiv> dep_fun_map r1 l2"
+definition "l \<equiv> ([x : r1] \<rightarrow> l2 x)"
 
-lemma left_eq_dep_fun_map: "l = dep_fun_map r1 l2"
+lemma left_eq_dep_fun_map: "l = ([x' : r1] \<rightarrow> l2 x')"
   unfolding l_def ..
 
 lemma left_eq [simp]: "l f x' = l2\<^bsub>x' (r1 x')\<^esub> (f (r1 x'))"
@@ -153,15 +139,15 @@ lemma left_eq [simp]: "l f x' = l2\<^bsub>x' (r1 x')\<^esub> (f (r1 x'))"
 context
 begin
 
-interpretation flip : transport_Dep_Fun_Rel_rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation flip : transport_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
 abbreviation "R \<equiv> flip.L"
 abbreviation "r \<equiv> flip.l"
 
-lemma right_rel_eq_Dep_Fun_Rel_rel: "R = ([y1 y2 \<Colon> (\<le>\<^bsub>R1\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 y1 y2\<^esub>))"
+lemma right_rel_eq_Dep_Fun_Rel: "R = ([y1 y2 \<Colon> (\<le>\<^bsub>R1\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 y1 y2\<^esub>))"
   unfolding flip.L_def ..
 
-lemma right_eq_dep_fun_map: "r = dep_fun_map l1 r2"
+lemma right_eq_dep_fun_map: "r = ([x : l1] \<rightarrow> r2 x)"
   unfolding flip.l_def ..
 
 end
@@ -169,10 +155,10 @@ end
 lemma right_eq [simp]: "r g x = r2\<^bsub>x (l1 x)\<^esub> (g (l1 x))"
   unfolding right_eq_dep_fun_map by simp
 
-lemmas transport_defs = left_rel_eq_Dep_Fun_Rel_rel left_eq_dep_fun_map
-  right_rel_eq_Dep_Fun_Rel_rel right_eq_dep_fun_map
+lemmas transport_defs = left_rel_eq_Dep_Fun_Rel left_eq_dep_fun_map
+  right_rel_eq_Dep_Fun_Rel right_eq_dep_fun_map
 
-sublocale galois L R l r .
+sublocale transport L R l r .
 
 (*TODO: somehow the notation for the fixed parameters L and R, defined in
 Order_Functions_Base.thy, is lost. We hence re-declare it here.*)
@@ -182,69 +168,63 @@ notation R (infix "\<le>\<^bsub>R\<^esub>" 50)
 lemma left_relI [intro]:
   assumes "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> f x1 \<le>\<^bsub>L2 x1 x2\<^esub> f' x2"
   shows "f \<le>\<^bsub>L\<^esub> f'"
-  unfolding left_rel_eq_Dep_Fun_Rel_rel using assms by blast
+  unfolding left_rel_eq_Dep_Fun_Rel using assms by blast
 
 lemma left_relE [elim]:
   assumes "f \<le>\<^bsub>L\<^esub> f'"
   and "x1 \<le>\<^bsub>L1\<^esub> x2"
   obtains "f x1 \<le>\<^bsub>L2 x1 x2\<^esub> f' x2"
-  using assms unfolding left_rel_eq_Dep_Fun_Rel_rel by blast
+  using assms unfolding left_rel_eq_Dep_Fun_Rel by blast
 
 interpretation flip_inv :
-  transport_Dep_Fun_Rel_rel "(\<ge>\<^bsub>R1\<^esub>)" "(\<ge>\<^bsub>L1\<^esub>)" r1 l1 "flip2 R2" "flip2 L2" r2 l2 .
+  transport_Dep_Fun_Rel "(\<ge>\<^bsub>R1\<^esub>)" "(\<ge>\<^bsub>L1\<^esub>)" r1 l1 "flip2 R2" "flip2 L2" r2 l2 .
 
 lemma flip_inv_right_eq_ge_left: "flip_inv.R = (\<ge>\<^bsub>L\<^esub>)"
-  unfolding left_rel_eq_Dep_Fun_Rel_rel flip_inv.right_rel_eq_Dep_Fun_Rel_rel
+  unfolding left_rel_eq_Dep_Fun_Rel flip_inv.right_rel_eq_Dep_Fun_Rel
   by (simp only: rel_inv_Dep_Fun_Rel_rel_eq flip2_eq_rel_inv[symmetric, of "L2"])
 
-interpretation flip : transport_Dep_Fun_Rel_rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation flip : transport_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
 lemma flip_inv_left_eq_ge_right: "flip_inv.L \<equiv> (\<ge>\<^bsub>R\<^esub>)"
   unfolding flip.flip_inv_right_eq_ge_left .
 
-end
 
+subparagraph \<open>Useful Rewritings for Dependent Relation\<close>
 
-paragraph \<open>Reflexive Relator\<close>
+lemma left_rel2_unit_eqs_left_rel2I:
+  assumes "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> (\<le>\<^bsub>L2 x2 x2\<^esub>) \<le> (\<le>\<^bsub>L2 x1 x2\<^esub>)"
+  and "\<And>x. x \<le>\<^bsub>L1\<^esub> x \<Longrightarrow> (\<le>\<^bsub>L2 (\<eta>\<^sub>1 x) x\<^esub>) \<le> (\<le>\<^bsub>L2 x x\<^esub>)"
+  and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> (\<le>\<^bsub>L2 x1 x1\<^esub>) \<le> (\<le>\<^bsub>L2 x1 x2\<^esub>)"
+  and "\<And>x. x \<le>\<^bsub>L1\<^esub> x \<Longrightarrow> (\<le>\<^bsub>L2 x (\<eta>\<^sub>1 x)\<^esub>) \<le> (\<le>\<^bsub>L2 x x\<^esub>)"
+  and "x \<le>\<^bsub>L1\<^esub> x"
+  and "x \<equiv>\<^bsub>L1\<^esub> \<eta>\<^sub>1 x"
+  shows "(\<le>\<^bsub>L2 (\<eta>\<^sub>1 x) x\<^esub>) = (\<le>\<^bsub>L2 x x\<^esub>)"
+  and "(\<le>\<^bsub>L2 x (\<eta>\<^sub>1 x)\<^esub>) = (\<le>\<^bsub>L2 x x\<^esub>)"
+  using assms by (auto intro!: antisym)
 
-locale transport_Refl_Rel_Dep_Fun_Rel_rel =
-  transport_Dep_Fun_Rel_rel_syntax L1 R1 l1 r1 L2 R2 l2 r2
-  + t : transport_Dep_Fun_Rel_rel L1 R1 l1 r1 L2 R2 l2 r2
-  for L1 R1 l1 r1 L2 R2 l2 r2
-begin
-
-definition "L \<equiv> t.L\<^sup>\<oplus>"
-
-lemma left_rel_eq_Refl_Rel: "L = t.L\<^sup>\<oplus>"
-  unfolding L_def ..
-
-abbreviation "l \<equiv> t.l"
-
-interpretation flip : transport_Refl_Rel_Dep_Fun_Rel_rel R1 L1 r1 l1 R2 L2 r2 l2 .
-
-abbreviation "R \<equiv> flip.L"
-
-lemma right_rel_eq_Refl_Rel: "R = t.R\<^sup>\<oplus>"
-  unfolding flip.L_def ..
-
-abbreviation "r \<equiv> t.r"
-
-lemmas transport_defs = left_rel_eq_Refl_Rel right_rel_eq_Refl_Rel
-
-sublocale galois L R l r .
-
-(*TODO: somehow the notation for the fixed parameters L and R, defined in
-Order_Functions_Base.thy, is lost. We hence re-declare it here.*)
-notation L (infix "\<le>\<^bsub>L\<^esub>" 50)
-notation R (infix "\<le>\<^bsub>R\<^esub>" 50)
+lemma left2_eq_if_bi_related_if_monoI:
+  assumes mono_L2: "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
+  and "x1 \<le>\<^bsub>L1\<^esub> x2"
+  and "x1 \<equiv>\<^bsub>L1\<^esub> x3"
+  and "x2 \<equiv>\<^bsub>L1\<^esub> x4"
+  and trans_L1: "transitive (\<le>\<^bsub>L1\<^esub>)"
+  shows "(\<le>\<^bsub>L2 x1 x2\<^esub>) = (\<le>\<^bsub>L2 x3 x4\<^esub>)"
+proof (intro antisym)
+  from \<open>x1 \<equiv>\<^bsub>L1\<^esub> x3\<close> \<open>x2 \<equiv>\<^bsub>L1\<^esub> x4\<close> have "x3 \<le>\<^bsub>L1\<^esub> x1" "x2 \<le>\<^bsub>L1\<^esub> x4" by auto
+  with \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close> mono_L2 show "(\<le>\<^bsub>L2 x1 x2\<^esub>) \<le> (\<le>\<^bsub>L2 x3 x4\<^esub>)" by blast
+  from \<open>x1 \<equiv>\<^bsub>L1\<^esub> x3\<close> \<open>x2 \<equiv>\<^bsub>L1\<^esub> x4\<close> have "x1 \<le>\<^bsub>L1\<^esub> x3" "x4 \<le>\<^bsub>L1\<^esub> x2" by auto
+  moreover from \<open>x3 \<le>\<^bsub>L1\<^esub> x1\<close> \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close> \<open>x2 \<le>\<^bsub>L1\<^esub> x4\<close> have "x3 \<le>\<^bsub>L1\<^esub> x4"
+    using trans_L1 by blast
+  ultimately show "(\<le>\<^bsub>L2 x3 x4\<^esub>) \<le> (\<le>\<^bsub>L2 x1 x2\<^esub>)" using mono_L2 by blast
+qed
 
 end
 
-paragraph \<open>Non-Dependent Function Relator\<close>
+paragraph \<open>Function Relator\<close>
 
-locale transport_Refl_Rel_Fun_Rel_rel =
-  rdfr : transport_Refl_Rel_Dep_Fun_Rel_rel L1 R1 l1 r1 "\<lambda>_ _. L2" "\<lambda>_ _. R2"
-  "\<lambda>_ _. l2" "\<lambda>_ _. r2"
+locale transport_Fun_Rel_syntax =
+  tdfrs : transport_Dep_Fun_Rel_syntax L1 R1 l1 r1 "\<lambda>_ _. L2" "\<lambda>_ _. R2"
+    "\<lambda>_ _. l2" "\<lambda>_ _. r2"
   for L1 :: "'a1 \<Rightarrow> 'a1 \<Rightarrow> bool"
   and R1 :: "'a2 \<Rightarrow> 'a2 \<Rightarrow> bool"
   and l1 :: "'a1 \<Rightarrow> 'a2"
@@ -258,70 +238,224 @@ begin
 notation L1 (infix "\<le>\<^bsub>L1\<^esub>" 50)
 notation R1 (infix "\<le>\<^bsub>R1\<^esub>" 50)
 
-notation rdfr.g1.ge_left (infix "\<ge>\<^bsub>L1\<^esub>" 50)
-notation rdfr.g1.ge_right (infix "\<ge>\<^bsub>R1\<^esub>" 50)
+notation tdfrs.t1.ge_left (infix "\<ge>\<^bsub>L1\<^esub>" 50)
+notation tdfrs.t1.ge_right (infix "\<ge>\<^bsub>R1\<^esub>" 50)
 
-notation rdfr.g1.Galois (infix "\<^bsub>L1\<^esub>\<lessapprox>" 50)
-notation rdfr.g1.ge_Galois (infix "\<greaterapprox>\<^bsub>L1\<^esub>" 50)
-notation rdfr.g1.flip_Galois (infix "\<^bsub>R1\<^esub>\<lessapprox>" 50)
-notation rdfr.g1.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R1\<^esub>" 50)
-notation rdfr.g1.flip_inv_Galois (infix "\<^bsub>R1\<^esub>\<greaterapprox>" 50)
-notation rdfr.g1.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R1\<^esub>" 50)
-notation rdfr.g1.flip_flip_inv_Galois (infix "\<^bsub>L1\<^esub>\<greaterapprox>" 50)
-notation rdfr.g1.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L1\<^esub>" 50)
+notation tdfrs.t1.Galois (infix "\<^bsub>L1\<^esub>\<lessapprox>" 50)
+notation tdfrs.t1.ge_Galois (infix "\<greaterapprox>\<^bsub>L1\<^esub>" 50)
+notation tdfrs.t1.flip_Galois (infix "\<^bsub>R1\<^esub>\<lessapprox>" 50)
+notation tdfrs.t1.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R1\<^esub>" 50)
+notation tdfrs.t1.flip_inv_Galois (infix "\<^bsub>R1\<^esub>\<greaterapprox>" 50)
+notation tdfrs.t1.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R1\<^esub>" 50)
+notation tdfrs.t1.flip_flip_inv_Galois (infix "\<^bsub>L1\<^esub>\<greaterapprox>" 50)
+notation tdfrs.t1.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L1\<^esub>" 50)
 
-notation rdfr.g1.unit ("\<eta>\<^sub>1")
-notation rdfr.g1.counit ("\<epsilon>\<^sub>1")
+notation tdfrs.t1.unit ("\<eta>\<^sub>1")
+notation tdfrs.t1.counit ("\<epsilon>\<^sub>1")
 
 notation L2 (infix "\<le>\<^bsub>L2\<^esub>" 50)
 notation R2 (infix "\<le>\<^bsub>R2\<^esub>" 50)
 
-notation rdfr.g2.ge_left (infix "\<ge>\<^bsub>L2\<^esub>" 50)
-notation rdfr.g2.ge_right (infix "\<ge>\<^bsub>R2\<^esub>" 50)
+notation tdfrs.t2.ge_left (infix "\<ge>\<^bsub>L2\<^esub>" 50)
+notation tdfrs.t2.ge_right (infix "\<ge>\<^bsub>R2\<^esub>" 50)
 
-notation rdfr.g2.Galois (infix "\<^bsub>L2\<^esub>\<lessapprox>" 50)
-notation rdfr.g2.ge_Galois (infix "\<greaterapprox>\<^bsub>L2\<^esub>" 50)
-notation rdfr.g2.flip_Galois (infix "\<^bsub>R2\<^esub>\<lessapprox>" 50)
-notation rdfr.g2.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R2\<^esub>" 50)
-notation rdfr.g2.flip_inv_Galois (infix "\<^bsub>R2\<^esub>\<greaterapprox>" 50)
-notation rdfr.g2.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R2\<^esub>" 50)
-notation rdfr.g2.flip_flip_inv_Galois (infix "\<^bsub>L2\<^esub>\<greaterapprox>" 50)
-notation rdfr.g2.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L2\<^esub>" 50)
+notation tdfrs.t2.Galois (infix "\<^bsub>L2\<^esub>\<lessapprox>" 50)
+notation tdfrs.t2.ge_Galois (infix "\<greaterapprox>\<^bsub>L2\<^esub>" 50)
+notation tdfrs.t2.flip_Galois (infix "\<^bsub>R2\<^esub>\<lessapprox>" 50)
+notation tdfrs.t2.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R2\<^esub>" 50)
+notation tdfrs.t2.flip_inv_Galois (infix "\<^bsub>R2\<^esub>\<greaterapprox>" 50)
+notation tdfrs.t2.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R2\<^esub>" 50)
+notation tdfrs.t2.flip_flip_inv_Galois (infix "\<^bsub>L2\<^esub>\<greaterapprox>" 50)
+notation tdfrs.t2.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L2\<^esub>" 50)
 
-notation rdfr.g2.unit ("\<eta>\<^sub>2")
-notation rdfr.g2.counit ("\<epsilon>\<^sub>2")
+notation tdfrs.t2.unit ("\<eta>\<^sub>2")
+notation tdfrs.t2.counit ("\<epsilon>\<^sub>2")
 
-notation rdfr.L ("L")
-notation rdfr.R ("R")
+end
 
-abbreviation "l \<equiv> rdfr.l"
-abbreviation "r \<equiv> rdfr.r"
+locale transport_Fun_Rel =
+  transport_Fun_Rel_syntax L1 R1 l1 r1 L2 R2 l2 r2 +
+  tdfr : transport_Dep_Fun_Rel L1 R1 l1 r1 "\<lambda>_ _. L2" "\<lambda>_ _. R2"
+    "\<lambda>_ _. l2" "\<lambda>_ _. r2"
+  for L1 :: "'a1 \<Rightarrow> 'a1 \<Rightarrow> bool"
+  and R1 :: "'a2 \<Rightarrow> 'a2 \<Rightarrow> bool"
+  and l1 :: "'a1 \<Rightarrow> 'a2"
+  and r1 :: "'a2 \<Rightarrow> 'a1"
+  and L2 :: "'b1 \<Rightarrow> 'b1 \<Rightarrow> bool"
+  and R2 :: "'b2 \<Rightarrow> 'b2 \<Rightarrow> bool"
+  and l2 :: "'b1 \<Rightarrow> 'b2"
+  and r2 :: "'b2 \<Rightarrow> 'b1"
+begin
 
-notation rdfr.L (infix "\<le>\<^bsub>L\<^esub>" 50)
-notation rdfr.R (infix "\<le>\<^bsub>R\<^esub>" 50)
+(*TODO: we have to repeat the Galois syntax here since tdfr already contains
+a Galois instance, blocking a galois sublocale interpretation here*)
+notation tdfr.L ("L")
+notation tdfr.R ("R")
 
-notation rdfr.ge_left (infix "\<ge>\<^bsub>L\<^esub>" 50)
-notation rdfr.ge_right (infix "\<ge>\<^bsub>R\<^esub>" 50)
+abbreviation "l \<equiv> tdfr.l"
+abbreviation "r \<equiv> tdfr.r"
 
-notation rdfr.Galois (infix "\<^bsub>L\<^esub>\<lessapprox>" 50)
-notation rdfr.ge_Galois (infix "\<greaterapprox>\<^bsub>L\<^esub>" 50)
-notation rdfr.flip_Galois (infix "\<^bsub>R\<^esub>\<lessapprox>" 50)
-notation rdfr.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R\<^esub>" 50)
-notation rdfr.flip_inv_Galois (infix "\<^bsub>R\<^esub>\<greaterapprox>" 50)
-notation rdfr.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R\<^esub>" 50)
-notation rdfr.flip_flip_inv_Galois (infix "\<^bsub>L\<^esub>\<greaterapprox>" 50)
-notation rdfr.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L\<^esub>" 50)
+notation tdfr.L (infix "\<le>\<^bsub>L\<^esub>" 50)
+notation tdfr.R (infix "\<le>\<^bsub>R\<^esub>" 50)
 
-notation rdfr.unit ("\<eta>")
-notation rdfr.counit ("\<epsilon>")
+notation tdfr.ge_left (infix "\<ge>\<^bsub>L\<^esub>" 50)
+notation tdfr.ge_right (infix "\<ge>\<^bsub>R\<^esub>" 50)
 
-lemma left_eq_fun_map: "l = fun_map r1 l2"
+notation tdfr.Galois (infix "\<^bsub>L\<^esub>\<lessapprox>" 50)
+notation tdfr.ge_Galois (infix "\<greaterapprox>\<^bsub>L\<^esub>" 50)
+notation tdfr.flip_Galois (infix "\<^bsub>R\<^esub>\<lessapprox>" 50)
+notation tdfr.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R\<^esub>" 50)
+notation tdfr.flip_inv_Galois (infix "\<^bsub>R\<^esub>\<greaterapprox>" 50)
+notation tdfr.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R\<^esub>" 50)
+notation tdfr.flip_flip_inv_Galois (infix "\<^bsub>L\<^esub>\<greaterapprox>" 50)
+notation tdfr.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L\<^esub>" 50)
+
+notation tdfr.unit ("\<eta>")
+notation tdfr.counit ("\<epsilon>")
+
+lemma left_rel_eq_Fun_Rel: "(\<le>\<^bsub>L\<^esub>) = ((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow> (\<le>\<^bsub>L2\<^esub>))"
+  unfolding tdfr.left_rel_eq_Dep_Fun_Rel by simp
+
+lemma left_eq_fun_map: "l = (r1 \<rightarrow> l2)"
   by (intro ext) simp
 
-interpretation flip : transport_Refl_Rel_Fun_Rel_rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation flip : transport_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
-lemma right_eq_fun_map: "r = fun_map l1 r2"
+lemma right_rel_eq_Fun_Rel: "(\<le>\<^bsub>R\<^esub>) = ((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow> (\<le>\<^bsub>R2\<^esub>))"
+  unfolding flip.left_rel_eq_Fun_Rel ..
+
+lemma right_eq_fun_map: "r = (l1 \<rightarrow> r2)"
   unfolding flip.left_eq_fun_map ..
+
+lemmas transport_defs = left_rel_eq_Fun_Rel right_rel_eq_Fun_Rel
+  left_eq_fun_map right_eq_fun_map
+
+end
+
+
+paragraph \<open>Parametric Dependent Function Relator\<close>
+
+locale transport_Param_Dep_Fun_Rel =
+  transport_Dep_Fun_Rel_syntax L1 R1 l1 r1 L2 R2 l2 r2
+  + tdfr : transport_Dep_Fun_Rel L1 R1 l1 r1 L2 R2 l2 r2
+  for L1 :: "'a1 \<Rightarrow> 'a1 \<Rightarrow> bool"
+  and R1 :: "'a2 \<Rightarrow> 'a2 \<Rightarrow> bool"
+  and l1 :: "'a1 \<Rightarrow> 'a2"
+  and r1 :: "'a2 \<Rightarrow> 'a1"
+  and L2 :: "'a1 \<Rightarrow> 'a1 \<Rightarrow> 'b1 \<Rightarrow> 'b1 \<Rightarrow> bool"
+  and R2 :: "'a2 \<Rightarrow> 'a2 \<Rightarrow> 'b2 \<Rightarrow> 'b2 \<Rightarrow> bool"
+  and l2 :: "'a2 \<Rightarrow> 'a1 \<Rightarrow> 'b1 \<Rightarrow> 'b2"
+  and r2 :: "'a1 \<Rightarrow> 'a2 \<Rightarrow> 'b2 \<Rightarrow> 'b1"
+begin
+
+definition "L \<equiv> tdfr.L\<^sup>\<oplus>"
+
+lemma left_rel_eq_tdfr_left_Refl_Rel: "L = tdfr.L\<^sup>\<oplus>"
+  unfolding L_def ..
+
+lemma left_rel_eq_Param_Dep_Fun_Rel: "L = ([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<oplus> (\<le>\<^bsub>L2 x1 x2\<^esub>))"
+  unfolding left_rel_eq_tdfr_left_Refl_Rel tdfr.left_rel_eq_Dep_Fun_Rel by simp
+
+lemma left_rel_eq_tdfr_left_rel_if_reflexive_on:
+  assumes "reflexive_on (in_field tdfr.L) tdfr.L"
+  shows "L = tdfr.L"
+  unfolding left_rel_eq_tdfr_left_Refl_Rel using assms
+  by (rule Refl_Rel_eq_self_if_reflexive_on)
+
+abbreviation "l \<equiv> tdfr.l"
+
+lemma left_eq_tdfr_left: "l = tdfr.l" ..
+
+interpretation flip : transport_Param_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
+
+abbreviation "R \<equiv> flip.L"
+
+lemma right_rel_eq_tdfr_right_Refl_Rel: "R = tdfr.R\<^sup>\<oplus>"
+  unfolding flip.left_rel_eq_tdfr_left_Refl_Rel ..
+
+lemma right_rel_eq_Param_Dep_Fun_Rel: "R = ([y1 y2 \<Colon> (\<le>\<^bsub>R1\<^esub>)] \<Rrightarrow>\<oplus> (\<le>\<^bsub>R2 y1 y2\<^esub>))"
+  unfolding flip.left_rel_eq_Param_Dep_Fun_Rel ..
+
+lemma right_rel_eq_tdfr_right_rel_if_reflexive_on:
+  assumes "reflexive_on (in_field tdfr.R) tdfr.R"
+  shows "R = tdfr.R"
+  using assms by (rule flip.left_rel_eq_tdfr_left_rel_if_reflexive_on)
+
+abbreviation "r \<equiv> tdfr.r"
+
+lemma right_eq_tdfr_right: "r = tdfr.r" ..
+
+lemmas transport_defs = left_rel_eq_tdfr_left_Refl_Rel
+  right_rel_eq_tdfr_right_Refl_Rel
+
+sublocale transport L R l r .
+
+(*TODO: somehow the notation for the fixed parameters L and R, defined in
+Order_Functions_Base.thy, is lost. We hence re-declare it here.*)
+notation L (infix "\<le>\<^bsub>L\<^esub>" 50)
+notation R (infix "\<le>\<^bsub>R\<^esub>" 50)
+
+end
+
+
+paragraph \<open>Parametric Function Relator\<close>
+
+locale transport_Param_Fun_Rel =
+  transport_Fun_Rel_syntax L1 R1 l1 r1 L2 R2 l2 r2 +
+  tfr : transport_Fun_Rel L1 R1 l1 r1 L2 R2 l2 r2 +
+  tpdfr : transport_Param_Dep_Fun_Rel L1 R1 l1 r1 "\<lambda>_ _. L2" "\<lambda>_ _. R2"
+    "\<lambda>_ _. l2" "\<lambda>_ _. r2"
+  for L1 :: "'a1 \<Rightarrow> 'a1 \<Rightarrow> bool"
+  and R1 :: "'a2 \<Rightarrow> 'a2 \<Rightarrow> bool"
+  and l1 :: "'a1 \<Rightarrow> 'a2"
+  and r1 :: "'a2 \<Rightarrow> 'a1"
+  and L2 :: "'b1 \<Rightarrow> 'b1 \<Rightarrow> bool"
+  and R2 :: "'b2 \<Rightarrow> 'b2 \<Rightarrow> bool"
+  and l2 :: "'b1 \<Rightarrow> 'b2"
+  and r2 :: "'b2 \<Rightarrow> 'b1"
+begin
+
+(*TODO: we have to repeat the Galois syntax here since tdfr already contains
+a Galois instance, blocking a galois sublocale interpretation here*)
+notation tpdfr.L ("L")
+notation tpdfr.R ("R")
+
+abbreviation "l \<equiv> tpdfr.l"
+abbreviation "r \<equiv> tpdfr.r"
+
+notation tpdfr.L (infix "\<le>\<^bsub>L\<^esub>" 50)
+notation tpdfr.R (infix "\<le>\<^bsub>R\<^esub>" 50)
+
+notation tpdfr.ge_left (infix "\<ge>\<^bsub>L\<^esub>" 50)
+notation tpdfr.ge_right (infix "\<ge>\<^bsub>R\<^esub>" 50)
+
+notation tpdfr.Galois (infix "\<^bsub>L\<^esub>\<lessapprox>" 50)
+notation tpdfr.ge_Galois (infix "\<greaterapprox>\<^bsub>L\<^esub>" 50)
+notation tpdfr.flip_Galois (infix "\<^bsub>R\<^esub>\<lessapprox>" 50)
+notation tpdfr.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R\<^esub>" 50)
+notation tpdfr.flip_inv_Galois (infix "\<^bsub>R\<^esub>\<greaterapprox>" 50)
+notation tpdfr.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R\<^esub>" 50)
+notation tpdfr.flip_flip_inv_Galois (infix "\<^bsub>L\<^esub>\<greaterapprox>" 50)
+notation tpdfr.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L\<^esub>" 50)
+
+notation tpdfr.unit ("\<eta>")
+notation tpdfr.counit ("\<epsilon>")
+
+lemma left_rel_eq_Param_Fun_Rel: "(\<le>\<^bsub>L\<^esub>) = ((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<oplus> (\<le>\<^bsub>L2\<^esub>))"
+  unfolding tpdfr.left_rel_eq_Param_Dep_Fun_Rel by simp
+
+lemma left_eq_fun_map: "l = (r1 \<rightarrow> l2)"
+  unfolding tfr.left_eq_fun_map ..
+
+interpretation flip : transport_Param_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
+
+lemma right_rel_eq_Param_Fun_Rel: "(\<le>\<^bsub>R\<^esub>) = ((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<oplus> (\<le>\<^bsub>R2\<^esub>))"
+  unfolding flip.left_rel_eq_Param_Fun_Rel ..
+
+lemma right_eq_fun_map: "r = (l1 \<rightarrow> r2)"
+  unfolding flip.left_eq_fun_map ..
+
+lemmas transport_defs = tpdfr.transport_defs
 
 end
 

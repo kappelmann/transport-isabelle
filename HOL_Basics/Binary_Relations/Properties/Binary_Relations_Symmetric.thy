@@ -25,6 +25,10 @@ lemma symmetric_onD:
   shows "R y x"
   using assms unfolding symmetric_on_pred_def by blast
 
+lemma symmetric_on_rel_inv_iff_symmetric_on [iff]:
+  "symmetric_on P R\<inverse> \<longleftrightarrow> symmetric_on (P :: 'a \<Rightarrow> bool) (R :: 'a \<Rightarrow> _)"
+  by (blast dest: symmetric_onD)
+
 lemma antimono'_symmetric_on [iff]:
   "antimono' (\<lambda>(P :: 'a \<Rightarrow> bool). symmetric_on P (R :: 'a \<Rightarrow> _))"
   by (intro antimono'I) (auto dest: symmetric_onD)
@@ -58,6 +62,9 @@ lemma symmetric_on_if_symmetric:
   assumes "symmetric R"
   shows "symmetric_on P R"
   using assms by (intro symmetric_onI) (blast dest: symmetricD)
+
+lemma symmetric_rel_inv_iff_symmetric [iff]: "symmetric R\<inverse> \<longleftrightarrow> symmetric R"
+  by (blast dest: symmetricD)
 
 lemma rel_inv_eq_self_if_symmetric [simp]:
   assumes "symmetric R"

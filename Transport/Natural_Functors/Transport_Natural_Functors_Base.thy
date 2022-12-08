@@ -4,7 +4,7 @@ theory Transport_Natural_Functors_Base
   imports
     HOL.BNF_Def
     HOL_Basics.Binary_Relations_Lattice
-    HOL_Basics.Galois
+    Transport_Base
 begin
 
 text \<open>In the following, we willingly use granular apply-style proofs since,
@@ -77,7 +77,7 @@ consts Fmap :: "('a1 \<Rightarrow> 'a2) \<Rightarrow> ('b1 \<Rightarrow> 'b2) \<
 
 axiomatization
   where Fmap_id: "Fmap id id id = id"
-  and Fmap_comp: "\<And>f1 f2 f3 g1 g2 g3.
+  and Fmap_comp: "\<And>f1 f2 f3 g1 g2 t3.
     Fmap (g1 \<circ> f1) (g2 \<circ> f2) (g3 \<circ> f3) = Fmap g1 g2 g3 \<circ> Fmap f1 f2 f3"
   and Fmap_cong: "\<And>f1 f2 f3 g1 g2 g3 x.
     (\<And>x1. x1 \<in> Fset1 x \<Longrightarrow> f1 x1 = g1 x1) \<Longrightarrow>
@@ -544,7 +544,8 @@ lemma Frel_restrict_right_Fpred_eq_Frel_restrict_right:
   done
 
 locale transport_natural_functor =
-  g1 : galois L1 R1 l1 r1 + g2 : galois L2 R2 l2 r2 + g3 : galois L3 R3 l3 r3
+  t1 : transport L1 R1 l1 r1 + t2 : transport L2 R2 l2 r2 +
+  t3 : transport L3 R3 l3 r3
   for L1 :: "'a1 \<Rightarrow> 'a1 \<Rightarrow> bool"
   and R1 :: "'b1 \<Rightarrow> 'b1 \<Rightarrow> bool"
   and l1 :: "'a1 \<Rightarrow> 'b1"
@@ -566,47 +567,47 @@ notation R2 (infix "\<le>\<^bsub>R2\<^esub>" 50)
 notation L3 (infix "\<le>\<^bsub>L3\<^esub>" 50)
 notation R3 (infix "\<le>\<^bsub>R3\<^esub>" 50)
 
-notation g1.ge_left (infix "\<ge>\<^bsub>L1\<^esub>" 50)
-notation g1.ge_right (infix "\<ge>\<^bsub>R1\<^esub>" 50)
-notation g2.ge_left (infix "\<ge>\<^bsub>L2\<^esub>" 50)
-notation g2.ge_right (infix "\<ge>\<^bsub>R2\<^esub>" 50)
-notation g3.ge_left (infix "\<ge>\<^bsub>L3\<^esub>" 50)
-notation g3.ge_right (infix "\<ge>\<^bsub>R3\<^esub>" 50)
+notation t1.ge_left (infix "\<ge>\<^bsub>L1\<^esub>" 50)
+notation t1.ge_right (infix "\<ge>\<^bsub>R1\<^esub>" 50)
+notation t2.ge_left (infix "\<ge>\<^bsub>L2\<^esub>" 50)
+notation t2.ge_right (infix "\<ge>\<^bsub>R2\<^esub>" 50)
+notation t3.ge_left (infix "\<ge>\<^bsub>L3\<^esub>" 50)
+notation t3.ge_right (infix "\<ge>\<^bsub>R3\<^esub>" 50)
 
-notation g1.Galois (infix "\<^bsub>L1\<^esub>\<lessapprox>" 50)
-notation g1.flip_Galois (infix "\<^bsub>R1\<^esub>\<lessapprox>" 50)
-notation g2.Galois (infix "\<^bsub>L2\<^esub>\<lessapprox>" 50)
-notation g2.flip_Galois (infix "\<^bsub>R2\<^esub>\<lessapprox>" 50)
-notation g3.Galois (infix "\<^bsub>L3\<^esub>\<lessapprox>" 50)
-notation g3.flip_Galois (infix "\<^bsub>R3\<^esub>\<lessapprox>" 50)
+notation t1.Galois (infix "\<^bsub>L1\<^esub>\<lessapprox>" 50)
+notation t1.flip_Galois (infix "\<^bsub>R1\<^esub>\<lessapprox>" 50)
+notation t2.Galois (infix "\<^bsub>L2\<^esub>\<lessapprox>" 50)
+notation t2.flip_Galois (infix "\<^bsub>R2\<^esub>\<lessapprox>" 50)
+notation t3.Galois (infix "\<^bsub>L3\<^esub>\<lessapprox>" 50)
+notation t3.flip_Galois (infix "\<^bsub>R3\<^esub>\<lessapprox>" 50)
 
-notation g1.ge_Galois (infix "\<greaterapprox>\<^bsub>L1\<^esub>" 50)
-notation g1.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R1\<^esub>" 50)
-notation g2.ge_Galois (infix "\<greaterapprox>\<^bsub>L2\<^esub>" 50)
-notation g2.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R2\<^esub>" 50)
-notation g3.ge_Galois (infix "\<greaterapprox>\<^bsub>L3\<^esub>" 50)
-notation g3.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R3\<^esub>" 50)
+notation t1.ge_Galois (infix "\<greaterapprox>\<^bsub>L1\<^esub>" 50)
+notation t1.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R1\<^esub>" 50)
+notation t2.ge_Galois (infix "\<greaterapprox>\<^bsub>L2\<^esub>" 50)
+notation t2.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R2\<^esub>" 50)
+notation t3.ge_Galois (infix "\<greaterapprox>\<^bsub>L3\<^esub>" 50)
+notation t3.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R3\<^esub>" 50)
 
-notation g1.flip_inv_Galois (infix "\<^bsub>R1\<^esub>\<greaterapprox>" 50)
-notation g1.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R1\<^esub>" 50)
-notation g2.flip_inv_Galois (infix "\<^bsub>R2\<^esub>\<greaterapprox>" 50)
-notation g2.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R2\<^esub>" 50)
-notation g3.flip_inv_Galois (infix "\<^bsub>R3\<^esub>\<greaterapprox>" 50)
-notation g3.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R3\<^esub>" 50)
+notation t1.flip_inv_Galois (infix "\<^bsub>R1\<^esub>\<greaterapprox>" 50)
+notation t1.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R1\<^esub>" 50)
+notation t2.flip_inv_Galois (infix "\<^bsub>R2\<^esub>\<greaterapprox>" 50)
+notation t2.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R2\<^esub>" 50)
+notation t3.flip_inv_Galois (infix "\<^bsub>R3\<^esub>\<greaterapprox>" 50)
+notation t3.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R3\<^esub>" 50)
 
-notation g1.flip_flip_inv_Galois (infix "\<^bsub>L1\<^esub>\<greaterapprox>" 50)
-notation g1.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L1\<^esub>" 50)
-notation g2.flip_flip_inv_Galois (infix "\<^bsub>L2\<^esub>\<greaterapprox>" 50)
-notation g2.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L2\<^esub>" 50)
-notation g3.flip_flip_inv_Galois (infix "\<^bsub>L3\<^esub>\<greaterapprox>" 50)
-notation g3.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L3\<^esub>" 50)
+notation t1.flip_flip_inv_Galois (infix "\<^bsub>L1\<^esub>\<greaterapprox>" 50)
+notation t1.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L1\<^esub>" 50)
+notation t2.flip_flip_inv_Galois (infix "\<^bsub>L2\<^esub>\<greaterapprox>" 50)
+notation t2.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L2\<^esub>" 50)
+notation t3.flip_flip_inv_Galois (infix "\<^bsub>L3\<^esub>\<greaterapprox>" 50)
+notation t3.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L3\<^esub>" 50)
 
-notation g1.unit ("\<eta>\<^sub>1")
-notation g1.counit ("\<epsilon>\<^sub>1")
-notation g2.unit ("\<eta>\<^sub>2")
-notation g2.counit ("\<epsilon>\<^sub>2")
-notation g3.unit ("\<eta>\<^sub>3")
-notation g3.counit ("\<epsilon>\<^sub>3")
+notation t1.unit ("\<eta>\<^sub>1")
+notation t1.counit ("\<epsilon>\<^sub>1")
+notation t2.unit ("\<eta>\<^sub>2")
+notation t2.counit ("\<epsilon>\<^sub>2")
+notation t3.unit ("\<eta>\<^sub>3")
+notation t3.counit ("\<epsilon>\<^sub>3")
 
 definition "L \<equiv> Frel (\<le>\<^bsub>L1\<^esub>) (\<le>\<^bsub>L2\<^esub>) (\<le>\<^bsub>L3\<^esub>)"
 
@@ -638,7 +639,7 @@ lemmas transport_defs = left_rel_eq_Frel left_eq_Fmap
 
 end
 
-sublocale galois L R l r .
+sublocale transport L R l r .
 
 (*TODO: somehow the notation for the fixed parameters L and R, defined in
 Order_Functions_Base.thy, is lost. We hence re-declare it here.*)
@@ -647,12 +648,12 @@ notation R (infix "\<le>\<^bsub>R\<^esub>" 50)
 
 lemma unit_eq_Fmap: "\<eta> = Fmap \<eta>\<^sub>1 \<eta>\<^sub>2 \<eta>\<^sub>3"
   unfolding unit_eq_comp by (simp only: right_eq_Fmap left_eq_Fmap
-    flip: Fmap_comp g1.unit_eq_comp g2.unit_eq_comp g3.unit_eq_comp)
+    flip: Fmap_comp t1.unit_eq_comp t2.unit_eq_comp t3.unit_eq_comp)
 
 interpretation flip_inv : transport_natural_functor "(\<ge>\<^bsub>R1\<^esub>)" "(\<ge>\<^bsub>L1\<^esub>)" r1 l1
   "(\<ge>\<^bsub>R2\<^esub>)" "(\<ge>\<^bsub>L2\<^esub>)" r2 l2 "(\<ge>\<^bsub>R3\<^esub>)" "(\<ge>\<^bsub>L3\<^esub>)" r3 l3
-  rewrites "flip_inv.unit \<equiv> \<epsilon>" and "flip_inv.g1.unit \<equiv> \<epsilon>\<^sub>1"
-  and "flip_inv.g2.unit \<equiv> \<epsilon>\<^sub>2" and "flip_inv.g3.unit \<equiv> \<epsilon>\<^sub>3"
+  rewrites "flip_inv.unit \<equiv> \<epsilon>" and "flip_inv.t1.unit \<equiv> \<epsilon>\<^sub>1"
+  and "flip_inv.t2.unit \<equiv> \<epsilon>\<^sub>2" and "flip_inv.t3.unit \<equiv> \<epsilon>\<^sub>3"
   by (simp_all only: order_functors.flip_counit_eq_unit)
 
 lemma counit_eq_Fmap: "\<epsilon> = Fmap \<epsilon>\<^sub>1 \<epsilon>\<^sub>2 \<epsilon>\<^sub>3"

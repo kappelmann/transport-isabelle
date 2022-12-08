@@ -93,24 +93,4 @@ qed
 end
 
 
-paragraph \<open>Instantiations\<close>
-
-interpretation order_functors_eq_restrict_id :
-  order_functors "(=\<^bsub>P\<^esub>) :: 'a \<Rightarrow> _" "(=\<^bsub>P\<^esub>) :: 'a \<Rightarrow> _" id id for P :: "'a \<Rightarrow> bool" .
-
-lemma order_functors_eq_restrict_id_unit_eq_id [simp]:
-  "order_functors_eq_restrict_id.unit = id"
-  unfolding order_functors_eq_restrict_id.unit_eq_comp by simp
-
-lemma order_functors_eq_restrict_id_counit_eq_id [simp]:
-  "order_functors_eq_restrict_id.counit = id"
-  unfolding order_functors_eq_restrict_id.counit_eq_comp by simp
-
-lemma order_functors_eq_restrict_id_order_equivalence:
-  "order_functors_eq_restrict_id.order_equivalence (TYPE('a)) P"
-  using rel_equivalence_on_eq_restrict_id mono_wrt_rel_self_id
-  by (intro order_functors_eq_restrict_id.order_equivalenceI)
-  simp_all
-
-
 end

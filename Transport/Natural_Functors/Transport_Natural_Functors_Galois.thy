@@ -20,8 +20,8 @@ lemma half_galois_prop_leftI:
   apply (unfold Frel_Fmap_eqs)
   apply (rule Frel_mono_strong,
     assumption;
-    rule g1.half_galois_prop_leftD g2.half_galois_prop_leftD
-      g3.half_galois_prop_leftD,
+    rule t1.half_galois_prop_leftD t2.half_galois_prop_leftD
+      t3.half_galois_prop_leftD,
     rule assms,
     assumption+)
   done
@@ -65,8 +65,8 @@ corollary galois_equivalenceI:
   and "((\<le>\<^bsub>L2\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R2\<^esub>)) l2 r2"
   and "((\<le>\<^bsub>L3\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R3\<^esub>)) l3 r3"
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R\<^esub>)) l r"
-  using assms by (elim galois.galois_equivalenceE flip.g1.galois_connectionE
-    flip.g2.galois_connectionE flip.g3.galois_connectionE)
+  using assms by (elim galois.galois_equivalenceE flip.t1.galois_connectionE
+    flip.t2.galois_connectionE flip.t3.galois_connectionE)
   (intro galois_equivalenceI galois_connectionI flip.galois_propI)
 
 end

@@ -11,15 +11,17 @@ session HOL_Basics = "HOL" +
     "Binary_Relations/Properties"
     "Functions"
     "Functions/Properties"
+    "HOL_Syntax_Bundles"
     "Orders"
     "Orders/Functions"
     "Orders/Functors"
     "Predicates"
     "Galois"
   theories
-    LBinary_Relations 
+    LBinary_Relations
     LFunctions
     Galois
+    HOL_Syntax_Bundles
     Lattices_Syntax
     Orders
     Predicates

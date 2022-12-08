@@ -283,7 +283,6 @@ lemma lifting_triple_Dep_Fun_RelI':
   (* note swapped order of arguments for abs2 *)
   and T2_resp: "\<And>x x' y y'. \<lbrakk>T1 x y; Eq_rep T1 x x'; Eq_abs T1 y y'\<rbrakk> \<Longrightarrow> T2 x y = T2 x' y'"
   shows "lifting_triple (Dep_Fun_Rel T1 T2) (fun_map rep1 abs2) (fun_map abs1 rep2)"
-  unfolding fun_map_def
   apply (rule lifting_triple_Dep_Fun_RelI)
   apply (fact lift_trip1)
   apply (fact lift_trip2)
@@ -308,7 +307,6 @@ lemma lifting_triple_Fun_RelI:
   assumes lift_trip1: "lifting_triple T1 abs1 rep1"
       and lift_trip2: "lifting_triple T2 abs2 rep2"
     shows "lifting_triple (T1 \<Rrightarrow> T2) (fun_map rep1 abs2) (fun_map abs1 rep2)"
-  unfolding fun_map_def
   apply (rule lifting_triple_Dep_Fun_RelI)
   apply (rule lift_trip1 lift_trip2 refl)+
    apply (rule Dep_Fun_RelI)
@@ -362,7 +360,7 @@ next
       apply (subst Eq_rep_rel_comp_eq_self_if_z_property[OF z_property_if_lifting_triple[OF assms(2)], symmetric])
       using rel_compI 5 6 .
     have "T2 (f x) (h z)"
-      unfolding h_def fun_map_def dep_fun_map_def
+      unfolding h_def dep_fun_map_def
       using 7 .
   }
   note 1 = this

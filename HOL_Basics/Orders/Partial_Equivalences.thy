@@ -33,6 +33,10 @@ lemma partial_equivalence_on_rel_self_if_rel_codom:
   shows "R y y"
   using assms by (blast dest: symmetric_onD transitive_onD)
 
+lemma partial_equivalence_on_rel_inv_iff_partial_equivalence_on [iff]:
+  "partial_equivalence_on P R\<inverse> \<longleftrightarrow> partial_equivalence_on (P :: 'a \<Rightarrow> bool) (R :: 'a \<Rightarrow> _)"
+  by blast
+
 definition "partial_equivalence (R :: 'a \<Rightarrow> _) \<equiv> partial_equivalence_on (\<top> :: 'a \<Rightarrow> bool) R"
 
 lemma partial_equivalence_eq_partial_equivalence_on:
@@ -46,20 +50,6 @@ lemma partial_equivalenceI [intro]:
   unfolding partial_equivalence_eq_partial_equivalence_on using assms
   by (intro partial_equivalence_onI transitive_on_if_transitive symmetric_on_if_symmetric)
 
-lemma partial_equivalenceE [elim]:
-  assumes "partial_equivalence R"
-  obtains "transitive R" "symmetric R"
-  using assms unfolding partial_equivalence_eq_partial_equivalence_on
-  by (elim partial_equivalence_onE)
-  (simp only: transitive_eq_transitive_on symmetric_eq_symmetric_on)
-
-lemma partial_equivalence_on_if_partial_equivalence:
-  fixes P :: "'a \<Rightarrow> bool" and R :: "'a \<Rightarrow> _"
-  assumes "partial_equivalence R"
-  shows "partial_equivalence_on P R"
-  using assms by (elim partial_equivalenceE)
-  (intro partial_equivalence_onI transitive_on_if_transitive symmetric_on_if_symmetric)
-
 lemma reflexive_on_in_field_if_partial_equivalence:
   assumes "partial_equivalence R"
   shows "reflexive_on (in_field R) R"
@@ -68,11 +58,25 @@ lemma reflexive_on_in_field_if_partial_equivalence:
     intro: top1I partial_equivalence_on_rel_self_if_rel_dom
     partial_equivalence_on_rel_self_if_rel_codom)
 
-corollary preorder_on_in_field_if_partial_equivalence:
+lemma partial_equivalenceE [elim]:
   assumes "partial_equivalence R"
-  shows "preorder_on (in_field R) R"
-  using assms by (intro preorder_onI) (auto
-    intro: transitive_on_if_transitive reflexive_on_in_field_if_partial_equivalence)
+  obtains "preorder_on (in_field R) R" "symmetric R"
+  using assms unfolding partial_equivalence_eq_partial_equivalence_on
+  by (elim partial_equivalence_onE)
+  (auto intro: reflexive_on_in_field_if_partial_equivalence
+    simp flip: transitive_eq_transitive_on symmetric_eq_symmetric_on)
+
+lemma partial_equivalence_on_if_partial_equivalence:
+  fixes P :: "'a \<Rightarrow> bool" and R :: "'a \<Rightarrow> _"
+  assumes "partial_equivalence R"
+  shows "partial_equivalence_on P R"
+  using assms by (elim partial_equivalenceE preorder_on_in_fieldE)
+  (intro partial_equivalence_onI transitive_on_if_transitive
+    symmetric_on_if_symmetric)
+
+lemma partial_equivalence_rel_inv_iff_partial_equivalence [iff]:
+  "partial_equivalence R\<inverse> \<longleftrightarrow> partial_equivalence R"
+  unfolding partial_equivalence_eq_partial_equivalence_on by blast
 
 corollary in_codom_eq_in_dom_if_partial_equivalence:
   assumes "partial_equivalence R"
@@ -106,5 +110,6 @@ lemma partial_equivalence_eq: "partial_equivalence (=)"
 
 lemma partial_equivalence_top: "partial_equivalence \<top>"
   using transitive_top symmetric_top by (rule partial_equivalenceI)
+
 
 end

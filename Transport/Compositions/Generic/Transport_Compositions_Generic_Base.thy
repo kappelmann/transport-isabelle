@@ -2,12 +2,12 @@
 subsubsection \<open>Basic Setup\<close>
 theory Transport_Compositions_Generic_Base
   imports
-    HOL_Basics.Equivalences
     HOL_Basics.Galois_Relator
+    Transport_Base
 begin
 
 locale transport_comp =
-  g1 : galois L1 R1 l1 r1 + g2 : galois L2 R2 l2 r2
+  t1 : transport L1 R1 l1 r1 + t2 : transport L2 R2 l2 r2
   for L1 :: "'a \<Rightarrow> 'a \<Rightarrow> bool"
   and R1 :: "'b \<Rightarrow> 'b \<Rightarrow> bool"
   and l1 :: "'a \<Rightarrow> 'b"
@@ -28,35 +28,35 @@ notation R1 (infix "\<le>\<^bsub>R1\<^esub>" 50)
 notation L2 (infix "\<le>\<^bsub>L2\<^esub>" 50)
 notation R2 (infix "\<le>\<^bsub>R2\<^esub>" 50)
 
-notation g1.ge_left (infix "\<ge>\<^bsub>L1\<^esub>" 50)
-notation g1.ge_right (infix "\<ge>\<^bsub>R1\<^esub>" 50)
-notation g2.ge_left (infix "\<ge>\<^bsub>L2\<^esub>" 50)
-notation g2.ge_right (infix "\<ge>\<^bsub>R2\<^esub>" 50)
+notation t1.ge_left (infix "\<ge>\<^bsub>L1\<^esub>" 50)
+notation t1.ge_right (infix "\<ge>\<^bsub>R1\<^esub>" 50)
+notation t2.ge_left (infix "\<ge>\<^bsub>L2\<^esub>" 50)
+notation t2.ge_right (infix "\<ge>\<^bsub>R2\<^esub>" 50)
 
-notation g1.Galois (infix "\<^bsub>L1\<^esub>\<lessapprox>" 50)
-notation g1.flip_Galois (infix "\<^bsub>R1\<^esub>\<lessapprox>" 50)
-notation g2.Galois (infix "\<^bsub>L2\<^esub>\<lessapprox>" 50)
-notation g2.flip_Galois (infix "\<^bsub>R2\<^esub>\<lessapprox>" 50)
+notation t1.Galois (infix "\<^bsub>L1\<^esub>\<lessapprox>" 50)
+notation t1.flip_Galois (infix "\<^bsub>R1\<^esub>\<lessapprox>" 50)
+notation t2.Galois (infix "\<^bsub>L2\<^esub>\<lessapprox>" 50)
+notation t2.flip_Galois (infix "\<^bsub>R2\<^esub>\<lessapprox>" 50)
 
-notation g1.ge_Galois (infix "\<greaterapprox>\<^bsub>L1\<^esub>" 50)
-notation g1.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R1\<^esub>" 50)
-notation g2.ge_Galois (infix "\<greaterapprox>\<^bsub>L2\<^esub>" 50)
-notation g2.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R2\<^esub>" 50)
+notation t1.ge_Galois (infix "\<greaterapprox>\<^bsub>L1\<^esub>" 50)
+notation t1.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R1\<^esub>" 50)
+notation t2.ge_Galois (infix "\<greaterapprox>\<^bsub>L2\<^esub>" 50)
+notation t2.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R2\<^esub>" 50)
 
-notation g1.flip_inv_Galois (infix "\<^bsub>R1\<^esub>\<greaterapprox>" 50)
-notation g1.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R1\<^esub>" 50)
-notation g2.flip_inv_Galois (infix "\<^bsub>R2\<^esub>\<greaterapprox>" 50)
-notation g2.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R2\<^esub>" 50)
+notation t1.flip_inv_Galois (infix "\<^bsub>R1\<^esub>\<greaterapprox>" 50)
+notation t1.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R1\<^esub>" 50)
+notation t2.flip_inv_Galois (infix "\<^bsub>R2\<^esub>\<greaterapprox>" 50)
+notation t2.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R2\<^esub>" 50)
 
-notation g1.flip_flip_inv_Galois (infix "\<^bsub>L1\<^esub>\<greaterapprox>" 50)
-notation g1.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L1\<^esub>" 50)
-notation g2.flip_flip_inv_Galois (infix "\<^bsub>L2\<^esub>\<greaterapprox>" 50)
-notation g2.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L2\<^esub>" 50)
+notation t1.flip_flip_inv_Galois (infix "\<^bsub>L1\<^esub>\<greaterapprox>" 50)
+notation t1.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L1\<^esub>" 50)
+notation t2.flip_flip_inv_Galois (infix "\<^bsub>L2\<^esub>\<greaterapprox>" 50)
+notation t2.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L2\<^esub>" 50)
 
-notation g1.unit ("\<eta>\<^sub>1")
-notation g1.counit ("\<epsilon>\<^sub>1")
-notation g2.unit ("\<eta>\<^sub>2")
-notation g2.counit ("\<epsilon>\<^sub>2")
+notation t1.unit ("\<eta>\<^sub>1")
+notation t1.counit ("\<epsilon>\<^sub>1")
+notation t2.unit ("\<eta>\<^sub>2")
+notation t2.counit ("\<epsilon>\<^sub>2")
 
 definition "L \<equiv> (\<^bsub>L1\<^esub>\<lessapprox>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<^bsub>R1\<^esub>\<lessapprox>)"
 
@@ -92,7 +92,7 @@ lemmas transport_defs = left_rel_eq_comp left_eq_comp right_rel_eq_comp right_eq
 
 end
 
-sublocale galois L R l r .
+sublocale transport L R l r .
 
 (*TODO: somehow the notation for the fixed parameters L and R, defined in
 Order_Functions_Base.thy, is lost. We hence re-declare it here.*)
@@ -236,7 +236,7 @@ proof -
     from \<open>yl' \<le>\<^bsub>R1\<^esub> l1 x'\<close> \<open>y \<le>\<^bsub>R1\<^esub> l1 x'\<close> show "y \<le>\<^bsub>R1\<^esub> b yl'"
       by (rule R1_b_if_R1_l1_if_R1_l1)
     show "b yl' \<^bsub>L2\<^esub>\<lessapprox> z'"
-    proof (rule g2.GaloisI)
+    proof (rule t2.GaloisI)
       from \<open>yl' \<le>\<^bsub>R1\<^esub> l1 x'\<close> have "yl' \<le>\<^bsub>R1\<^esub> b yl'"
         by (intro R1_b_if_R1_l1_if_R1_l1)
       with \<open>l1 x \<le>\<^bsub>R1\<^esub> yl\<close> \<open>yl \<le>\<^bsub>L2\<^esub> yl'\<close> in_codom_rel_comp_le
@@ -279,7 +279,7 @@ proof -
     then show "y \<^bsub>L2\<^esub>\<lessapprox> z'" by blast
     from \<open>l1 x \<le>\<^bsub>R1\<^esub> yl\<close> \<open>l1 x \<le>\<^bsub>R1\<^esub> y\<close> show "t yl \<le>\<^bsub>R1\<^esub> y" by (rule t_R1_if_R1_l1_if_l1_R1)
     show "z \<^bsub>R2\<^esub>\<lessapprox> t yl"
-    proof (rule flip.g1.GaloisI)
+    proof (rule flip.t1.GaloisI)
       from \<open>l1 x \<le>\<^bsub>R1\<^esub> yl\<close> have "t yl \<le>\<^bsub>R1\<^esub> yl" by (intro t_R1_if_R1_l1_if_l1_R1)
       with \<open>yl \<le>\<^bsub>L2\<^esub> yl'\<close> \<open>yl' \<le>\<^bsub>R1\<^esub> l1 x'\<close> in_dom_rel_comp_le have "in_dom (\<le>\<^bsub>L2\<^esub>) (t yl)"
         by blast
@@ -439,29 +439,68 @@ lemma in_codom_right1_left2_right1_le_if_right1_left2_right1_le:
   using mono'D[OF mono'_in_codom assms]
   by (auto intro: in_codom_if_in_codom_rel_comp)
 
-context
-begin
-
-interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1 .
-
 text \<open>Our main results will be derivable for two different sets of compatibility
 conditions. The next two lemmas show the equivalence between those two sets
 under certain assumptions. In cases where these assumptions are met, we will
 only state the result for one of the two compatibility conditions. The other one
 will then be derivable using one of the following lemmas.\<close>
 
-lemma rel_comp_comp_le_assms_if_in_codom_rel_comp_comp_leI:
-  assumes "preorder_on (in_field (\<le>\<^bsub>R1\<^esub>)) (\<le>\<^bsub>R1\<^esub>)"
-  and "preorder_on (in_field (\<le>\<^bsub>L2\<^esub>)) (\<le>\<^bsub>L2\<^esub>)"
-  and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-  and "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom (\<le>\<^bsub>L2\<^esub>)"
-  and "(\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<le> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)"
-  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
-  shows "(\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<le> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)"
+definition "middle_compatible_dom \<equiv>
+  (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<le> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)
+  \<and> in_dom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_dom (\<le>\<^bsub>L2\<^esub>)
+  \<and> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))
+  \<and> in_dom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_dom (\<le>\<^bsub>R1\<^esub>)"
+
+lemma middle_compatible_domI [intro]:
+  assumes "(\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<le> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)"
   and "in_dom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_dom (\<le>\<^bsub>L2\<^esub>)"
   and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
   and "in_dom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_dom (\<le>\<^bsub>R1\<^esub>)"
-  using assms by (auto intro!:
+  shows "middle_compatible_dom"
+  unfolding middle_compatible_dom_def using assms by blast
+
+lemma middle_compatible_domE [elim]:
+  assumes "middle_compatible_dom"
+  obtains "(\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<le> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)"
+  and "in_dom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_dom (\<le>\<^bsub>L2\<^esub>)"
+  and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
+  and "in_dom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_dom (\<le>\<^bsub>R1\<^esub>)"
+  using assms unfolding middle_compatible_dom_def by blast
+
+definition "middle_compatible_codom \<equiv>
+  ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))
+  \<and> in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom (\<le>\<^bsub>L2\<^esub>)
+  \<and> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<le> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)
+  \<and> in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
+
+lemma middle_compatible_codomI [intro]:
+  assumes "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
+  and "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom (\<le>\<^bsub>L2\<^esub>)"
+  and "(\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<le> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)"
+  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
+  shows "middle_compatible_codom"
+  unfolding middle_compatible_codom_def using assms by blast
+
+lemma middle_compatible_codomE [elim]:
+  assumes "middle_compatible_codom"
+  obtains "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
+  and "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom (\<le>\<^bsub>L2\<^esub>)"
+  and "(\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<le> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)"
+  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
+  using assms unfolding middle_compatible_codom_def by blast
+
+context
+begin
+
+interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1 .
+
+lemma rel_comp_comp_le_assms_if_in_codom_rel_comp_comp_leI:
+  assumes "preorder_on (in_field (\<le>\<^bsub>R1\<^esub>)) (\<le>\<^bsub>R1\<^esub>)"
+  and "preorder_on (in_field (\<le>\<^bsub>L2\<^esub>)) (\<le>\<^bsub>L2\<^esub>)"
+  and "middle_compatible_codom"
+  shows "middle_compatible_dom"
+  using assms by (intro middle_compatible_domI)
+  (auto intro!:
     left2_right1_left2_le_left2_right1_if_right1_left2_right1_le_left2_right1
     flip.left2_right1_left2_le_left2_right1_if_right1_left2_right1_le_left2_right1
     in_dom_right1_left2_right1_le_if_right1_left2_right1_le
@@ -471,20 +510,22 @@ lemma rel_comp_comp_le_assms_if_in_codom_rel_comp_comp_leI:
 lemma rel_comp_comp_le_assms_if_in_dom_rel_comp_comp_leI:
   assumes "preorder_on (in_field (\<le>\<^bsub>R1\<^esub>)) (\<le>\<^bsub>R1\<^esub>)"
   and "preorder_on (in_field (\<le>\<^bsub>L2\<^esub>)) (\<le>\<^bsub>L2\<^esub>)"
-  and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "in_dom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_dom (\<le>\<^bsub>L2\<^esub>)"
-  and "(\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<le> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)"
-  and "in_dom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_dom (\<le>\<^bsub>R1\<^esub>)"
-  shows "(\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<le> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)"
-  and "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom (\<le>\<^bsub>L2\<^esub>)"
-  and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
-  using assms by (auto intro!:
+  and "middle_compatible_dom"
+  shows "middle_compatible_codom"
+  using assms by (intro middle_compatible_codomI)
+  (auto intro!:
     left2_right1_left2_le_right1_left2_if_right1_left2_right1_le_right1_left2I
     flip.left2_right1_left2_le_right1_left2_if_right1_left2_right1_le_right1_left2I
     in_codom_right1_left2_right1_le_if_right1_left2_right1_le
     flip.in_codom_right1_left2_right1_le_if_right1_left2_right1_le
     intro: reflexive_on_if_le_pred_if_reflexive_on in_field_if_in_dom)
+
+lemma middle_compatible_dom_iff_middle_compatible_codom_if_preorder_on:
+  assumes "preorder_on (in_field (\<le>\<^bsub>R1\<^esub>)) (\<le>\<^bsub>R1\<^esub>)"
+  and "preorder_on (in_field (\<le>\<^bsub>L2\<^esub>)) (\<le>\<^bsub>L2\<^esub>)"
+  shows "middle_compatible_dom \<longleftrightarrow> middle_compatible_codom"
+  using assms by (intro iffI rel_comp_comp_le_assms_if_in_codom_rel_comp_comp_leI)
+  (auto intro!: rel_comp_comp_le_assms_if_in_dom_rel_comp_comp_leI)
 
 end
 
@@ -503,42 +544,42 @@ interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1
   rewrites "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) = ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<equiv> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) = ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
   by (simp only: eq_commute)
 
-lemma rel_comp_comp_le_assms_if_right1_left2_eqI:
+lemma middle_compatible_codom_if_rel_comp_eq_if_transitive:
   assumes "transitive (\<le>\<^bsub>R1\<^esub>)" "transitive (\<le>\<^bsub>L2\<^esub>)"
   and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) = ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-  shows "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-  and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-  by (auto intro!: right1_left2_right1_le_assms_if_right1_left2_eqI
-    flip.right1_left2_right1_le_assms_if_right1_left2_eqI assms)
+  shows "middle_compatible_codom"
+  using assms by (intro middle_compatible_codomI
+    in_codom_right1_left2_right1_le_if_right1_left2_right1_le
+    flip.in_codom_right1_left2_right1_le_if_right1_left2_right1_le
+    right1_left2_right1_le_assms_if_right1_left2_eqI
+    flip.right1_left2_right1_le_assms_if_right1_left2_eqI)
+  auto
 
-lemma rel_comp_comp_le_assms_if_right1_le_left2_eqI:
+lemma middle_compatible_codom_if_right1_le_left2_eqI:
   assumes "preorder_on (in_field (\<le>\<^bsub>R1\<^esub>)) (\<le>\<^bsub>R1\<^esub>)" "transitive (\<le>\<^bsub>L2\<^esub>)"
   and "(\<le>\<^bsub>R1\<^esub>) \<le> (\<le>\<^bsub>L2\<^esub>) \<squnion> (=)"
   and "in_field (\<le>\<^bsub>L2\<^esub>) \<le> in_field (\<le>\<^bsub>R1\<^esub>)"
-  shows "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-  and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-  using assms
-  by (auto intro!: right1_left2_right1_le_assms_if_right1_left2_eqI
-      flip.right1_left2_right1_le_assms_if_right1_left2_eqI
-      rel_comp_eq_rel_comp_if_le_if_transitive_if_reflexive
-    intro: reflexive_on_if_le_pred_if_reflexive_on)
+  shows "middle_compatible_codom"
+  using assms by (intro middle_compatible_codomI
+    in_codom_right1_left2_right1_le_if_right1_left2_right1_le
+    flip.in_codom_right1_left2_right1_le_if_right1_left2_right1_le
+    right1_left2_right1_le_assms_if_right1_left2_eqI
+    flip.right1_left2_right1_le_assms_if_right1_left2_eqI
+    rel_comp_eq_rel_comp_if_le_if_transitive_if_reflexive)
+  (auto intro: reflexive_on_if_le_pred_if_reflexive_on)
 
-lemma rel_comp_comp_le_assms_if_right1_le_eqI:
+lemma middle_compatible_codom_if_right1_le_eqI:
   assumes "(\<le>\<^bsub>R1\<^esub>) \<le> (=)"
   and "transitive (\<le>\<^bsub>L2\<^esub>)"
   and "in_field (\<le>\<^bsub>L2\<^esub>) \<le> in_field (\<le>\<^bsub>R1\<^esub>)"
-  shows "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-  and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-  using assms
-  by (auto intro!: right1_left2_right1_le_assms_if_right1_left2_eqI
+  shows "middle_compatible_codom"
+  using assms by (intro middle_compatible_codomI
+    in_codom_right1_left2_right1_le_if_right1_left2_right1_le
+    flip.in_codom_right1_left2_right1_le_if_right1_left2_right1_le
+    right1_left2_right1_le_assms_if_right1_left2_eqI
     flip.right1_left2_right1_le_assms_if_right1_left2_eqI
     rel_comp_eq_rel_comp_if_in_field_le_if_le_eq)
+  auto
 
 end
 

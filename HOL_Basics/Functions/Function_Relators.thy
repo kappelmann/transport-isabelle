@@ -51,7 +51,8 @@ translations
   "[x y \<Colon> R] \<Rrightarrow> S" \<rightleftharpoons> "CONST Dep_Fun_Rel_rel R (\<lambda>x y. S)"
   "[x y \<Colon> R | B] \<Rrightarrow> S" \<rightleftharpoons> "CONST Dep_Fun_Rel_rel R (\<lambda>x y. CONST rel_if B S)"
   "[P] \<Rrightarrow> R" \<rightleftharpoons> "CONST Fun_Rel_pred P R"
-  "[x \<Colon> P] \<Rrightarrow> R" \<rightleftharpoons> "CONST Dep_Fun_Rel_pred P (\<lambda>x. R)" "[x \<Colon> P | B] \<Rrightarrow> R" \<rightleftharpoons> "CONST Dep_Fun_Rel_pred P (\<lambda>x. CONST rel_if B R)"
+  "[x \<Colon> P] \<Rrightarrow> R" \<rightleftharpoons> "CONST Dep_Fun_Rel_pred P (\<lambda>x. R)"
+  "[x \<Colon> P | B] \<Rrightarrow> R" \<rightleftharpoons> "CONST Dep_Fun_Rel_pred P (\<lambda>x. CONST rel_if B R)"
 
 lemma Dep_Fun_Rel_relI [intro]:
   assumes "\<And>x y. R x y \<Longrightarrow> S x y (f x) (g y)"
@@ -99,6 +100,9 @@ lemma Dep_Fun_Rel_pred_eq_Dep_Fun_Rel_rel:
   "([x \<Colon> P] \<Rrightarrow> R x) = ([x _ \<Colon> (((\<sqinter>) P) \<circ> (=))] \<Rrightarrow> R x)"
   by (intro ext) (auto intro!: Dep_Fun_Rel_predI Dep_Fun_Rel_relI)
 
+lemma Fun_Rel_eq_eq_eq [simp]: "((=) \<Rrightarrow> (=)) = (=)"
+  by (intro ext) auto
+
 
 subsubsection \<open>Composition\<close>
 
@@ -127,6 +131,29 @@ corollary Dep_Fun_Rel_pred_comp_Dep_Fun_Rel_rel_compI':
   and "\<And>x. P x \<Longrightarrow> ([x' y' \<Colon> R x] \<Rrightarrow> S x x' y') f' g'"
   shows "([x \<Colon> P] \<Rrightarrow> S x (f x) (g x)) (f' \<circ> f) (g' \<circ> g)"
   using assms by (intro Dep_Fun_Rel_pred_comp_Dep_Fun_Rel_rel_compI)
+
+
+subsubsection \<open>Restrictions\<close>
+
+lemma restrict_left_Dep_Fun_Rel_rel_restrict_left_eq:
+  fixes R :: "'a1 \<Rightarrow> 'a2 \<Rightarrow> bool"
+  and S :: "'a1 \<Rightarrow> 'a2 \<Rightarrow> 'b1 \<Rightarrow> 'b2 \<Rightarrow> bool"
+  and P :: "'a1 \<Rightarrow> 'a2 \<Rightarrow> 'b1 \<Rightarrow> bool"
+  assumes "\<And>f x y. Q f \<Longrightarrow> R x y \<Longrightarrow> P x y (f x)"
+  shows "([x y \<Colon> R] \<Rrightarrow> (S x y)\<restriction>\<^bsub>P x y\<^esub>)\<restriction>\<^bsub>Q\<^esub> = ([x y \<Colon> R] \<Rrightarrow> S x y)\<restriction>\<^bsub>Q\<^esub>"
+  using assms by (intro ext iffI restrict_leftI Dep_Fun_Rel_relI)
+  (auto dest!: Dep_Fun_Rel_relD)
+
+lemma restrict_right_Dep_Fun_Rel_rel_restrict_right_eq:
+  fixes R :: "'a1 \<Rightarrow> 'a2 \<Rightarrow> bool"
+  and S :: "'a1 \<Rightarrow> 'a2 \<Rightarrow> 'b1 \<Rightarrow> 'b2 \<Rightarrow> bool"
+  and P :: "'a1 \<Rightarrow> 'a2 \<Rightarrow> 'b2 \<Rightarrow> bool"
+  assumes "\<And>f x y. Q f \<Longrightarrow> R x y \<Longrightarrow> P x y (f y)"
+  shows "(([x y \<Colon> R] \<Rrightarrow> (S x y)\<upharpoonleft>\<^bsub>P x y\<^esub>)\<upharpoonleft>\<^bsub>Q\<^esub>) = (([x y \<Colon> R] \<Rrightarrow> S x y)\<upharpoonleft>\<^bsub>Q\<^esub>)"
+  unfolding restrict_right_eq
+  using assms restrict_left_Dep_Fun_Rel_rel_restrict_left_eq[where ?R="R\<inverse>"
+    and ?S="\<lambda>y x. (S x y)\<inverse>"]
+  by simp
 
 
 end

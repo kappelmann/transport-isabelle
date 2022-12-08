@@ -17,16 +17,16 @@ lemma Galois_Frel_Galois: "(\<^bsub>L\<^esub>\<lessapprox>) \<le> Frel (\<^bsub>
   apply (subst (asm) Frel_Fmap_eq2)
   apply (rule Frel_mono_strong,
     assumption;
-    rule g1.GaloisI g2.GaloisI g3.GaloisI;
+    rule t1.GaloisI t2.GaloisI t3.GaloisI;
     assumption)
   done
 
 lemma Frel_Galois_le_Galois:
   "Frel (\<^bsub>L1\<^esub>\<lessapprox>) (\<^bsub>L2\<^esub>\<lessapprox>) (\<^bsub>L3\<^esub>\<lessapprox>) \<le> (\<^bsub>L\<^esub>\<lessapprox>)"
   apply (rule le_relI)
-  apply (unfold g1.Galois_iff_in_codom_and_left_rel_right
-    g2.Galois_iff_in_codom_and_left_rel_right
-    g3.Galois_iff_in_codom_and_left_rel_right)
+  apply (unfold t1.Galois_iff_in_codom_and_left_rel_right
+    t2.Galois_iff_in_codom_and_left_rel_right
+    t3.Galois_iff_in_codom_and_left_rel_right)
   apply (fold
     restrict_right_eq[of "\<lambda>x y. x \<le>\<^bsub>L1\<^esub> r1 y" "in_codom (\<le>\<^bsub>R1\<^esub>)",
       unfolded restrict_left_pred_def rel_inv_iff_rel]

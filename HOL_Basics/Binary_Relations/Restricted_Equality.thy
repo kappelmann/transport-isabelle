@@ -52,9 +52,13 @@ lemma eq_restrict_iff: "x =\<^bsub>P\<^esub> y \<longleftrightarrow> y = x \<and
 lemma eq_restrict_le_eq: "(=\<^bsub>P :: 'a \<Rightarrow> bool\<^esub> :: 'a \<Rightarrow> _) \<le> (=)"
   by (intro le_relI) auto
 
+lemma eq_restrict_top_eq_eq [simp]: "(=\<^bsub>\<top> :: 'a \<Rightarrow> bool\<^esub>) = ((=) :: 'a \<Rightarrow> _)"
+  unfolding eq_restrict_eq_eq_restrict_left by simp
+
 lemma in_dom_eq_restrict_eq [simp]: "in_dom (=\<^bsub>P\<^esub>) = P" by auto
 lemma in_codom_eq_restrict_eq [simp]: "in_codom (=\<^bsub>P\<^esub>) = P" by auto
 lemma in_field_eq_restrict_eq [simp]: "in_field (=\<^bsub>P\<^esub>) = P" by auto
+
 
 subsubsection \<open>Order Properties\<close>
 

@@ -6,8 +6,6 @@ theory TLifting_Integers
     TLifting_Sets
 begin
 
-declare[[eta_contract]]
-
 interpretation int_lifting: set_extension_lifting \<nat> int_rep Int_Rep_nonneg
   using set_extension_lifting.intro Int.set_extension_axioms .
 

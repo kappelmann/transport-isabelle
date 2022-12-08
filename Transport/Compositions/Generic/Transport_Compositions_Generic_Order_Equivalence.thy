@@ -36,11 +36,11 @@ proof (rule inflationary_onI)
     with refl_R1 have "l1 x \<le>\<^bsub>R1\<^esub> l1 x" by blast
     moreover from \<open>in_dom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_dom (\<le>\<^bsub>L1\<^esub>) x" by blast
     moreover note inflationary_unit1
-    ultimately show "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by (intro g1.GaloisI) auto
+    ultimately show "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by (intro t1.GaloisI) auto
     from \<open>in_dom (\<le>\<^bsub>L\<^esub>) x\<close> mono_in_dom_l1 have "in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
     with inflationary_unit2 show "l1 x \<le>\<^bsub>L2\<^esub> r2 (l x)" by auto
     show "r2 (l x) \<^bsub>R1\<^esub>\<lessapprox> \<eta> x"
-    proof (rule flip.g2.GaloisI)
+    proof (rule flip.t2.GaloisI)
       from refl_L2 \<open>in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)\<close> have "l1 x \<le>\<^bsub>L2\<^esub> l1 x" by blast
       with in_codom_rel_comp_le \<open>l1 x \<le>\<^bsub>R1\<^esub> l1 x\<close> \<open>l1 x \<le>\<^bsub>L2\<^esub> r2 (l x)\<close>
         have "in_codom (\<le>\<^bsub>R1\<^esub>) (r2 (l x))" by blast
@@ -67,11 +67,11 @@ proof (rule inflationary_onI)
   show "x \<le>\<^bsub>L\<^esub> \<eta> x"
   proof (rule left_relI)
     from \<open>in_codom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_codom (\<le>\<^bsub>L1\<^esub>) x" "in_codom (\<le>\<^bsub>R1\<^esub>) (l1 x)" by blast+
-    with inflationary_unit1 show "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by (intro g1.GaloisI) auto
+    with inflationary_unit1 show "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by (intro t1.GaloisI) auto
     from mono_in_codom_l1 \<open>in_codom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_codom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
     with inflationary_unit2 show "l1 x \<le>\<^bsub>L2\<^esub> r2 (l x)" by auto
     show "r2 (l x) \<^bsub>R1\<^esub>\<lessapprox> \<eta> x"
-    proof (rule flip.g2.GaloisI)
+    proof (rule flip.t2.GaloisI)
       from refl_L2 \<open>in_codom (\<le>\<^bsub>L2\<^esub>) (l1 x)\<close> have "l1 x \<le>\<^bsub>L2\<^esub> l1 x" by blast
       moreover from refl_R1 \<open>in_codom (\<le>\<^bsub>R1\<^esub>) (l1 x)\<close> have "l1 x \<le>\<^bsub>R1\<^esub> l1 x" by blast
       moreover note in_codom_rel_comp_le \<open>l1 x \<le>\<^bsub>L2\<^esub> r2 (l x)\<close>
@@ -130,7 +130,7 @@ proof (rule deflationary_onI)
     from mono_in_dom_l1 \<open>in_dom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
     with deflationary_L2 show "r2 (l x) \<le>\<^bsub>L2\<^esub> l1 x" by auto
     show "\<eta> x \<^bsub>L1\<^esub>\<lessapprox> r2 (l x)"
-    proof (rule g1.GaloisI)
+    proof (rule t1.GaloisI)
       from refl_L2 \<open>in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)\<close> have "l1 x \<le>\<^bsub>L2\<^esub> l1 x" by blast
       with in_dom_rel_comp_le \<open>r2 (l x) \<le>\<^bsub>L2\<^esub> l1 x\<close> \<open>l1 x \<le>\<^bsub>R1\<^esub> l1 x\<close>
         have "in_dom (\<le>\<^bsub>R1\<^esub>) (r2 (l x))" by blast
@@ -163,7 +163,7 @@ proof (rule deflationary_onI)
     from mono_in_codom_l1 \<open>in_codom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_codom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
     with deflationary_L2 show "r2 (l x) \<le>\<^bsub>L2\<^esub> l1 x" by auto
     show "\<eta> x \<^bsub>L1\<^esub>\<lessapprox> r2 (l x)"
-    proof (rule g1.GaloisI)
+    proof (rule t1.GaloisI)
       from refl_L2 \<open>in_codom (\<le>\<^bsub>L2\<^esub>) (l1 x)\<close> have "l1 x \<le>\<^bsub>L2\<^esub> l1 x" by blast
       with in_dom_rel_comp_le \<open>r2 (l x) \<le>\<^bsub>L2\<^esub> l1 x\<close> \<open>l1 x \<le>\<^bsub>R1\<^esub> l1 x\<close>
         have "in_dom (\<le>\<^bsub>R1\<^esub>) (r2 (l x))" by blast
@@ -225,8 +225,8 @@ text \<open>Corresponding lemmas for the counit can be obtained by flipping the
 interpretation of the locale, i.e.
 \<open>
 interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1
-  rewrites "flip.g2.unit \<equiv> \<epsilon>\<^sub>1" and "flip.g2.counit \<equiv> \<eta>\<^sub>1"
-  and "flip.g1.unit \<equiv> \<epsilon>\<^sub>2" and "flip.g1.counit \<equiv> \<eta>\<^sub>2"
+  rewrites "flip.t2.unit \<equiv> \<epsilon>\<^sub>1" and "flip.t2.counit \<equiv> \<eta>\<^sub>1"
+  and "flip.t1.unit \<equiv> \<epsilon>\<^sub>2" and "flip.t1.counit \<equiv> \<eta>\<^sub>2"
   and "flip.unit \<equiv> \<epsilon>" and "flip.counit \<equiv> \<eta>"
   unfolding transport_comp.transport_defs
   by (auto simp: order_functors.flip_counit_eq_unit)
@@ -239,8 +239,8 @@ end
 paragraph \<open>Order Equivalence\<close>
 
 interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1
-  rewrites "flip.g2.unit \<equiv> \<epsilon>\<^sub>1" and "flip.g2.counit \<equiv> \<eta>\<^sub>1"
-  and "flip.g1.unit \<equiv> \<epsilon>\<^sub>2" and "flip.g1.counit \<equiv> \<eta>\<^sub>2"
+  rewrites "flip.t2.unit \<equiv> \<epsilon>\<^sub>1" and "flip.t2.counit \<equiv> \<eta>\<^sub>1"
+  and "flip.t1.unit \<equiv> \<epsilon>\<^sub>2" and "flip.t1.counit \<equiv> \<eta>\<^sub>2"
   and "flip.counit \<equiv> \<eta>" and "flip.unit \<equiv> \<epsilon>"
   by (simp_all only: order_functors.flip_counit_eq_unit)
 
@@ -257,28 +257,25 @@ lemma order_equivalenceI:
   and "inflationary_on (in_field (\<le>\<^bsub>R2\<^esub>)) (\<le>\<^bsub>R2\<^esub>) \<epsilon>\<^sub>2"
   and "reflexive_on (in_field (\<le>\<^bsub>L2\<^esub>)) (\<le>\<^bsub>L2\<^esub>)"
   and "reflexive_on (in_field (\<le>\<^bsub>R2\<^esub>)) (\<le>\<^bsub>R2\<^esub>)"
-  and rel_comp_les1: "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-    "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom (\<le>\<^bsub>L2\<^esub>)"
-  and rel_comp_les2: "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-    "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
+  and middle_compatible: "middle_compatible_codom"
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^sub>o (\<le>\<^bsub>R\<^esub>)) l r"
 proof (rule order_equivalenceI)
   show "((\<le>\<^bsub>L\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R\<^esub>)) l" using rel_equiv_unit2 \<open>((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1\<close>
-      \<open>((\<le>\<^bsub>L2\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R2\<^esub>)) l2\<close> rel_comp_les1
+      \<open>((\<le>\<^bsub>L2\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R2\<^esub>)) l2\<close> middle_compatible
     by (intro mono_wrt_rel_leftI) auto
   show "((\<le>\<^bsub>R\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L\<^esub>)) r" using rel_equiv_counit1 \<open>((\<le>\<^bsub>R2\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>L2\<^esub>)) r2 l2\<close>
-      \<open>((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1\<close> rel_comp_les2
+      \<open>((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1\<close> middle_compatible
     by (intro flip.mono_wrt_rel_leftI)
     (auto intro: inflationary_on_if_le_pred_if_inflationary_on
       in_field_if_in_codom)
-  from rel_comp_les1 rel_comp_les2 have in_dom_rel_comp_les:
+  from middle_compatible have in_dom_rel_comp_les:
     "in_dom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_dom (\<le>\<^bsub>L2\<^esub>)"
     "in_dom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_dom ((\<le>\<^bsub>R1\<^esub>))"
     by (auto intro: in_dom_right1_left2_right1_le_if_right1_left2_right1_le
       flip.in_dom_right1_left2_right1_le_if_right1_left2_right1_le)
   moreover then have "([in_dom (\<le>\<^bsub>L\<^esub>)] \<Rrightarrow>\<^sub>m in_dom (\<le>\<^bsub>L2\<^esub>)) l1"
     and "([in_codom (\<le>\<^bsub>L\<^esub>)] \<Rrightarrow>\<^sub>m in_codom (\<le>\<^bsub>L2\<^esub>)) l1"
-    using \<open>((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1\<close> rel_comp_les1
+    using \<open>((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1\<close> middle_compatible
     by (auto intro: mono_in_dom_left_rel_left1_if_in_dom_rel_comp_le
       mono_in_codom_left_rel_left1_if_in_codom_rel_comp_le)
   ultimately show "rel_equivalence_on (in_field (\<le>\<^bsub>L\<^esub>)) (\<le>\<^bsub>L\<^esub>) \<eta>"
@@ -288,7 +285,7 @@ proof (rule order_equivalenceI)
   note in_dom_rel_comp_les
   moreover then have "([in_dom (\<le>\<^bsub>R\<^esub>)] \<Rrightarrow>\<^sub>m in_dom (\<le>\<^bsub>R1\<^esub>)) r2"
     and "([in_codom (\<le>\<^bsub>R\<^esub>)] \<Rrightarrow>\<^sub>m in_codom (\<le>\<^bsub>R1\<^esub>)) r2"
-    using \<open>((\<le>\<^bsub>R2\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>L2\<^esub>)) r2 l2\<close> rel_comp_les2
+    using \<open>((\<le>\<^bsub>R2\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>L2\<^esub>)) r2 l2\<close> middle_compatible
     by (auto intro!: flip.mono_in_dom_left_rel_left1_if_in_dom_rel_comp_le
       flip.mono_in_codom_left_rel_left1_if_in_codom_rel_comp_le)
   ultimately show "rel_equivalence_on (in_field (\<le>\<^bsub>R\<^esub>)) (\<le>\<^bsub>R\<^esub>) \<epsilon>"
@@ -304,16 +301,13 @@ corollary order_equivalence_if_order_equivalenceI:
   and "((\<le>\<^bsub>L2\<^esub>) \<equiv>\<^sub>o (\<le>\<^bsub>R2\<^esub>)) l2 r2"
   and "transitive (\<le>\<^bsub>L2\<^esub>)"
   and "reflexive_on (in_field (\<le>\<^bsub>R2\<^esub>)) (\<le>\<^bsub>R2\<^esub>)"
-  and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-  and "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom (\<le>\<^bsub>L2\<^esub>)"
-  and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
+  and "middle_compatible_codom"
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^sub>o (\<le>\<^bsub>R\<^esub>)) l r"
   using assms by (intro order_equivalenceI) (auto
-    elim!: g1.order_equivalenceE g2.order_equivalenceE rel_equivalence_onE
+    elim!: t1.order_equivalenceE t2.order_equivalenceE rel_equivalence_onE
     intro!: reflexive_on_in_field_if_transitive_if_rel_equivalence_on
-      g1.half_galois_prop_left_left_right_if_transitive_if_deflationary_on_if_mono_wrt_rel
-      flip.g1.half_galois_prop_left_left_right_if_transitive_if_deflationary_on_if_mono_wrt_rel
+      t1.half_galois_prop_left_left_right_if_transitive_if_deflationary_on_if_mono_wrt_rel
+      flip.t1.half_galois_prop_left_left_right_if_transitive_if_deflationary_on_if_mono_wrt_rel
     intro: deflationary_on_if_le_pred_if_deflationary_on in_field_if_in_codom)
 
 corollary order_equivalence_if_galois_equivalenceI:
@@ -323,17 +317,14 @@ corollary order_equivalence_if_galois_equivalenceI:
   and "((\<le>\<^bsub>L2\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R2\<^esub>)) l2 r2"
   and "reflexive_on (in_field (\<le>\<^bsub>L2\<^esub>)) (\<le>\<^bsub>L2\<^esub>)"
   and "reflexive_on (in_field (\<le>\<^bsub>R2\<^esub>)) (\<le>\<^bsub>R2\<^esub>)"
-  and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-  and "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom (\<le>\<^bsub>L2\<^esub>)"
-  and "((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
+  and "middle_compatible_codom"
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^sub>o (\<le>\<^bsub>R\<^esub>)) l r"
   using assms by (intro order_equivalenceI)
-  (auto elim!: g1.galois_equivalenceE g2.galois_equivalenceE
-    intro!: g1.inflationary_on_unit_if_reflexive_on_if_galois_equivalence
-      flip.g1.inflationary_on_unit_if_reflexive_on_if_galois_equivalence
-      g2.rel_equivalence_on_unit_if_reflexive_on_if_galois_equivalence
-      flip.g2.rel_equivalence_on_unit_if_reflexive_on_if_galois_equivalence)
+  (auto elim!: t1.galois_equivalenceE t2.galois_equivalenceE
+    intro!: t1.inflationary_on_unit_if_reflexive_on_if_galois_equivalence
+      flip.t1.inflationary_on_unit_if_reflexive_on_if_galois_equivalence
+      t2.rel_equivalence_on_unit_if_reflexive_on_if_galois_equivalence
+      flip.t2.rel_equivalence_on_unit_if_reflexive_on_if_galois_equivalence)
 
 end
 
