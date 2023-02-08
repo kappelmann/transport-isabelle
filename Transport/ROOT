@@ -16,3 +16,16 @@ session Transport = "HOL" +
   theories
     Transport
 
+session Transport_Examples in Examples = "Transport" +
+  description
+    "Examples using the Transport framework"
+  options
+    [timeout = 20]
+  sessions
+    Isabelle_Set
+    E_Unification
+  directories
+    "Typedef"
+  theories
+    Transport_PEE
+

@@ -15,12 +15,12 @@ grammar whenever using a of the form "definition c \<equiv> t"*)
 bundle bi_related_syntax begin
 syntax
   "_bi_related" :: "'a \<Rightarrow> ('a \<Rightarrow> 'a \<Rightarrow> bool) \<Rightarrow> 'a \<Rightarrow> bool" ("(_) \<equiv>\<^bsub>(_)\<^esub> (_)" [51,51,51] 50)
-notation bi_related ("(\<equiv>\<^bsub>_\<^esub>)" 50)
+notation bi_related ("'(\<equiv>(\<^bsub>_\<^esub>)')")
 end
 bundle no_bi_related_syntax begin
 no_syntax
   "_bi_related" :: "'a \<Rightarrow> ('a \<Rightarrow> 'a \<Rightarrow> bool) \<Rightarrow> 'a \<Rightarrow> bool" ("(_) \<equiv>\<^bsub>(_)\<^esub> (_)" [51,51,51] 50)
-no_notation bi_related ("(\<equiv>\<^bsub>_\<^esub>)" 50)
+no_notation bi_related ("'(\<equiv>(\<^bsub>_\<^esub>)')")
 end
 unbundle bi_related_syntax
 translations

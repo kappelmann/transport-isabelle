@@ -59,7 +59,7 @@ syntax
 
 translations
   "[x y \<Colon> R | P]" \<rightleftharpoons> "CONST rel_adj R (\<lambda>x y. P)"
-  "R \<Rrightarrow> S" \<rightleftharpoons> "CONST no_dep_rel_fun R S"rel_fun
+  "R \<Rrightarrow> S" \<rightleftharpoons> "CONST no_dep_rel_fun R S"
   "[x y \<Colon> R] \<Rrightarrow> S" \<rightleftharpoons> "CONST dep_rel_fun R (\<lambda>x y. S)"
   "[x y \<Colon> R | P] \<Rrightarrow> S" \<rightharpoonup> "CONST dep_rel_fun (CONST rel_adj R (\<lambda>x y. P)) (\<lambda>x y. S)"
   "[P \<longrightarrow> R]" \<rightleftharpoons> "CONST rel_weak P R"

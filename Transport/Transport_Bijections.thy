@@ -172,6 +172,12 @@ sublocale tper_bij? : transport_partial_equivalence_bijection "(=\<^bsub>P\<^esu
     flip_of.mono_wrt_rel_left_if_reflexive_on_if_le_eq_if_mono_wrt_in_field
       [of "in_field (=\<^bsub>P\<^esub>)"])
 
+lemma Galois_eq_Galois_eq_eq_restrict: "(\<^bsub>L\<^esub>\<lessapprox>) = (galois_rel.Galois (=) (=) r)\<restriction>\<^bsub>P\<^esub>\<upharpoonleft>\<^bsub>Q\<^esub>"
+  by (subst galois_rel.Galois_restrict_left_eq_Galois_left_restrict_left
+    galois_rel.Galois_restrict_right_eq_Galois_right_restrict_right
+    restrict_right_eq rel_inv_eq_self_if_symmetric)+
+  (auto simp: eq_restrict_eq_eq_restrict_left)
+
 end
 
 locale transport_eq_bijection =

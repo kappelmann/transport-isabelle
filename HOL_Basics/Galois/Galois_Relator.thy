@@ -38,6 +38,16 @@ corollary Galois_iff_in_codom_and_left_rel_right:
   "x \<^bsub>L\<^esub>\<lessapprox> y \<longleftrightarrow> in_codom (\<le>\<^bsub>R\<^esub>) y \<and> x \<le>\<^bsub>L\<^esub> r y"
   by blast
 
+lemma Galois_restrict_left_eq_Galois_left_restrict_left:
+  "(\<^bsub>L\<^esub>\<lessapprox>)\<restriction>\<^bsub>P :: 'a \<Rightarrow> bool\<^esub> = galois_rel.Galois (\<le>\<^bsub>L\<^esub>)\<restriction>\<^bsub>P\<^esub> (\<le>\<^bsub>R\<^esub>) r"
+  by (intro ext iffI galois_rel.GaloisI restrict_leftI)
+  (auto elim: galois_rel.GaloisE)
+
+lemma Galois_restrict_right_eq_Galois_right_restrict_right:
+  "(\<^bsub>L\<^esub>\<lessapprox>)\<upharpoonleft>\<^bsub>P :: 'd \<Rightarrow> bool\<^esub> = galois_rel.Galois (\<le>\<^bsub>L\<^esub>) (\<le>\<^bsub>R\<^esub>)\<upharpoonleft>\<^bsub>P\<^esub> r"
+  by (intro ext iffI galois_rel.GaloisI restrict_rightI)
+  (auto elim!: galois_rel.GaloisE restrict_rightE)
+
 end
 
 context galois_prop

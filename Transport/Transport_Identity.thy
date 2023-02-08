@@ -12,6 +12,11 @@ begin
 sublocale tbij? : transport_bijection L L id id
   by (intro transport_bijection.intro) auto
 
+interpretation transport L L id id .
+
+lemma Galois_eq_left: "(\<^bsub>L\<^esub>\<lessapprox>) = (\<le>\<^bsub>L\<^esub>)"
+  by (intro ext iffI) auto
+
 end
 
 locale transport_reflexive_on_in_field_id =
@@ -50,5 +55,6 @@ interpretation transport_eq_restrict_id :
 
 interpretation transport_eq_id : transport_eq_bijection id id
   using bijection_on_self_id by (unfold_locales) auto
+
 
 end

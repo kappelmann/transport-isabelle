@@ -182,13 +182,13 @@ end
 
 bundle restrict_syntax
 begin
-notation restrict_left ("(_)\<restriction>\<^bsub>(_)\<^esub>" [1000])
-notation restrict_right ("(_)\<upharpoonleft>\<^bsub>(_)\<^esub>" [1000])
+notation restrict_left ("(_)\<restriction>(\<^bsub>_\<^esub>)" [1000])
+notation restrict_right ("(_)\<upharpoonleft>(\<^bsub>_\<^esub>)" [1000])
 end
 bundle no_restrict_syntax
 begin
-no_notation restrict_left ("(_)\<restriction>\<^bsub>(_)\<^esub>" [1000])
-no_notation restrict_right ("(_)\<upharpoonleft>\<^bsub>(_)\<^esub>" [1000])
+no_notation restrict_left ("(_)\<restriction>(\<^bsub>_\<^esub>)" [1000])
+no_notation restrict_right ("(_)\<upharpoonleft>(\<^bsub>_\<^esub>)" [1000])
 end
 unbundle restrict_syntax
 
