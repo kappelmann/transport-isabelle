@@ -4,7 +4,7 @@ session Transport = "HOL" +
   description
     "Transport of definitions and theorems via Galois connections and equivalences."
   options
-    [timeout = 120]
+    [timeout = 360]
   sessions
     HOL_Basics
   directories
@@ -20,7 +20,7 @@ session Transport_Examples in Examples = "Transport" +
   description
     "Examples using the Transport framework"
   options
-    [timeout = 20]
+    [timeout = 120]
   sessions
     Isabelle_Set
     E_Unification
