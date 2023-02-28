@@ -4,7 +4,7 @@ theory Restricted_Equality
   imports
     Binary_Relations_Order_Base
     Binary_Relation_Functions
-    Equivalences
+    Equivalence_Relations
     Partial_Orders
 begin
 
@@ -78,14 +78,14 @@ context
 begin
 lemma preorder_on_eq_restrict: "preorder_on P ((=\<^bsub>P\<^esub>) :: 'a \<Rightarrow> _)"
   using reflexive_on_eq_restrict transitive_eq_restrict by auto
-lemma partial_equivalence_eq_restrict: "partial_equivalence ((=\<^bsub>P\<^esub>) :: 'a \<Rightarrow> _)"
+lemma partial_equivalence_rel_eq_restrict: "partial_equivalence_rel ((=\<^bsub>P\<^esub>) :: 'a \<Rightarrow> _)"
   using symmetric_eq_restrict transitive_eq_restrict by auto
 end
 
 lemma partial_order_on_eq_restrict: "partial_order_on P ((=\<^bsub>P\<^esub>) :: 'a \<Rightarrow> _)"
   using preorder_on_eq_restrict antisymmetric_eq_restrict by auto
-lemma equivalence_on_eq_restrict: "equivalence_on P ((=\<^bsub>P\<^esub>) :: 'a \<Rightarrow> _)"
-  using partial_equivalence_eq_restrict reflexive_on_eq_restrict by blast
+lemma equivalence_rel_on_eq_restrict: "equivalence_rel_on P ((=\<^bsub>P\<^esub>) :: 'a \<Rightarrow> _)"
+  using partial_equivalence_rel_eq_restrict reflexive_on_eq_restrict by blast
 end
 
 

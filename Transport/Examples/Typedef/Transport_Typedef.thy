@@ -2,7 +2,7 @@ theory Transport_Typedef
   imports
     Main
     Transport_Typedef_Base
-    Transport_PEE
+    Transport_PER
     Transport_Syntax
 begin
 
@@ -30,8 +30,8 @@ lemma eq_restrict_set_eq_eq_unif_hint [unif_hint]:
 
 (*could also automatically tagged for every instance in type_definition*)
 declare
-  typedef_pint.partial_equivalence_equivalence[pee_intro]
-  typedef_fset.partial_equivalence_equivalence[pee_intro]
+  typedef_pint.partial_equivalence_rel_equivalence[per_intro]
+  typedef_fset.partial_equivalence_rel_equivalence[per_intro]
 
 
 lemma one_parametric [transport_parametric]: "typedef_pint.L 1 1"
@@ -173,7 +173,7 @@ begin
 interpretation transport L R l r .
 
 (*proven for all natural functors*)
-lemma transport_pee_set: "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r" sorry
+lemma transport_per_set: "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r" sorry
 
 end
 
@@ -188,9 +188,9 @@ transport_term fempty_param :: "'b fset"
   where x = "{} :: 'a set"
   and L = "transport_comp.L ?L1 ?R1 (?l1 :: 'a set \<Rightarrow> 'b set) ?r1 typedef_fset.L"
   and R = "transport_comp.L typedef_fset.R typedef_fset.L ?r2 ?l2 ?R1"
-  apply (rule transport_comp.partial_equivalence_equivalenceI)
-    apply (rule transport_pee_set[OF per1])
-    apply pee_prover
+  apply (rule transport_comp.partial_equivalence_rel_equivalenceI)
+    apply (rule transport_per_set[OF per1])
+    apply per_prover
     apply (fact compat)
   apply (rule transport_comp.left_relI[where ?y="{}" and ?y'="{}"])
     apply (auto intro!: galois_rel.GaloisI in_codomI empty_transfer)
@@ -243,16 +243,16 @@ lemma pint_middle_compat:
 
 transport_term pint_fset_succ :: "pint fset \<Rightarrow> pint fset"
   where x = "set_succ :: int set \<Rightarrow> int set"
-  apply (rule transport_Fun_Rel.partial_equivalence_equivalenceI)
-    apply (rule transport_comp.partial_equivalence_equivalenceI)
-      apply (rule transport_pee_set)
-      apply (rule typedef_pint.partial_equivalence_equivalence)
-      apply pee_prover
+  apply (rule transport_Fun_Rel.partial_equivalence_rel_equivalenceI)
+    apply (rule transport_comp.partial_equivalence_rel_equivalenceI)
+      apply (rule transport_per_set)
+      apply (rule typedef_pint.partial_equivalence_rel_equivalence)
+      apply per_prover
       apply (fact pint_middle_compat)
-    apply (rule transport_comp.partial_equivalence_equivalenceI)
-      apply (rule transport_pee_set)
-      apply (rule typedef_pint.partial_equivalence_equivalence)
-      apply pee_prover
+    apply (rule transport_comp.partial_equivalence_rel_equivalenceI)
+      apply (rule transport_per_set)
+      apply (rule typedef_pint.partial_equivalence_rel_equivalence)
+      apply per_prover
       apply (fact pint_middle_compat)
   apply (simp add: transport_def)
   apply (intro Dep_Fun_Rel_relI)

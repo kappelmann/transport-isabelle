@@ -213,24 +213,24 @@ proof -
     by (subst symmetric_iff_rel_inv_eq_self) (simp add: rel_comp_assoc)
 qed
 
-lemma partial_equivalence_leftI:
+lemma partial_equivalence_rel_leftI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "in_codom (\<le>\<^bsub>L1\<^esub>) = in_dom (\<le>\<^bsub>L1\<^esub>)"
   and "symmetric (\<le>\<^bsub>R1\<^esub>)"
-  and "partial_equivalence (\<le>\<^bsub>L2\<^esub>)"
+  and "partial_equivalence_rel (\<le>\<^bsub>L2\<^esub>)"
   and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
-  shows "partial_equivalence (\<le>\<^bsub>L\<^esub>)"
-  using assms by (intro partial_equivalenceI transitive_leftI symmetric_leftI)
+  shows "partial_equivalence_rel (\<le>\<^bsub>L\<^esub>)"
+  using assms by (intro partial_equivalence_relI transitive_leftI symmetric_leftI)
   auto
 
-lemma partial_equivalence_leftI':
+lemma partial_equivalence_rel_leftI':
   assumes "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "in_codom (\<le>\<^bsub>L1\<^esub>) = in_dom (\<le>\<^bsub>L1\<^esub>)"
   and "symmetric (\<le>\<^bsub>R1\<^esub>)"
-  and "partial_equivalence (\<le>\<^bsub>L2\<^esub>)"
+  and "partial_equivalence_rel (\<le>\<^bsub>L2\<^esub>)"
   and "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
-  shows "partial_equivalence (\<le>\<^bsub>L\<^esub>)"
-  using assms by (intro partial_equivalenceI transitive_leftI' symmetric_leftI)
+  shows "partial_equivalence_rel (\<le>\<^bsub>L\<^esub>)"
+  using assms by (intro partial_equivalence_relI transitive_leftI' symmetric_leftI)
   auto
 
 end

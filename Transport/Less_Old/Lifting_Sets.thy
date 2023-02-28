@@ -253,9 +253,9 @@ lemma symmetric_Eq_Rel: "symmetric (Eq_Rel A)"
 lemma transitive_Eq_Rel: "transitive (Eq_Rel A)"
   by (rule transitiveI) (blast intro: Eq_RelI elim: Eq_RelE)
 
-lemma partial_equivalence_Eq_Rel: "partial_equivalence (Eq_Rel A)"
+lemma partial_equivalence_rel_Eq_Rel: "partial_equivalence_rel (Eq_Rel A)"
   using symmetric_Eq_Rel transitive_Eq_Rel
-  by (rule partial_equivalenceI)
+  by (rule partial_equivalence_relI)
 
 lemma injective_Eq_Rel: "injective (Eq_Rel A)"
   using bijection_id

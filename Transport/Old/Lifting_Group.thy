@@ -7,20 +7,20 @@ begin
 definition "rel_comp' R S x y \<equiv> (\<exists>z. S x z \<and> R z y)"
 definition "rel_inv R x y \<equiv> R y x"
 
-lemma per_idemp: "partial_equivalence Eq \<Longrightarrow> Eq = rel_comp' Eq Eq"
-  unfolding partial_equivalence_unfold rel_comp'_def
+lemma per_idemp: "partial_equivalence_rel Eq \<Longrightarrow> Eq = rel_comp' Eq Eq"
+  unfolding partial_equivalence_rel_unfold rel_comp'_def
   by blast
 
-lemma per_inv: "partial_equivalence Eq \<Longrightarrow> Eq = rel_inv Eq"
-  unfolding partial_equivalence_unfold rel_inv_def
+lemma per_inv: "partial_equivalence_rel Eq \<Longrightarrow> Eq = rel_inv Eq"
+  unfolding partial_equivalence_rel_unfold rel_inv_def
   by blast
 
-lemma per_sym: "partial_equivalence R \<Longrightarrow> R x y \<Longrightarrow> R y x"
-  unfolding partial_equivalence_unfold
+lemma per_sym: "partial_equivalence_rel R \<Longrightarrow> R x y \<Longrightarrow> R y x"
+  unfolding partial_equivalence_rel_unfold
   by blast
 
-lemma per_trans: "partial_equivalence R \<Longrightarrow> R x y \<Longrightarrow> R y z \<Longrightarrow> R x z"
-  unfolding partial_equivalence_unfold
+lemma per_trans: "partial_equivalence_rel R \<Longrightarrow> R x y \<Longrightarrow> R y z \<Longrightarrow> R x z"
+  unfolding partial_equivalence_rel_unfold
   by blast
 
 lemma rel_comp'I: "R x y \<Longrightarrow> S y z \<Longrightarrow> rel_comp' S R x z"
@@ -79,7 +79,7 @@ lemma inv_lifting:
   by metis+
 
 lemma
-  assumes "partial_equivalence R" "partial_equivalence S" "R x x" "S x x" "R y y" "S y y"
+  assumes "partial_equivalence_rel R" "partial_equivalence_rel S" "R x x" "S x x" "R y y" "S y y"
   shows "rel_comp' R S x y = rel_comp' S R x y"
 proof (rule iffI)
   fix x y
@@ -87,13 +87,13 @@ proof (rule iffI)
   obtain z where z: "S x z" "R z y"
     using prem unfolding rel_comp'_def by blast
   have 1: "S z x" "R y z"
-    using z assms unfolding partial_equivalence_unfold by blast+
+    using z assms unfolding partial_equivalence_rel_unfold by blast+
   show "rel_comp' S R x y"
     using z unfolding rel_comp'_def
     oops
 
 lemma
-  assumes "partial_equivalence R" "partial_equivalence S"
+  assumes "partial_equivalence_rel R" "partial_equivalence_rel S"
   shows "rel_comp' R S = rel_comp' S R"
 proof ((rule ext)+, rule iffI)
   fix x y
@@ -101,7 +101,7 @@ proof ((rule ext)+, rule iffI)
   obtain z where z: "S x z" "R z y"
     using prem unfolding rel_comp'_def by blast
   have 1: "S z x" "R y z"
-    using z assms unfolding partial_equivalence_unfold by blast+
+    using z assms unfolding partial_equivalence_rel_unfold by blast+
   show "rel_comp' S R x y"
     using z unfolding rel_comp'_def
 

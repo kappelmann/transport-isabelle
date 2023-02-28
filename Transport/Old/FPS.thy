@@ -18,7 +18,7 @@ locale formal_power_series =
   fixes A R :: set
     and Eq :: "set \<Rightarrow> set \<Rightarrow> bool"
   assumes Ring_R [type]: "R : Ring (Element A)"
-      and per_Eq: "partial_equivalence Eq"
+      and per_Eq: "partial_equivalence_rel Eq"
       and elem_A_iff_Eq: "x \<in> A = Eq x x"
 begin
 
@@ -109,8 +109,8 @@ lemma fps_rel_in_fps_rep:
   using assms[unfolded fps_rel_def]
   by blast+
 
-lemma fps_rel_peserves_per: "partial_equivalence S \<Longrightarrow> partial_equivalence (fps_rel S)"
-  unfolding partial_equivalence_unfold fps_rel_def
+lemma fps_rel_peserves_per: "partial_equivalence_rel S \<Longrightarrow> partial_equivalepartial_equivalence_rel
+  unfolding partial_equivalence_rel_unfold fps_rel_def
    by blast
 
 
@@ -145,8 +145,8 @@ definition fps_rel :: "set \<Rightarrow> set \<Rightarrow> (set \<Rightarrow> se
   where "fps_rel A B R s1 s2 \<equiv>
     s1 \<in> A \<and> s2 \<in> B \<and> (\<forall>n\<in>\<nat>. R (s1`n) (s2`n))"
 
-lemma fps_rel_preseves_per: "partial_equivalence S \<Longrightarrow> partial_equivalence (fps_rel A A S)"
-  unfolding partial_equivalence_unfold fps_rel_def
+lemma fps_rel_preseves_per: "partial_equivalence_rel S \<Longrightarrow> partial_equivalepartial_equivalence_rel"
+  unfolding partial_equivalence_rel_unfold fps_rel_def
   by blast
 
 definition Eq_fps_rep_rep :: "set \<Rightarrow> set \<Rightarrow> bool"

@@ -1,6 +1,7 @@
-theory Transport_PEE
+theory Transport_PER
   imports
     Transport.Transport
+    Transport_Rel_If
     "HOL-Eisbach.Eisbach"
     E_Unification.E_Unification
   keywords "transport_term" :: thy_goal_defn
@@ -9,26 +10,26 @@ begin
 context transport
 begin
 
-lemma Galois_left_if_left_rel_if_partial_equivalence_equivalence:
+lemma Galois_left_if_left_rel_if_partial_equivalence_rel_equivalence:
   assumes "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
   and "x \<le>\<^bsub>L\<^esub> x"
   shows "x \<^bsub>L\<^esub>\<lessapprox> l x"
   using assms by (intro Galois_left_if_left_rel_if_inflationary_on_in_fieldI)
   (blast elim: preorder_equivalence_order_equivalenceE)+
 
-definition "transport_pee x y \<equiv> ((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r \<and> x \<^bsub>L\<^esub>\<lessapprox> y"
+definition "transport_per x y \<equiv> ((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r \<and> x \<^bsub>L\<^esub>\<lessapprox> y"
 
-lemma transport_pee_start:
+lemma transport_per_start:
   assumes "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
   and "x \<le>\<^bsub>L\<^esub> x"
-  shows "transport_pee x (l x)"
-  using assms unfolding transport_pee_def
-  by (blast intro: Galois_left_if_left_rel_if_partial_equivalence_equivalence)
+  shows "transport_per x (l x)"
+  using assms unfolding transport_per_def
+  by (blast intro: Galois_left_if_left_rel_if_partial_equivalence_rel_equivalence)
 
-lemma Galois_left_if_transport_pee:
-  assumes "transport_pee x y"
+lemma Galois_left_if_transport_per:
+  assumes "transport_per x y"
   shows "x \<^bsub>L\<^esub>\<lessapprox> y"
-  using assms unfolding transport_pee_def by blast
+  using assms unfolding transport_per_def by blast
 
 end
 
@@ -47,12 +48,12 @@ proof (intro ext)
     moreover have "g \<le>\<^bsub>R\<^esub> g"
     proof -
       from assms have per: "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
-      by (intro partial_equivalence_equivalenceI) auto
+        by (intro partial_equivalence_rel_equivalenceI) auto
       with \<open>f \<^bsub>L\<^esub>\<lessapprox> g\<close> show ?thesis by blast
     qed
     ultimately show "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>)) f g" using assms
       by (intro Fun_Rel_Galois_if_GaloisI)
-      (auto elim!: tdfrs.t1.partial_equivalence_equivalenceE
+      (auto elim!: tdfrs.t1.partial_equivalence_rel_equivalenceE
         tdfrs.t1.preorder_equivalence_galois_equivalenceE
         tdfrs.t1.galois_equivalenceE
         intro: reflexive_on_if_le_pred_if_reflexive_on in_field_if_in_dom)
@@ -97,8 +98,8 @@ ML\<open>
 \<close>
 
 declare
+  transport_Dep_Fun_Rel.transport_defs[transport_def]
   transport_Fun_Rel.transport_defs[transport_def]
-  (* transport_Dep_Fun_Rel.transport_defs[transport_def] *)
 
 ML\<open>
   (*first-order unification with higher-order pattern unification with hints fallback*)
@@ -121,30 +122,32 @@ ML\<open>
 \<close>
 
 ML\<open>
-  structure PEE_Intros = Named_Thms(
-    val name = @{binding "pee_intro"}
-    val description = "Introduction rules for pee_prover"
+  structure PER_Intros = Named_Thms(
+    val name = @{binding "per_intro"}
+    val description = "Introduction rules for per_prover"
   )
-  val _ = Theory.setup PEE_Intros.setup
+  val _ = Theory.setup PER_Intros.setup
 \<close>
 
 declare
-  transport_Fun_Rel.partial_equivalence_equivalenceI[pee_intro]
-  (* transport_Dep_Fun_Rel.partial_equivalence_equivalenceI[pee_intro] *)
-  transport_eq_id.partial_equivalence_equivalenceI[pee_intro]
-  transport_eq_restrict_id.partial_equivalence_equivalence[pee_intro]
+  (* transport_Dep_Fun_Rel.partial_equivalence_rel_equivalenceI[per_intro] *)
+  transport_Dep_Fun_Rel_no_dep_fun.partial_equivalence_rel_equivalenceI[per_intro]
+  transport.rel_if_partial_equivalence_rel_equivalence_if_iff_if_partial_equivalence_rel_equivalenceI[per_intro]
+  transport_Fun_Rel.partial_equivalence_rel_equivalenceI[per_intro]
+  transport_eq_id.partial_equivalence_rel_equivalenceI[per_intro]
+  transport_eq_restrict_id.partial_equivalence_rel_equivalence[per_intro]
 
 ML\<open>
-  fun pee_prover_tac ctxt =
+  fun per_prover_tac ctxt =
     let
-      val pee_intros = PEE_Intros.get ctxt
+      val per_intros = PER_Intros.get ctxt
       val resolve_tac = any_unify_hints_resolve_tac ctxt
-    in REPEAT1 o resolve_tac pee_intros end
+    in REPEAT1 o resolve_tac per_intros end
 \<close>
 
-method_setup pee_prover =
-  \<open>Scan.succeed (SIMPLE_METHOD o HEADGOAL o pee_prover_tac)\<close>
-  "PEE prover for Transport"
+method_setup per_prover =
+  \<open>Scan.succeed (SIMPLE_METHOD o HEADGOAL o per_prover_tac)\<close>
+  "PER prover for Transport"
 
 ML\<open>
   structure Transport_Parametrics = Named_Thms(
@@ -155,10 +158,9 @@ ML\<open>
 \<close>
 
 method parametricity_prover =
-  (simp only: transport_def)?,
-  fact transport_parametric
+  (simp_all only: transport_def transport_parametric)
 
-method transport_term_prover = pee_prover, parametricity_prover?
+method transport_term_prover = per_prover, parametricity_prover?
 
 ML\<open>
   structure Transport_Related_Intros = Named_Thms(
@@ -199,12 +201,12 @@ declare
   transport_id.Galois_eq_left[transport_relator_rewrite]
 
 ML\<open>
-  fun pee_simp_prover ctxt thm =
+  fun per_simp_prover ctxt thm =
     let
       val prems = Thm.cprems_of thm
-      val pee_prover_tac = pee_prover_tac ctxt
+      val per_prover_tac = per_prover_tac ctxt
       fun prove_prem prem =
-        Goal.prove_internal ctxt [] prem (fn _ => HEADGOAL pee_prover_tac)
+        Goal.prove_internal ctxt [] prem (fn _ => HEADGOAL per_prover_tac)
     in
       try (map prove_prem) prems
       |> Option.map (curry (op OF) thm)
@@ -216,7 +218,7 @@ ML\<open>
       val transport_relator_rewrites = Transport_Relator_Rewrites.get ctxt
       val ctxt = (clear_simpset ctxt) addsimps transport_relator_rewrites
     in
-      Raw_Simplifier.rewrite_thm (false, false, false) pee_simp_prover ctxt thm
+      Raw_Simplifier.rewrite_thm (false, false, false) per_simp_prover ctxt thm
     end
 \<close>
 
@@ -260,11 +262,11 @@ end
 \<close>
 
 ML\<open>
-  val transport_pee_start_thm = @{thm "transport.transport_pee_start"}
-  val related_if_transport_pee_thm = @{thm "transport.Galois_left_if_transport_pee"}
-  fun dest_transport_pee \<^Const_>\<open>transport.transport_pee S T for L R l r x y\<close>
+  val transport_per_start_thm = @{thm "transport.transport_per_start"}
+  val related_if_transport_per_thm = @{thm "transport.Galois_left_if_transport_per"}
+  fun dest_transport_per \<^Const_>\<open>transport.transport_per S T for L R l r x y\<close>
     = ((S, T), (L, R, l, r, x, y))
-  val dest_transport_pee_y = dest_transport_pee #> (fn (_, (_, _, _, _, _, y)) => y)
+  val dest_transport_per_y = dest_transport_per #> (fn (_, (_, _, _, _, _, y)) => y)
 
   fun mk_hom_Galois Ta Tb L R r x y =
     \<^Const>\<open>galois_rel.Galois Ta Ta Tb Tb for L R r x y\<close>
@@ -272,8 +274,8 @@ ML\<open>
     = ((Ta, Tb), (L, R, r, x, y))
   val dest_hom_Galois_y = dest_hom_Galois #> (fn (_, (_, _, _, _, y)) => y)
 
-  val binding_transport_pee = \<^binding>\<open>transport_pee\<close>
-  val binding_pee = \<^binding>\<open>pee\<close>
+  val binding_transport_per = \<^binding>\<open>transport_per\<close>
+  val binding_per = \<^binding>\<open>per\<close>
   val binding_parametric = \<^binding>\<open>parametric\<close>
   val binding_related = \<^binding>\<open>related\<close>
   val binding_related_rewritten = \<^binding>\<open>related'\<close>
@@ -310,24 +312,27 @@ ML\<open>
         ] @ binding_thms_attribs)
     in Local_Theory.notes facts ctxt |> snd end
 
-  fun after_qed_blackbox (binding, mixfix) [thms as [pee_thm, parametricity_thm]] ctxt =
+  fun after_qed_blackbox (binding, mixfix) [thms as [per_thm, parametricity_thm]] ctxt =
     let
-      val transport_pee_thm = List.foldl (op INCR_COMP) transport_pee_start_thm thms
+      val transport_per_thm = List.foldl (op INCR_COMP) transport_per_start_thm thms
       (*fix possibly occurring meta type variables*)
-      val ((_, [transport_pee_thm]), ctxt) = Variable.importT [transport_pee_thm] ctxt
-      val y = Util.real_thm_concl transport_pee_thm |> dest_transport_pee_y
+      val ((_, [transport_per_thm]), ctxt) = Variable.importT [transport_per_thm] ctxt
+      val y = Util.real_thm_concl transport_per_thm |> dest_transport_per_y
 
-      val related_thm = transport_pee_thm INCR_COMP related_if_transport_pee_thm
+      val related_thm = transport_per_thm INCR_COMP related_if_transport_per_thm
       val binding_thms = [
-          (binding_transport_pee, transport_pee_thm, []),
-          (binding_pee, pee_thm, []),
+          (binding_transport_per, transport_per_thm, []),
+          (binding_per, per_thm, []),
           (binding_parametric, parametricity_thm,
             [Util.attrib_to_src Transport_Parametrics.add])
         ]
     in note_facts (binding, mixfix) ctxt related_thm y binding_thms end
 
   fun after_qed_whitebox (binding, mixfix) [[related_thm]] ctxt =
-    let val y = Util.real_thm_concl related_thm |> dest_hom_Galois_y
+    let
+      (*fix possibly occurring meta type variables*)
+      val ((_, [related_thm]), ctxt) = Variable.importT [related_thm] ctxt
+      val y = Util.real_thm_concl related_thm |> dest_hom_Galois_y
     in note_facts (binding, mixfix) ctxt related_thm y [] end
 
   fun setup_goals_blackbox ctxt (L, R, cx) maxidx =
@@ -335,14 +340,14 @@ ML\<open>
       (*check*)
       val [cL, cR] = Syntax.check_terms ctxt [L, R] |> map (Thm.cterm_of ctxt)
       (*instantiate theorem*)
-      val transport_pee_start_thm =
-        Thm.incr_indexes (maxidx + 1) transport_pee_start_thm
+      val transport_per_start_thm =
+        Thm.incr_indexes (maxidx + 1) transport_per_start_thm
       val args = [SOME cL, SOME cR, NONE, NONE, SOME cx]
-      val transport_pee_start_thm =
-        Drule.infer_instantiate' ctxt args transport_pee_start_thm
+      val transport_per_start_thm =
+        Drule.infer_instantiate' ctxt args transport_per_start_thm
       val transport_defs = Transport_Defs.get ctxt
       val goals =
-        Local_Defs.fold ctxt transport_defs transport_pee_start_thm
+        Local_Defs.fold ctxt transport_defs transport_per_start_thm
         |> Thm.prems_of
         |> map (rpair [])
     in goals end

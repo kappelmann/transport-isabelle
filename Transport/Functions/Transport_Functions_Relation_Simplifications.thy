@@ -12,8 +12,8 @@ context transport_Dep_Fun_Rel
 begin
 
 text \<open>Due to
-@{thm "transport_Param_Dep_Fun_Rel.left_rel_eq_tdfr_left_rel_if_reflexive_on"},
-we can apply all results from @{locale "transport_Param_Dep_Fun_Rel"} to
+@{thm "transport_Mono_Dep_Fun_Rel.left_rel_eq_tdfr_left_rel_if_reflexive_on"},
+we can apply all results from @{locale "transport_Mono_Dep_Fun_Rel"} to
 @{locale "transport_Dep_Fun_Rel"} whenver @{term "(\<le>\<^bsub>L\<^esub>)"} and @{term "(\<le>\<^bsub>R\<^esub>)"} are
 reflexive.\<close>
 
@@ -44,7 +44,7 @@ lemma reflexive_on_in_field_left_if_equivalencesI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "preorder_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
-  and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> partial_equivalence (\<le>\<^bsub>L2 x1 x2\<^esub>)"
+  and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> partial_equivalence_rel (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   shows "reflexive_on (in_field (\<le>\<^bsub>L\<^esub>)) (\<le>\<^bsub>L\<^esub>)"
   using assms
   by (intro reflexive_on_in_field_leftI
@@ -57,16 +57,16 @@ lemma reflexive_on_in_field_left_if_equivalencesI:
 end
 
 
-paragraph \<open>Parametric Dependent Function Relator\<close>
+paragraph \<open>Monotone Dependent Function Relator\<close>
 
-context transport_Param_Dep_Fun_Rel
+context transport_Mono_Dep_Fun_Rel
 begin
 
 lemma left_rel_eq_tdfr_leftI:
   assumes "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> (\<le>\<^bsub>L2 x2 x2\<^esub>) \<le> (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> (\<le>\<^bsub>L2 x1 x1\<^esub>) \<le> (\<le>\<^bsub>L2 x1 x2\<^esub>)"
-  and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> partial_equivalence (\<le>\<^bsub>L2 x1 x2\<^esub>)"
+  and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> partial_equivalence_rel (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   shows "(\<le>\<^bsub>L\<^esub>) = tdfr.L"
   using assms by (intro left_rel_eq_tdfr_left_rel_if_reflexive_on
     tdfr.reflexive_on_in_field_leftI)
@@ -76,7 +76,7 @@ lemma left_rel_eq_tdfr_leftI_if_equivalencesI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "preorder_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
-  and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> partial_equivalence (\<le>\<^bsub>L2 x1 x2\<^esub>)"
+  and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> partial_equivalence_rel (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   shows "(\<le>\<^bsub>L\<^esub>) = tdfr.L"
   using assms by (intro left_rel_eq_tdfr_left_rel_if_reflexive_on
     tdfr.reflexive_on_in_field_left_if_equivalencesI)
@@ -85,14 +85,14 @@ lemma left_rel_eq_tdfr_leftI_if_equivalencesI:
 end
 
 
-paragraph \<open>Parametric Function Relator\<close>
+paragraph \<open>Monotone Function Relator\<close>
 
-context transport_Param_Fun_Rel
+context transport_Mono_Fun_Rel
 begin
 
 lemma left_rel_eq_tfr_leftI:
   assumes "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
-  and "partial_equivalence (\<le>\<^bsub>L2\<^esub>)"
+  and "partial_equivalence_rel (\<le>\<^bsub>L2\<^esub>)"
   shows "(\<le>\<^bsub>L\<^esub>) = tfr.tdfr.L"
   using assms by (intro tpdfr.left_rel_eq_tdfr_leftI) auto
 

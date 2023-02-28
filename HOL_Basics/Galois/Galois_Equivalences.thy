@@ -4,7 +4,7 @@ theory Galois_Equivalences
   imports
     Galois_Connections
     Order_Equivalences
-    Partial_Equivalences
+    Partial_Equivalence_Relations
 begin
 
 context galois
@@ -94,10 +94,10 @@ lemma rel_equivalence_on_unit_if_reflexive_on_if_galois_equivalence:
     inflationary_on_unit_if_reflexive_on_if_galois_equivalence
     deflationary_on_unit_if_reflexive_on_if_galois_equivalence)
 
-lemma galois_equivalence_partial_equivalence_not_reflexive_not_transitive:
+lemma galois_equivalence_partial_equivalence_rel_not_reflexive_not_transitive:
   assumes "\<exists>(y :: 'b) y'. y \<noteq> y'"
   shows "\<exists>(L :: 'a \<Rightarrow> 'a \<Rightarrow> bool) (R :: 'b \<Rightarrow> 'b \<Rightarrow> bool) l r.
-    (L \<equiv>\<^sub>G R) l r \<and> partial_equivalence L \<and>
+    (L \<equiv>\<^sub>G R) l r \<and> partial_equivalence_rel L \<and>
     \<not>(reflexive_on (in_field R) R) \<and> \<not>(transitive_on (in_field R) R)"
 proof -
   from assms obtain cy cy' where "(cy :: 'b) \<noteq> cy'" by blast
@@ -109,7 +109,7 @@ proof -
   interpret g : galois ?L ?R ?l ?r .
   interpret flip_g : galois ?R ?L ?r ?l .
   have "(?L \<equiv>\<^sub>G ?R) ?l ?r" using \<open>cy \<noteq> cy'\<close> by blast
-  moreover have "partial_equivalence ?L" by blast
+  moreover have "partial_equivalence_rel ?L" by blast
   moreover have
     "\<not>(transitive_on (in_field ?R) ?R)" and "\<not>(reflexive_on (in_field ?R) ?R)"
     using \<open>cy \<noteq> cy'\<close> by auto

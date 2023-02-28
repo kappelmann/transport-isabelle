@@ -90,17 +90,17 @@ lemma Refl_Rel_symmetricI [intro]:
   using assms by (fold symmetric_on_in_field_iff_symmetric)
   (blast intro: symmetric_on_if_le_pred_if_symmetric_on)
 
-lemma Refl_Rel_partial_equivalence_onI [intro]:
-  assumes "partial_equivalence_on (P :: 'a \<Rightarrow> bool) (R :: 'a \<Rightarrow> _)"
-  shows "partial_equivalence_on P R\<^sup>\<oplus>"
-  using assms by (intro partial_equivalence_onI Refl_Rel_transitive_onI
+lemma Refl_Rel_partial_equivalence_rel_onI [intro]:
+  assumes "partial_equivalence_rel_on (P :: 'a \<Rightarrow> bool) (R :: 'a \<Rightarrow> _)"
+  shows "partial_equivalence_rel_on P R\<^sup>\<oplus>"
+  using assms by (intro partial_equivalence_rel_onI Refl_Rel_transitive_onI
     Refl_Rel_symmetric_onI) auto
 
-lemma Refl_Rel_partial_equivalenceI [intro]:
-  assumes "partial_equivalence R"
-  shows "partial_equivalence R\<^sup>\<oplus>"
+lemma Refl_Rel_partial_equivalence_relI [intro]:
+  assumes "partial_equivalence_rel R"
+  shows "partial_equivalence_rel R\<^sup>\<oplus>"
   using assms
-  by (intro partial_equivalenceI Refl_Rel_transitiveI Refl_Rel_symmetricI) auto
+  by (intro partial_equivalence_relI Refl_Rel_transitiveI Refl_Rel_symmetricI) auto
 
 lemma Refl_Rel_app_leftI:
   assumes "R (f x) y"

@@ -74,11 +74,11 @@ lemma preorder_equivalenceI:
     galois_equivalence)
   simp_all
 
-lemma partial_equivalence_equivalenceI:
-  assumes "partial_equivalence (\<le>\<^bsub>L\<^esub>)"
-  and "partial_equivalence (\<le>\<^bsub>R\<^esub>)"
+lemma partial_equivalence_rel_equivalenceI:
+  assumes "partial_equivalence_rel (\<le>\<^bsub>L\<^esub>)"
+  and "partial_equivalence_rel (\<le>\<^bsub>R\<^esub>)"
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
-  using assms by (intro partial_equivalence_equivalence_if_galois_equivalenceI
+  using assms by (intro partial_equivalence_rel_equivalence_if_galois_equivalenceI
     galois_equivalence)
   simp_all
 
@@ -129,25 +129,25 @@ lemmas preorder_equivalence = preorder_equivalenceI
 
 end
 
-locale transport_partial_equivalence_bijection =
+locale transport_partial_equivalence_rel_bijection =
   fixes L :: "'a \<Rightarrow> 'a \<Rightarrow> bool"
   and R :: "'b \<Rightarrow> 'b \<Rightarrow> bool"
   and l :: "'a \<Rightarrow> 'b"
   and r :: "'b \<Rightarrow> 'a"
-  assumes partial_equivalence_left: "partial_equivalence L"
-  and partial_equivalence_right: "partial_equivalence R"
+  assumes partial_equivalence_rel_left: "partial_equivalence_rel L"
+  and partial_equivalence_rel_right: "partial_equivalence_rel R"
   and transport_bijection: "transport_bijection L R l r"
 begin
 
 sublocale tpre_bij? : transport_preorder_on_in_field_bijection L R l r
-  rewrites "partial_equivalence L \<equiv> True"
-  and "partial_equivalence R \<equiv> True"
+  rewrites "partial_equivalence_rel L \<equiv> True"
+  and "partial_equivalence_rel R \<equiv> True"
   and "\<And>P. (True \<Longrightarrow> P) \<equiv> Trueprop P"
   using transport_bijection
   by (intro transport_preorder_on_in_field_bijection.intro)
-  (insert partial_equivalence_left partial_equivalence_right, auto)
+  (insert partial_equivalence_rel_left partial_equivalence_rel_right, auto)
 
-lemmas partial_equivalence_equivalence = partial_equivalence_equivalenceI
+lemmas partial_equivalence_rel_equivalence = partial_equivalence_rel_equivalenceI
 
 end
 
@@ -162,8 +162,8 @@ begin
 
 interpretation transport "(=\<^bsub>P\<^esub>)" "(=\<^bsub>Q\<^esub>)" l r .
 
-sublocale tper_bij? : transport_partial_equivalence_bijection "(=\<^bsub>P\<^esub>)" "(=\<^bsub>Q\<^esub>)" l r
-  using bijection_on_in_field partial_equivalence_eq_restrict
+sublocale tper_bij? : transport_partial_equivalence_rel_bijection "(=\<^bsub>P\<^esub>)" "(=\<^bsub>Q\<^esub>)" l r
+  using bijection_on_in_field partial_equivalence_rel_eq_restrict
     eq_restrict_le_eq
   by unfold_locales
   (auto elim: bijection_onE intro!:

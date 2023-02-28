@@ -39,13 +39,13 @@ sublocale tpre_bij? : transport_preorder_on_in_field_bijection L L id id
 
 end
 
-locale transport_partial_equivalence_id =
+locale transport_partial_equivalence_rel_id =
   fixes L :: "'a \<Rightarrow> 'a \<Rightarrow> bool"
-  assumes partial_equivalence: "partial_equivalence L"
+  assumes partial_equivalence_rel: "partial_equivalence_rel L"
 begin
 
-sublocale tper_bij? : transport_partial_equivalence_bijection L L id id
-  using partial_equivalence by unfold_locales auto
+sublocale tper_bij? : transport_partial_equivalence_rel_bijection L L id id
+  using partial_equivalence_rel by unfold_locales auto
 
 end
 

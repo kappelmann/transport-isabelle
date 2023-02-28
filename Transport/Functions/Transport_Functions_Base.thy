@@ -2,7 +2,7 @@
 subsubsection \<open>Basic Setup\<close>
 theory Transport_Functions_Base
   imports
-    Parametric_Function_Relator
+    Monotone_Function_Relator
     Transport_Base
 begin
 
@@ -128,7 +128,7 @@ definition "L \<equiv> [x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow>
 lemma left_rel_eq_Dep_Fun_Rel: "L = ([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 x1 x2\<^esub>))"
   unfolding L_def ..
 
-definition "l \<equiv> ([x : r1] \<rightarrow> l2 x)"
+definition "l \<equiv> ([x' : r1] \<rightarrow> l2 x')"
 
 lemma left_eq_dep_fun_map: "l = ([x' : r1] \<rightarrow> l2 x')"
   unfolding l_def ..
@@ -144,7 +144,7 @@ interpretation flip : transport_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 abbreviation "R \<equiv> flip.L"
 abbreviation "r \<equiv> flip.l"
 
-lemma right_rel_eq_Dep_Fun_Rel: "R = ([y1 y2 \<Colon> (\<le>\<^bsub>R1\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 y1 y2\<^esub>))"
+lemma right_rel_eq_Dep_Fun_Rel: "R = ([x1' x2' \<Colon> (\<le>\<^bsub>R1\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 x1' x2'\<^esub>))"
   unfolding flip.L_def ..
 
 lemma right_eq_dep_fun_map: "r = ([x : l1] \<rightarrow> r2 x)"
@@ -333,9 +333,9 @@ lemmas transport_defs = left_rel_eq_Fun_Rel right_rel_eq_Fun_Rel
 end
 
 
-paragraph \<open>Parametric Dependent Function Relator\<close>
+paragraph \<open>Monotone Dependent Function Relator\<close>
 
-locale transport_Param_Dep_Fun_Rel =
+locale transport_Mono_Dep_Fun_Rel =
   transport_Dep_Fun_Rel_syntax L1 R1 l1 r1 L2 R2 l2 r2
   + tdfr : transport_Dep_Fun_Rel L1 R1 l1 r1 L2 R2 l2 r2
   for L1 :: "'a1 \<Rightarrow> 'a1 \<Rightarrow> bool"
@@ -353,7 +353,7 @@ definition "L \<equiv> tdfr.L\<^sup>\<oplus>"
 lemma left_rel_eq_tdfr_left_Refl_Rel: "L = tdfr.L\<^sup>\<oplus>"
   unfolding L_def ..
 
-lemma left_rel_eq_Param_Dep_Fun_Rel: "L = ([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<oplus> (\<le>\<^bsub>L2 x1 x2\<^esub>))"
+lemma left_rel_eq_Mono_Dep_Fun_Rel: "L = ([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<oplus> (\<le>\<^bsub>L2 x1 x2\<^esub>))"
   unfolding left_rel_eq_tdfr_left_Refl_Rel tdfr.left_rel_eq_Dep_Fun_Rel by simp
 
 lemma left_rel_eq_tdfr_left_rel_if_reflexive_on:
@@ -366,15 +366,15 @@ abbreviation "l \<equiv> tdfr.l"
 
 lemma left_eq_tdfr_left: "l = tdfr.l" ..
 
-interpretation flip : transport_Param_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation flip : transport_Mono_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
 abbreviation "R \<equiv> flip.L"
 
 lemma right_rel_eq_tdfr_right_Refl_Rel: "R = tdfr.R\<^sup>\<oplus>"
   unfolding flip.left_rel_eq_tdfr_left_Refl_Rel ..
 
-lemma right_rel_eq_Param_Dep_Fun_Rel: "R = ([y1 y2 \<Colon> (\<le>\<^bsub>R1\<^esub>)] \<Rrightarrow>\<oplus> (\<le>\<^bsub>R2 y1 y2\<^esub>))"
-  unfolding flip.left_rel_eq_Param_Dep_Fun_Rel ..
+lemma right_rel_eq_Mono_Dep_Fun_Rel: "R = ([y1 y2 \<Colon> (\<le>\<^bsub>R1\<^esub>)] \<Rrightarrow>\<oplus> (\<le>\<^bsub>R2 y1 y2\<^esub>))"
+  unfolding flip.left_rel_eq_Mono_Dep_Fun_Rel ..
 
 lemma right_rel_eq_tdfr_right_rel_if_reflexive_on:
   assumes "reflexive_on (in_field tdfr.R) tdfr.R"
@@ -398,12 +398,12 @@ notation R (infix "\<le>\<^bsub>R\<^esub>" 50)
 end
 
 
-paragraph \<open>Parametric Function Relator\<close>
+paragraph \<open>Monotone Function Relator\<close>
 
-locale transport_Param_Fun_Rel =
+locale transport_Mono_Fun_Rel =
   transport_Fun_Rel_syntax L1 R1 l1 r1 L2 R2 l2 r2 +
   tfr : transport_Fun_Rel L1 R1 l1 r1 L2 R2 l2 r2 +
-  tpdfr : transport_Param_Dep_Fun_Rel L1 R1 l1 r1 "\<lambda>_ _. L2" "\<lambda>_ _. R2"
+  tpdfr : transport_Mono_Dep_Fun_Rel L1 R1 l1 r1 "\<lambda>_ _. L2" "\<lambda>_ _. R2"
     "\<lambda>_ _. l2" "\<lambda>_ _. r2"
   for L1 :: "'a1 \<Rightarrow> 'a1 \<Rightarrow> bool"
   and R1 :: "'a2 \<Rightarrow> 'a2 \<Rightarrow> bool"
@@ -441,16 +441,16 @@ notation tpdfr.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L\<^esub>" 5
 notation tpdfr.unit ("\<eta>")
 notation tpdfr.counit ("\<epsilon>")
 
-lemma left_rel_eq_Param_Fun_Rel: "(\<le>\<^bsub>L\<^esub>) = ((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<oplus> (\<le>\<^bsub>L2\<^esub>))"
-  unfolding tpdfr.left_rel_eq_Param_Dep_Fun_Rel by simp
+lemma left_rel_eq_Mono_Fun_Rel: "(\<le>\<^bsub>L\<^esub>) = ((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<oplus> (\<le>\<^bsub>L2\<^esub>))"
+  unfolding tpdfr.left_rel_eq_Mono_Dep_Fun_Rel by simp
 
 lemma left_eq_fun_map: "l = (r1 \<rightarrow> l2)"
   unfolding tfr.left_eq_fun_map ..
 
-interpretation flip : transport_Param_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation flip : transport_Mono_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
-lemma right_rel_eq_Param_Fun_Rel: "(\<le>\<^bsub>R\<^esub>) = ((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<oplus> (\<le>\<^bsub>R2\<^esub>))"
-  unfolding flip.left_rel_eq_Param_Fun_Rel ..
+lemma right_rel_eq_Mono_Fun_Rel: "(\<le>\<^bsub>R\<^esub>) = ((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<oplus> (\<le>\<^bsub>R2\<^esub>))"
+  unfolding flip.left_rel_eq_Mono_Fun_Rel ..
 
 lemma right_eq_fun_map: "r = (l1 \<rightarrow> r2)"
   unfolding flip.left_eq_fun_map ..

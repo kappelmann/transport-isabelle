@@ -52,11 +52,11 @@ proof (rule QuotientI)
       elim!: t.preorder_equivalence_order_equivalenceE)
 qed
 
-lemma partial_equivalence_equivalence_if_Quotient:
+lemma partial_equivalence_rel_equivalence_if_Quotient:
   assumes "Quotient (\<le>\<^bsub>L\<^esub>) l r T"
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (=)) l r"
-proof (rule t.partial_equivalence_equivalence_if_order_equivalenceI)
-  from Quotient_part_equivp[OF assms] show "partial_equivalence (\<le>\<^bsub>L\<^esub>)"
+proof (rule t.partial_equivalence_rel_equivalence_if_order_equivalenceI)
+  from Quotient_part_equivp[OF assms] show "partial_equivalence_rel (\<le>\<^bsub>L\<^esub>)"
     by (blast elim: part_equivpE dest: transpD sympD)
   have "x \<equiv>\<^bsub>L\<^esub> r (l x)" if "in_field (\<le>\<^bsub>L\<^esub>) x" for x
   proof -
@@ -73,10 +73,18 @@ proof (rule t.partial_equivalence_equivalence_if_order_equivalenceI)
     auto
 qed auto
 
-corollary Quotient_iff_partial_equivalence_equivalence:
+corollary Quotient_iff_partial_equivalence_rel_equivalence:
   "Quotient (\<le>\<^bsub>L\<^esub>) l r t.Galois \<longleftrightarrow> ((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (=)) l r"
-  using Quotient_if_preorder_equivalence partial_equivalence_equivalence_if_Quotient
+  using Quotient_if_preorder_equivalence partial_equivalence_rel_equivalence_if_Quotient
   by blast
+
+corollary Quotient_T_eq_flip_Galois:
+  assumes "Quotient (\<le>\<^bsub>L\<^esub>) l r T"
+  shows "T = t.flip_Galois\<inverse>"
+  using assms
+  by (subst t.inv_flip_Galois_eq_Galois_if_symmetric_if_in_codom_eq_in_dom_if_galois_prop)
+  (blast dest: partial_equivalence_rel_equivalence_if_Quotient
+  intro: in_codom_eq_in_dom_if_reflexive_on_in_field Quotient_T_eq_Galois)+
 
 end
 

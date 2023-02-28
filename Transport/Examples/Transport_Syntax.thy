@@ -48,13 +48,13 @@ bundle transport_syntax
 begin
   unbundle transport_Dep_Fun_Rel_syntax
   notation transport.preorder_equivalence (infix "\<equiv>\<^bsub>pre\<^esub>" 50)
-  notation transport.partial_equivalence_equivalence (infix "\<equiv>\<^bsub>PER\<^esub>" 50)
+  notation transport.partial_equivalence_rel_equivalence (infix "\<equiv>\<^bsub>PER\<^esub>" 50)
 end
 bundle no_transport_syntax
 begin
   unbundle no_transport_Dep_Fun_Rel_syntax
   no_notation transport.preorder_equivalence (infix "\<equiv>\<^bsub>pre\<^esub>" 50)
-  no_notation transport.partial_equivalence_equivalence (infix "\<equiv>\<^bsub>PER\<^esub>" 50)
+  no_notation transport.partial_equivalence_rel_equivalence (infix "\<equiv>\<^bsub>PER\<^esub>" 50)
 end
 
 

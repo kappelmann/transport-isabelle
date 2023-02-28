@@ -156,26 +156,26 @@ subsubsection \<open>Lifting Relations and Z-Property\<close>
 definition lifting_relation :: "('a \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow> bool"
   where "lifting_relation R \<equiv>
     \<comment>\<open>The induced relations on the domain and codomain are PERs\<close>
-    partial_equivalence (Eq_rep R) \<and>
-    partial_equivalence (Eq_abs R) \<and>
+    partial_equivalence_rel (Eq_rep R) \<and>
+    partial_equivalence_rel (Eq_abs R) \<and>
     \<comment>\<open>R respects the PERs on its domain and codomain\<close>
     (\<forall>x x' y y'. R x y \<and> Eq_rep R x x' \<and> Eq_abs R y y' \<longrightarrow> R x' y')"
 
 lemma lifting_relationI:
-  assumes "partial_equivalence (Eq_rep R)"
-  and "partial_equivalence (Eq_abs R)"
+  assumes "partial_equivalence_rel (Eq_rep R)"
+  and "partial_equivalence_rel (Eq_abs R)"
   and "\<And>x x' y y'. \<lbrakk>R x y; Eq_rep R x x'; Eq_abs R y y'\<rbrakk> \<Longrightarrow> R x' y'"
   shows "lifting_relation R"
   unfolding lifting_relation_def using assms by blast
 
-lemma partial_equivalence_Eq_rep_if_lifting_relation:
+lemma partial_equivalence_rel_Eq_rep_if_lifting_relation:
   assumes "lifting_relation R"
-  shows "partial_equivalence (Eq_rep R)"
+  shows "partial_equivalence_rel (Eq_rep R)"
   using assms unfolding lifting_relation_def by blast
 
-lemma partial_equivalence_Eq_abs_if_lifting_relation:
+lemma partial_equivalence_rel_Eq_abs_if_lifting_relation:
   assumes "lifting_relation R"
-  shows "partial_equivalence (Eq_abs R)"
+  shows "partial_equivalence_rel (Eq_abs R)"
   using assms unfolding lifting_relation_def by blast
 
 lemma rel_if_Eq_abs_if_Eq_rep_if_rel_if_lifting_relation:
@@ -237,11 +237,11 @@ lemma transitive_Eq_rep_if_z_property:
   using assms
   by (intro transitiveI) (blast elim: Eq_repE intro: transitiveI Eq_repI dest: z_propertyD')
 
-lemma partial_equivalence_Eq_rep_if_z_property:
+lemma partial_equivalence_rel_Eq_rep_if_z_property:
   assumes "z_property R"
-  shows "partial_equivalence (Eq_rep R)"
+  shows "partial_equivalence_rel (Eq_rep R)"
   using assms symmetric_Eq_rep transitive_Eq_rep_if_z_property
-  by (intro partial_equivalenceI)
+  by (intro partial_equivalence_relI)
 
 lemma transitive_Eq_abs_if_z_property:
   assumes "z_property R"
@@ -252,11 +252,11 @@ proof -
   then show ?thesis by (subst (asm) Eq_rep_rel_inv_eq_Eq_abs)
 qed
 
-lemma partial_equivalence_Eq_abs_if_z_property:
+lemma partial_equivalence_rel_Eq_abs_if_z_property:
   assumes "z_property R"
-  shows "partial_equivalence (Eq_abs R)"
+  shows "partial_equivalence_rel (Eq_abs R)"
   using assms symmetric_Eq_abs transitive_Eq_abs_if_z_property
-  by (intro partial_equivalenceI)
+  by (intro partial_equivalence_relI)
 
 lemma lifting_relation_if_z_property:
   assumes "z_property R"
@@ -270,8 +270,8 @@ proof (rule lifting_relationI)
   from \<open>Eq_rep R x x'\<close> obtain y'' where "R x' y''" "R x y''"
     by (elim Eq_repE)
   with assms \<open>R x y'\<close> show "R x' y'" by (blast dest: z_propertyD')
-qed (intro partial_equivalence_Eq_abs_if_z_property
-  partial_equivalence_Eq_rep_if_z_property assms)+
+qed (intro partial_equivalence_rel_Eq_abs_if_z_property
+  partial_equivalence_rel_Eq_rep_if_z_property assms)+
 
 lemma z_property_if_lifting_relation:
   assumes "lifting_relation R"
@@ -374,14 +374,14 @@ lemma z_property_if_right_unique:
   shows "z_property R"
   using assms by (intro z_propertyI') (blast dest: right_uniqueD)
 
-lemma z_property_if_partial_equivalence:
-  assumes "partial_equivalence R"
+lemma z_property_if_partial_equivalence_rel:
+  assumes "partial_equivalence_rel R"
   shows "z_property R"
 proof (rule z_propertyI)
   from assms have "R \<circ>\<circ> R = R"
-    using rel_comp_self_eq_self_if_partial_equivalence by blast
+    using rel_comp_self_eq_self_if_partial_equivalence_rel by blast
   moreover from assms have "rel_inv R = R"
-    using rel_inv_eq_self_if_symmetric by (blast elim: partial_equivalenceE)
+    using rel_inv_eq_self_if_symmetric by (blast elim: partial_equivalence_relE)
   ultimately show "R \<circ>\<circ> rel_inv R \<circ>\<circ> R = R" by simp
 qed
 

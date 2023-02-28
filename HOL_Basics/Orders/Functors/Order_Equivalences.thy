@@ -3,7 +3,7 @@ subsubsection \<open>Equivalences\<close>
 theory Order_Equivalences
   imports
     Order_Functors_Base
-    Partial_Equivalences
+    Partial_Equivalence_Relations
     Preorders
 begin
 
@@ -69,10 +69,10 @@ corollary preorder_on_in_field_left_if_transitive_if_order_equivalence:
   using assms by (elim order_equivalenceE)
   (rule preorder_on_in_field_if_transitive_if_rel_equivalence_on)
 
-lemma order_equivalence_partial_equivalence_not_reflexive_not_transitive:
+lemma order_equivalence_partial_equivalence_rel_not_reflexive_not_transitive:
   assumes "\<exists>(y :: 'b) y'. y \<noteq> y'"
   shows "\<exists>(L :: 'a \<Rightarrow> 'a \<Rightarrow> bool) (R :: 'b \<Rightarrow> 'b \<Rightarrow> bool) l r.
-    (L \<equiv>\<^sub>o R) l r \<and> partial_equivalence L \<and>
+    (L \<equiv>\<^sub>o R) l r \<and> partial_equivalence_rel L \<and>
     \<not>(reflexive_on (in_field R) R) \<and> \<not>(transitive_on (in_field R) R)"
 proof -
   from assms obtain cy cy' where "(cy :: 'b) \<noteq> cy'" by blast
@@ -83,7 +83,7 @@ proof -
   and ?r = "\<lambda>(b :: 'b). ?cx"
   have "(?L \<equiv>\<^sub>o ?R)?l ?r" using \<open>cy \<noteq> cy'\<close>
     by (intro of.order_equivalenceI) (auto 0 4)
-  moreover have "partial_equivalence ?L" by blast
+  moreover have "partial_equivalence_rel ?L" by blast
   moreover have
     "\<not>(transitive_on (in_field ?R) ?R)" and "\<not>(reflexive_on (in_field ?R) ?R)"
     using \<open>cy \<noteq> cy'\<close> by auto

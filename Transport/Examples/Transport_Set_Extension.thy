@@ -1,7 +1,7 @@
 theory Transport_Set_Extension
   imports
     Isabelle_Set.Integers
-    Transport_PEE
+    Transport_PER
     Transport_Syntax
 begin
 
@@ -18,7 +18,7 @@ lemma eq_restrict_set_eq_eq_unif_hint [unif_hint]:
   by simp
 
 declare
-  Int.partial_equivalence_equivalence[pee_intro]
+  Int.partial_equivalence_rel_equivalence[per_intro]
 
 lemma Int_Rep_nonneg_parametric [transport_parametric]:
   "((=\<^bsub>\<nat>\<^esub>) \<Rrightarrow> Int.L) Int_Rep_nonneg Int_Rep_nonneg"
@@ -49,8 +49,9 @@ lemma Int_Rep_zero_parametric [transport_parametric]:
   by transport_term_prover
 
  transport_term int_zero' where x = Int_Rep_zero and L = Int.L and R = Int.R
-  unfold Int_Rep_zero_def !
-  by transport_related_prover auto
+  unfold Int_Rep_zero_def ! (*invoking "!" opens the whitebox goal*)
+  by transport_related_prover (*the whitebox transport prover*)
+  auto
 
 text \<open>Note the difference in definition between the blackbox and whitebox term\<close>
 print_statement int_zero_def int_zero'_def
@@ -60,12 +61,19 @@ lemma Int_Rep_add_parametric [transport_parametric]:
   "(Int.L \<Rrightarrow> Int.L \<Rrightarrow> Int.L) Int_Rep_add Int_Rep_add"
   by (intro Dep_Fun_Rel_relI) fastforce
 
-transport_term int_add
-  where x = Int_Rep_add
+transport_term int_add where x = Int_Rep_add
   and L = "Int.L \<Rrightarrow> Int.L \<Rrightarrow> Int.L" and R = "Int.R \<Rrightarrow> Int.R \<Rrightarrow> Int.R"
   by transport_term_prover
 
+lemma Int_Rep_sub_parametric [transport_parametric]:
+  "(Int.L \<Rrightarrow> Int.L \<Rrightarrow> Int.L) Int_Rep_sub Int_Rep_sub"
+  by (intro Dep_Fun_Rel_relI) fastforce
 
+transport_term int_sub where x = Int_Rep_sub
+  and L = "Int.L \<Rrightarrow> Int.L \<Rrightarrow> Int.L" and R = "Int.R \<Rrightarrow> Int.R \<Rrightarrow> Int.R"
+  by transport_term_prover
+
+(*higher-order function*)
 definition "Int_Rep_if P i x y \<equiv> if P i then x else y"
 
 lemma "Int_Rep_if : (Int_Rep \<Rightarrow> Bool) \<Rightarrow> Int_Rep \<Rightarrow> A \<Rightarrow> A \<Rightarrow> A"
@@ -75,22 +83,31 @@ lemma Int_Rep_if_parametric [transport_parametric]:
   "((Int.L \<Rrightarrow> (\<longleftrightarrow>)) \<Rrightarrow> Int.L \<Rrightarrow> (=)) Int_Rep_if Int_Rep_if"
   unfolding Int_Rep_if_def by (intro Dep_Fun_Rel_relI) auto
 
+(*blackbox transport*)
 transport_term int_if :: "(set \<Rightarrow> bool) \<Rightarrow> set \<Rightarrow> 'a \<Rightarrow> 'a \<Rightarrow> 'a"
   where x = "Int_Rep_if :: (set \<Rightarrow> bool) \<Rightarrow> set \<Rightarrow> 'a \<Rightarrow> 'a \<Rightarrow> 'a"
   and L = "(Int.L \<Rrightarrow> (\<longleftrightarrow>)) \<Rrightarrow> Int.L \<Rrightarrow> (=)"
-  and R = "(Int.R \<Rrightarrow> (\<longleftrightarrow>)) \<Rrightarrow> Int.R \<Rrightarrow> (=)"
   by transport_term_prover
 
+thm int_if_def
 
 lemma Galois_id_hint [unif_hint]:
   "(L :: 'a \<Rightarrow> 'a \<Rightarrow> bool) \<equiv> R \<Longrightarrow> r \<equiv> id \<Longrightarrow> E \<equiv> L \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> E"
   by (simp only: eq_reflection[OF transport_id.Galois_eq_left])
 
+context
+  fixes P P' :: "set \<Rightarrow> bool"
+  assumes Prel: "((\<^bsub>(=\<^bsub>int_rep\<^esub>)\<^esub>\<lessapprox>\<^bsub>(=\<^bsub>\<int>\<^esub>) Int.r\<^esub>) \<Rrightarrow> (=)) P P'"
+begin
+
+(*whitebox transport*)
 transport_term int_if_app_zero :: "'a \<Rightarrow> 'a \<Rightarrow> 'a"
   where x = "Int_Rep_if P Int_Rep_zero :: 'a \<Rightarrow> 'a \<Rightarrow> 'a" !
-  apply transport_related_prover \<comment> \<open>We could prove the goal if @{term P} were parametric\<close>
-  oops
+  by transport_related_prover (fact Prel)
 
+thm int_if_app_zero_def
+
+end
 
 definition "app_eq_Int_Rep_zero f x \<equiv> if f x = Int_Rep_zero then True else False"
 
@@ -120,8 +137,7 @@ lemma id_parametric [transport_parametric]: "(R \<Rrightarrow> R) id id"
 
 transport_term test_whitebox
   where x = "app_eq_Int_Rep_zero f Int_Rep_zero"
-  and L = "(\<longleftrightarrow>)"
-  and R = "(\<longleftrightarrow>)"
+  and L = "(\<longleftrightarrow>)" and R = "(\<longleftrightarrow>)"
   unfold app_eq_Int_Rep_zero_def !
   apply transport_related_prover
   apply (tactic \<open>TRYALL (any_unify_hints_resolve_tac @{context}

@@ -138,36 +138,36 @@ lemma in_field_eq_in_dom_if_in_codom_eq_in_dom:
   shows "in_field R = in_dom R"
   using assms by (intro ext) (auto elim: in_fieldE')
 
-definition "rel_if P R x y \<equiv> P \<longrightarrow> R x y"
+definition "rel_if B R x y \<equiv> B \<longrightarrow> R x y"
 
 bundle rel_if_syntax begin notation (output) rel_if (infixl "\<longrightarrow>" 50) end
 bundle no_rel_if_syntax begin no_notation (output) rel_if (infixl "\<longrightarrow>" 50) end
 unbundle rel_if_syntax
 
 lemma rel_if_if_impI [intro]:
-  assumes "P \<Longrightarrow> R x y"
-  shows "(rel_if P R) x y"
+  assumes "B \<Longrightarrow> R x y"
+  shows "(rel_if B R) x y"
   unfolding rel_if_def using assms by blast
 
 lemma rel_if_if_notI [simp]:
-  assumes "\<not>P"
-  shows "(rel_if P R) x y"
+  assumes "\<not>B"
+  shows "(rel_if B R) x y"
   unfolding rel_if_def using assms by blast
 
 lemma rel_ifE [elim]:
-  assumes "(rel_if P R) x y"
-  obtains "\<not>P" | "P" "R x y"
+  assumes "(rel_if B R) x y"
+  obtains "\<not>B" | "B" "R x y"
   using assms unfolding rel_if_def by blast
 
 lemma rel_ifD:
-  assumes "(rel_if P R) x y"
-  and "P"
+  assumes "(rel_if B R) x y"
+  and "B"
   shows "R x y"
   using assms by blast
 
 lemma rel_if_eq_if_pred [simp]:
-  assumes "P"
-  shows "(rel_if P R) x y = R x y"
+  assumes "B"
+  shows "(rel_if B R) x y = R x y"
   using assms by blast
 
 consts restrict_left :: "('a \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow> 'c \<Rightarrow> 'a \<Rightarrow> 'b \<Rightarrow> bool"

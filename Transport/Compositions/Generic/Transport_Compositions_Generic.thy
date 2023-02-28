@@ -66,15 +66,15 @@ theorem preorder_equivalenceI:
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
   using assms by (intro preorder_equivalence_if_galois_equivalenceI) auto
 
-theorem partial_equivalence_equivalenceI:
+theorem partial_equivalence_rel_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "((\<le>\<^bsub>L2\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R2\<^esub>)) l2 r2"
   and "middle_compatible_codom"
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
-  using assms by (intro partial_equivalence_equivalence_if_galois_equivalenceI
+  using assms by (intro partial_equivalence_rel_equivalence_if_galois_equivalenceI
     galois_equivalence_if_galois_equivalenceI
-    partial_equivalence_leftI flip.partial_equivalence_leftI
-    in_codom_eq_in_dom_if_partial_equivalence)
+    partial_equivalence_rel_leftI flip.partial_equivalence_rel_leftI
+    in_codom_eq_in_dom_if_partial_equivalence_rel)
   auto
 
 

@@ -30,8 +30,9 @@ syntax
     bool" ("[_] \<Rrightarrow>\<^sub>m (_)" [41, 40] 40)
   "_dep_mono_wrt_pred" :: "idt \<Rightarrow> ('a \<Rightarrow> bool) \<Rightarrow> ('b \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow>
     ('a \<Rightarrow> 'b) \<Rightarrow> bool" ("[_/ \<Colon>/ _] \<Rrightarrow>\<^sub>m (_)" [41, 41, 40] 40)
-  "_dep_mono_wrt_pred_if" :: "idt \<Rightarrow> ('a \<Rightarrow> bool) \<Rightarrow> bool \<Rightarrow> ('b \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow>
-    ('a \<Rightarrow> 'b) \<Rightarrow> bool" ("[_/ \<Colon>/ _/ |/ _] \<Rrightarrow>\<^sub>m (_)" [41, 41, 41, 40] 40)
+  (*TODO: this only works if we introduce a pred_if constant first*)
+  (* "_dep_mono_wrt_pred_if" :: "idt \<Rightarrow> ('a \<Rightarrow> bool) \<Rightarrow> bool \<Rightarrow> ('b \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow> *)
+    (* ('a \<Rightarrow> 'b) \<Rightarrow> bool" ("[_/ \<Colon>/ _/ |/ _] \<Rrightarrow>\<^sub>m (_)" [41, 41, 41, 40] 40) *)
 end
 bundle no_dep_mono_wrt_syntax begin
 no_syntax
@@ -45,8 +46,8 @@ no_syntax
     bool" ("[_] \<Rrightarrow>\<^sub>m (_)" [41, 40] 40)
   "_dep_mono_wrt_pred" :: "idt \<Rightarrow> ('a \<Rightarrow> bool) \<Rightarrow> ('b \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow>
     ('a \<Rightarrow> 'b) \<Rightarrow> bool" ("[_/ \<Colon>/ _] \<Rrightarrow>\<^sub>m (_)" [41, 41, 40] 40)
-  "_dep_mono_wrt_pred_if" :: "idt \<Rightarrow> ('a \<Rightarrow> bool) \<Rightarrow> bool \<Rightarrow> ('b \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow>
-    ('a \<Rightarrow> 'b) \<Rightarrow> bool" ("[_/ \<Colon>/ _/ |/ _] \<Rrightarrow>\<^sub>m (_)" [41, 41, 41, 40] 40)
+  (* "_dep_mono_wrt_pred_if" :: "idt \<Rightarrow> ('a \<Rightarrow> bool) \<Rightarrow> bool \<Rightarrow> ('b \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow> *)
+    (* ('a \<Rightarrow> 'b) \<Rightarrow> bool" ("[_/ \<Colon>/ _/ |/ _] \<Rrightarrow>\<^sub>m (_)" [41, 41, 41, 40] 40) *)
 end
 unbundle dep_mono_wrt_syntax
 translations
@@ -55,7 +56,7 @@ translations
   "[x y \<Colon> R | B] \<Rrightarrow>\<^sub>m S" \<rightleftharpoons> "CONST dep_mono_wrt_rel R (\<lambda>x y. CONST rel_if B S)"
   "[P] \<Rrightarrow>\<^sub>m Q" \<rightleftharpoons> "CONST mono_wrt_pred P Q"
   "[x \<Colon> P] \<Rrightarrow>\<^sub>m Q" \<rightleftharpoons> "CONST dep_mono_wrt_pred P (\<lambda>x. Q)"
-  "[x \<Colon> P | B] \<Rrightarrow>\<^sub>m Q" \<rightleftharpoons> "CONST dep_mono_wrt_pred P (\<lambda>x. CONST rel_if B Q)"
+  (* "[x \<Colon> P | B] \<Rrightarrow>\<^sub>m Q" \<rightleftharpoons> "CONST dep_mono_wrt_pred P (\<lambda>x. CONST rel_if B Q)" *)
 
 lemma dep_mono_wrt_relI [intro]:
   assumes "\<And>x y. R x y \<Longrightarrow> S x y (f x) (f y)"

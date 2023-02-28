@@ -342,8 +342,8 @@ definition "relator R \<equiv>
 
 lemma relator_per:
   assumes R: "relator R"
-      and E: "partial_equivalence E"
-    shows "partial_equivalence (R E)"
+      and E: "partial_equivalence_rel E"
+    shows "partial_equivalence_rel (R E)"
 proof -
   { fix x y z
     assume prems: "R E x y" "R E y z"
@@ -366,7 +366,7 @@ proof -
   }
   note sym = this
   show ?thesis
-    using trans sym partial_equivalence_unfold by blast
+    using trans sym partial_equivalence_rel_unfold by blast
 qed
 
 lemma list_all2'_is_relator: "relator list_all2'"

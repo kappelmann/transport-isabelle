@@ -27,5 +27,5 @@ session Transport_Examples in Examples = "Transport" +
   directories
     "Typedef"
   theories
-    Transport_PEE
+    Transport_PER
 

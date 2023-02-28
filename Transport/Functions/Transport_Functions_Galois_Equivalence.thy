@@ -11,7 +11,7 @@ paragraph \<open>Dependent Function Relator\<close>
 context transport_Dep_Fun_Rel
 begin
 
-subparagraph \<open>Lemmas for Parametric Function Relator\<close>
+subparagraph \<open>Lemmas for Monotone Function Relator\<close>
 
 lemma flip_half_galois_prop_left2_if_half_galois_prop_left2_if_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
@@ -142,15 +142,15 @@ qed
 end
 
 
-paragraph \<open>Parametric Dependent Function Relator\<close>
+paragraph \<open>Monotone Dependent Function Relator\<close>
 
-context transport_Param_Dep_Fun_Rel
+context transport_Mono_Dep_Fun_Rel
 begin
 
 context
 begin
 
-interpretation flip : transport_Param_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
+interpretation flip : transport_Mono_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
   rewrites "flip.t1.counit \<equiv> \<eta>\<^sub>1" and "flip.t1.unit \<equiv> \<epsilon>\<^sub>1"
   by (simp_all only: t1.flip_counit_eq_unit t1.flip_unit_eq_counit)
 
@@ -284,7 +284,7 @@ corollary galois_equivalence_if_mono_if_galois_equivalenceI:
 
 end
 
-interpretation flip : transport_Param_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
+interpretation flip : transport_Mono_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
   rewrites "flip.t1.counit \<equiv> \<eta>\<^sub>1" and "flip.t1.unit \<equiv> \<epsilon>\<^sub>1"
   by (simp_all only: t1.flip_counit_eq_unit t1.flip_unit_eq_counit)
 
@@ -325,12 +325,12 @@ theorem galois_equivalence_if_mono_if_preorder_equivalenceI':
 end
 
 
-paragraph \<open>Parametric Function Relator\<close>
+paragraph \<open>Monotone Function Relator\<close>
 
-context transport_Param_Fun_Rel
+context transport_Mono_Fun_Rel
 begin
 
-interpretation flip : transport_Param_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation flip : transport_Mono_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
 lemma galois_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R1\<^esub>)) l1 r1"

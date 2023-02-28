@@ -159,7 +159,7 @@ proof -
 qed
 
 
-subparagraph \<open>Lemmas for Parametric Function Relator\<close>
+subparagraph \<open>Lemmas for Monotone Function Relator\<close>
 
 lemma order_equivalence_if_order_equivalence_mono_assms_leftI:
   assumes order_equiv1: "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^sub>o (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -329,9 +329,9 @@ lemma bi_related_unit_self_if_rel_selfI:
 end
 
 
-paragraph \<open>Parametric Dependent Function Relator\<close>
+paragraph \<open>Monotone Dependent Function Relator\<close>
 
-context transport_Param_Dep_Fun_Rel
+context transport_Mono_Dep_Fun_Rel
 begin
 
 subparagraph \<open>Inflationary\<close>
@@ -383,7 +383,7 @@ subparagraph \<open>Relational Equivalence\<close>
 context
 begin
 
-interpretation flip : transport_Param_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
+interpretation flip : transport_Mono_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
   rewrites "flip.counit \<equiv> \<eta>" and "flip.t1.counit \<equiv> \<eta>\<^sub>1"
   and "\<And>x y. flip.t2_counit x y \<equiv> \<eta>\<^bsub>2 y x\<^esub>"
   by (simp_all add: order_functors.flip_counit_eq_unit)
@@ -424,7 +424,7 @@ end
 
 subparagraph \<open>Order Equivalence\<close>
 
-interpretation flip : transport_Param_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
+interpretation flip : transport_Mono_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
   rewrites "flip.unit \<equiv> \<epsilon>" and "flip.t1.unit \<equiv> \<epsilon>\<^sub>1"
   and "flip.counit \<equiv> \<eta>" and "flip.t1.counit \<equiv> \<eta>\<^sub>1"
   and "\<And>x y. flip.t2_unit x y \<equiv> \<epsilon>\<^bsub>2 y x\<^esub>"
@@ -659,12 +659,12 @@ theorem order_equivalence_if_mono_if_preorder_equivalenceI':
 end
 
 
-paragraph \<open>Parametric Function Relator\<close>
+paragraph \<open>Monotone Function Relator\<close>
 
-context transport_Param_Fun_Rel
+context transport_Mono_Fun_Rel
 begin
 
-interpretation flip : transport_Param_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation flip : transport_Mono_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
 lemma inflationary_on_unitI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"

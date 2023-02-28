@@ -65,14 +65,14 @@ lemma symmetric_FrelI:
   apply (rule refl)
   done
 
-lemma partial_equivalence_FrelI:
-  assumes "partial_equivalence R1"
-  and "partial_equivalence R2"
-  and "partial_equivalence R3"
-  shows "partial_equivalence (Frel R1 R2 R3)"
+lemma partial_equivalence_rel_FrelI:
+  assumes "partial_equivalence_rel R1"
+  and "partial_equivalence_rel R2"
+  and "partial_equivalence_rel R3"
+  shows "partial_equivalence_rel (Frel R1 R2 R3)"
   apply (insert assms)
-  apply (elim partial_equivalenceE preorder_on_in_fieldE)
-  apply (rule partial_equivalenceI;
+  apply (elim partial_equivalence_relE preorder_on_in_fieldE)
+  apply (rule partial_equivalence_relI;
     rule transitive_FrelI symmetric_FrelI;
     assumption)
   done
@@ -90,7 +90,7 @@ lemmas preorder_on_in_field_leftI = preorder_on_in_field_FrelI
 
 lemmas symmetricI = symmetric_FrelI[of L1 L2 L3, folded transport_defs]
 
-lemmas partial_equivalence_leftI = partial_equivalence_FrelI
+lemmas partial_equivalence_rel_leftI = partial_equivalence_rel_FrelI
   [of L1 L2 L3, folded transport_defs]
 
 end

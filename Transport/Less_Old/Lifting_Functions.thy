@@ -352,7 +352,7 @@ next
     have 4: "Eq_rep T2 (g x) (f (rep1 z))"
       using symmetricD[OF symmetric_Eq_rep] Dep_Fun_RelD prem1 symmetricD[OF symmetric_Eq_rep] 1 .
     have 5: "Eq_rep T2 (f x) (f (rep1 z))"
-      using transitiveD partial_equivalence_transitive partial_equivalence_Eq_rep_if_z_property
+      using transitiveD partial_equivalence_rel_transitive partial_equivalence_rel_Eq_rep_if_z_property
         z_property_if_lifting_triple assms(2) 3 4 .
     have 6: "T2 (f (rep1 z)) (abs2 (f (rep1 z)))"
       using lifting_triple_rel_abs_self_if_in_dom assms(2) in_dom_if_Eq_rep symmetricD[OF symmetric_Eq_rep] 5 .

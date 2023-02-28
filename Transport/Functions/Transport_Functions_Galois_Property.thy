@@ -292,9 +292,9 @@ corollary left_rel_right_iff_left_right_relI:
 end
 
 
-paragraph \<open>Parametric Dependent Function Relator\<close>
+paragraph \<open>Monotone Dependent Function Relator\<close>
 
-context transport_Param_Dep_Fun_Rel
+context transport_Mono_Dep_Fun_Rel
 begin
 
 lemma half_galois_prop_left_left_rightI:
@@ -425,9 +425,9 @@ not flipped dual but only flipped-inversed dual.\<close>
 end
 
 
-paragraph \<open>Parametric Function Relator\<close>
+paragraph \<open>Monotone Function Relator\<close>
 
-context transport_Param_Fun_Rel
+context transport_Mono_Fun_Rel
 begin
 
 lemma half_galois_prop_left_left_rightI:
@@ -442,7 +442,7 @@ lemma half_galois_prop_left_left_rightI:
   by (intro tpdfr.half_galois_prop_left_left_rightI tfr.mono_wrt_rel_leftI)
   simp_all
 
-interpretation flip : transport_Param_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation flip : transport_Mono_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
 lemma half_galois_prop_right_left_rightI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"

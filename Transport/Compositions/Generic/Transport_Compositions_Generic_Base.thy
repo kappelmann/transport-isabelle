@@ -170,25 +170,25 @@ corollary left_rel_eq_left_rel1I:
   using assms by (intro antisym left_rel_le_left_rel1I left_rel1_le_left_relI)
 
 text \<open>Note that we may not necessarily have @{term "(\<le>\<^bsub>L\<^esub>) = (\<le>\<^bsub>L1\<^esub>)"}, even in
-case of equivalences. Depending on the use case, one thus may wish to use an
-alternative composition operation.\<close>
+case of equivalence relations. Depending on the use case, one thus may wish to
+use an alternative composition operation.\<close>
 
 lemma ex_order_equiv_left_rel_neq_left_rel1:
   "\<exists>(L1 :: bool \<Rightarrow> _) (R1 :: bool \<Rightarrow> _) l1 r1
     (L2 :: bool \<Rightarrow> _) (R2 :: bool \<Rightarrow> _) l2 r2.
     (L1 \<equiv>\<^sub>o R1) l1 r1
-    \<and> equivalence L1 \<and> equivalence R1
+    \<and> equivalence_rel L1 \<and> equivalence_rel R1
     \<and> (L2 \<equiv>\<^sub>o R2) l2 r2
-    \<and> equivalence L2 \<and> equivalence R2
+    \<and> equivalence_rel L2 \<and> equivalence_rel R2
     \<and> transport_comp.L L1 R1 l1 r1 L2 \<noteq> L1"
 proof (intro exI conjI)
   let ?L1 = "(=) :: bool \<Rightarrow> _" let ?R1 = ?L1 let ?l1 = id let ?r1 = ?l1
   let ?L2 = "\<top> :: bool \<Rightarrow> bool \<Rightarrow> bool" let ?R2 = ?L2 let ?l2 = id let ?r2 = ?l2
   interpret tc : transport_comp ?L1 ?R1 ?l1 ?r1 ?L2 ?R2 ?l2 ?r2 .
   show "(?L1 \<equiv>\<^sub>o ?R1) ?l1 ?r1" by fastforce
-  show "equivalence ?L1" "equivalence ?R1" by (fact equivalence_eq)+
+  show "equivalence_rel ?L1" "equivalence_rel ?R1" by (fact equivalence_eq)+
   show "(?L2 \<equiv>\<^sub>o ?R2) ?l2 ?r2" by fastforce
-  show "equivalence ?L2" "equivalence ?R2" by (fact equivalence_top)+
+  show "equivalence_rel ?L2" "equivalence_rel ?R2" by (fact equivalence_top)+
   show "tc.L \<noteq> ?L1"
   proof -
     have "\<not>(?L1 False True)" by blast
@@ -440,7 +440,7 @@ lemma in_codom_right1_left2_right1_le_if_right1_left2_right1_le:
   by (auto intro: in_codom_if_in_codom_rel_comp)
 
 text \<open>Our main results will be derivable for two different sets of compatibility
-conditions. The next two lemmas show the equivalence between those two sets
+conditions. The next two lemmas show the equivalence_rel between those two sets
 under certain assumptions. In cases where these assumptions are met, we will
 only state the result for one of the two compatibility conditions. The other one
 will then be derivable using one of the following lemmas.\<close>

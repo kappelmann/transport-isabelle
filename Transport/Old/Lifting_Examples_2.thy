@@ -472,7 +472,7 @@ proof (
        apply (rule rel_funI)
        apply (rule equalityI'[OF is_equality_eq_int_rep])
       apply (erule in_rep_funE)
-        apply (rule in_repI'[OF equality_is_partial_equivalence[OF is_equality_eq_int_rep]])
+        apply (rule in_repI'[OF equality_is_partial_equivalence_rel[OF is_equality_eq_int_rep]])
         apply assumption
        apply (frule equalityE(1)[OF is_equality_eq_int_rep])
        apply (erule subst)
@@ -502,11 +502,11 @@ proof (
     done
 qed
 
-lemma fun_per: "partial_equivalence R \<Longrightarrow> partial_equivalence S \<Longrightarrow> partial_equivalence (R ===> S)"
-  unfolding partial_equivalence_unfold rel_fun_def
+lemma fun_per: "partial_equivalence_rel R \<Longrightarrow> partial_equivalepartial_equivalence_relivalence (R ===> S)"partial_equivalence_rel
+  unfolding partial_equivalence_rel_unfold rel_fun_def
   by metis
 
-lemma eq_int_is_per: "partial_equivalence (eq \<int>)"
+lemma eq_int_is_per: "partial_equivalence_rel (eq \<int>)"
   using eq_is_per is_equality_eq_int_abs by blast
 
 lemma "int_app2 : ((Integers.Int \<Rightarrow> Integers.Int) \<Rightarrow> Integers.Int \<Rightarrow> Integers.Int) \<Rightarrow> (Integers.Int \<Rightarrow> Integers.Int) \<Rightarrow> Integers.Int \<Rightarrow> Integers.Int"

@@ -80,20 +80,20 @@ definition symmetric :: "('a \<Rightarrow> 'a \<Rightarrow> bool) \<Rightarrow> 
 definition transitive :: "('a \<Rightarrow> 'a \<Rightarrow> bool) \<Rightarrow> bool"
   where "transitive p \<equiv> (\<forall>x y z. p x y \<and> p y z \<longrightarrow> p x z)"
 
-definition partial_equivalence :: "('a \<Rightarrow> 'a \<Rightarrow> bool) \<Rightarrow> bool"
-  where "partial_equivalence p \<equiv> symmetric p \<and> transitive p"
+definition partial_equivalence_rel :: "('a \<Rightarrow> 'a \<Rightarrow> bool) \<Rightarrow> bool"
+  where "partial_equivalence_rel p \<equiv> symmetric p \<and> transitive p"
 
 definition partial_equality :: "('a \<Rightarrow> 'a \<Rightarrow> bool) \<Rightarrow> bool"
   where "partial_equality p \<equiv> (\<forall>x y. p x y \<longrightarrow> x = y)"
 
-lemmas partial_equivalence_unfold = partial_equivalence_def[unfolded symmetric_def transitive_def]
+lemmas partial_equivalence_rel_unfold = partial_equivalence_rel_def[unfolded symmetric_def transitive_def]
 
-lemma partial_equivalence_semi_reflexive:
-  assumes "partial_equivalence R"
+lemma partial_equivalence_rel_semi_reflexive:
+  assumes "partial_equivalence_rel R"
      and "R x y"
    shows "R x x" "R y y"
   using assms
-  unfolding partial_equivalence_unfold
+  unfolding partial_equivalence_rel_unfold
   by blast+
 
 definition left_total_set :: "('a \<Rightarrow> bool) \<Rightarrow> ('b \<Rightarrow> bool) \<Rightarrow> ('a \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow> bool"
@@ -151,8 +151,8 @@ lemma equality_sym: "is_equality_set in_dom R \<Longrightarrow> symmetric R"
   unfolding is_equality_set_def symmetric_def
   by blast
 
-lemma equality_is_partial_equivalence: "is_equality_set in_dom R \<Longrightarrow> partial_equivalence R"
-  unfolding is_equality_set_def partial_equivalence_unfold
+lemma equality_is_partial_equivalence_rel: "is_equality_set in_dom R \<Longrightarrow> partial_equivalepartial_equivalence_rel
+  unfolding is_equality_set_def partial_equivalence_rel_unfold
   by blast
 
 lemma symE: "symmetric R \<Longrightarrow> R x y \<Longrightarrow> R y x"
@@ -175,7 +175,7 @@ definition "trans_rel_resp_eq_rel Eq_rep Eq_abs T \<equiv>
 definition lifting ::
     "('a \<Rightarrow> 'a \<Rightarrow> bool) \<Rightarrow> ('b \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow> ('a \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow> ('a \<Rightarrow> 'b) \<Rightarrow> ('b \<Rightarrow> 'a) \<Rightarrow> bool"
   where "lifting Eq_rep Eq_abs T Abs Rep \<equiv>
-    partial_equivalence Eq_rep \<and> partial_equivalence Eq_abs \<and>
+    partial_equivalence_rel Eq_rep \<and> partipartial_equivalence_relbs \<and>
     eq_rel_resp_trans_rel Eq_rep Eq_abs T \<and>
     trans_rel_resp_eq_rel Eq_rep Eq_abs T \<and>
     (\<forall>x. Eq_rep x x \<longrightarrow> T x (Abs x) \<and> Eq_rep (Rep (Abs x)) x) \<and>
@@ -183,14 +183,14 @@ definition lifting ::
     (\<forall>x y. T x y \<longrightarrow> Eq_rep x x \<and> Eq_abs y y)" (* redundant *)
 
 lemma lifting_simp:
-   "partial_equivalence Eq_rep \<Longrightarrow>
-    partial_equivalence Eq_abs \<Longrightarrow>
+   "partial_equivalence_rel Eq_rep \<Longrightarrow>
+    partial_equivalence_rel Eq_abs \<Longrightarrow>
     eq_rel_resp_trans_rel Eq_rep Eq_abs T \<Longrightarrow>
     trans_rel_resp_eq_rel Eq_rep Eq_abs T \<Longrightarrow>
     (\<And>x. Eq_rep x x \<Longrightarrow> T x (abs x)) \<Longrightarrow>
     (\<And>y. Eq_abs y y \<Longrightarrow> T (rep y) y) \<Longrightarrow>
     lifting Eq_rep Eq_abs T abs rep"
-  unfolding lifting_def partial_equivalence_unfold eq_rel_resp_trans_rel_def trans_rel_resp_eq_rel_def
+  unfolding lifting_def partial_equivalence_rel_unfold eq_rel_resp_trans_rel_def trans_rel_resp_eq_rel_def
   by meson
 
 lemma liftingI:
@@ -205,11 +205,11 @@ lemma liftingI:
     (\<And>x. Eq_rep x x \<Longrightarrow> T x (abs x)) \<Longrightarrow>
     (\<And>y. Eq_abs y y \<Longrightarrow> T (rep y) y) \<Longrightarrow>
     lifting Eq_rep Eq_abs T abs rep"
-  unfolding lifting_def partial_equivalence_unfold eq_rel_resp_trans_rel_def trans_rel_resp_eq_rel_def
+  unfolding lifting_def partial_equivalence_rel_unfold eq_rel_resp_trans_rel_def trans_rel_resp_eq_rel_def
   by meson
 
 lemmas lifting_unfold = lifting_def[
-    unfolded partial_equivalence_unfold eq_rel_resp_trans_rel_def trans_rel_resp_eq_rel_def]
+    unfolded partial_equivalence_rel_unfold eq_rel_resp_trans_rel_def trans_rel_resp_eq_rel_def]
 
 definition "in_rep Eq_A x \<equiv> Eq_A x x"
 definition "in_abs Eq_B x \<equiv> Eq_B x x"
@@ -218,16 +218,16 @@ lemma in_repI: "E x x \<Longrightarrow> in_rep E x"
   unfolding in_rep_def
   .
 
-lemma in_repI': "partial_equivalence E \<Longrightarrow> E x y \<Longrightarrow> in_rep E x"
-  unfolding in_rep_def partial_equivalence_unfold
+lemma in_repI': "partial_equivalence_rel E \<Longrightarrow> E x y \<Longrightarrow> in_rep E x"
+  unfolding in_rep_def partial_equivalence_rel_unfold
   by blast
 
-lemma in_absI1: "partial_equivalence E \<Longrightarrow> E x y \<Longrightarrow> in_abs E x"
-  unfolding in_abs_def partial_equivalence_unfold
+lemma in_absI1: "partial_equivalence_rel E \<Longrightarrow> E x y \<Longrightarrow> in_abs E x"
+  unfolding in_abs_def partial_equivalence_rel_unfold
   by blast
 
-lemma in_absI2: "partial_equivalence E \<Longrightarrow> E x y \<Longrightarrow> in_abs E y"
-  unfolding in_abs_def partial_equivalence_unfold
+lemma in_absI2: "partial_equivalence_rel E \<Longrightarrow> E x y \<Longrightarrow> in_abs E y"
+  unfolding in_abs_def partial_equivalence_rel_unfold
   by blast
 
 lemma in_rep_funE: "in_rep (E ===> F) f \<Longrightarrow> in_rep E x \<Longrightarrow> in_rep F (f x)"
@@ -314,8 +314,8 @@ lemma set_extension_lifting:
   apply metis+
   done
 
-lemma eq_is_per: "is_equality_set p R \<Longrightarrow> partial_equivalence R"
-  unfolding is_equality_set_def partial_equivalence_unfold
+lemma eq_is_per: "is_equality_set p R \<Longrightarrow> partial_equivalepartial_equivalence_rel
+  unfolding is_equality_set_def partial_equivalence_rel_unfold
   by blast
 
 lemma lifting_Abs_swap: "lifting eq_rep eq_abs T Abs Rep \<Longrightarrow> eq_rep y y \<Longrightarrow> T x (Abs y) \<Longrightarrow> T y (Abs x)"
@@ -666,9 +666,9 @@ qed
 
 lemma lifting_eq_per:
   assumes "lifting Eq_A Eq_B T Abs Rep"
-  shows "partial_equivalence Eq_A" "partial_equivalence Eq_B"
+  shows "partial_equivalence_rel Eq_A" "partial_equivalence_rel Eq_B"
   using assms
-  unfolding lifting_unfold partial_equivalence_unfold
+  unfolding lifting_unfold partial_equivalence_rel_unfold
   by metis+
 
 lemma lifting_in_abs': "lifting Eq_A Eq_B T Abs Rep \<Longrightarrow> in_abs Eq_B y \<Longrightarrow> (\<And>x. T x y \<Longrightarrow> P) \<Longrightarrow> P"

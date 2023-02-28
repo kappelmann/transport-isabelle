@@ -11,12 +11,12 @@ begin
 
 subsubsection \<open>Summary of Main Results\<close>
 
-paragraph \<open>Parametric Dependent Function Relator\<close>
+paragraph \<open>Monotone Dependent Function Relator\<close>
 
-context transport_Param_Dep_Fun_Rel
+context transport_Mono_Dep_Fun_Rel
 begin
 
-interpretation flip : transport_Param_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
+interpretation flip : transport_Mono_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
   rewrites "flip.t1.counit \<equiv> \<eta>\<^sub>1" and "flip.t1.unit \<equiv> \<epsilon>\<^sub>1"
   by (simp_all only: t1.flip_counit_eq_unit t1.flip_unit_eq_counit)
 
@@ -48,8 +48,8 @@ theorem preorder_galois_connection_if_galois_connectionI:
 theorem preorder_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>L2 x (r1 x')\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)) (l2\<^bsub>x' x\<^esub>) (r2\<^bsub>x x'\<^esub>)"
-  and "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
-  and "([x1' x2' \<Colon> (\<ge>\<^bsub>R1\<^esub>)] \<Rrightarrow>\<^sub>m [x3' x4' \<Colon> (\<le>\<^bsub>R1\<^esub>) | x1' \<le>\<^bsub>R1\<^esub> x3'] \<Rrightarrow> (\<le>)) R2"
+  and "([x1 _ \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 _ \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
+  and "([x1' _ \<Colon> (\<ge>\<^bsub>R1\<^esub>)] \<Rrightarrow>\<^sub>m [x3' _ \<Colon> (\<le>\<^bsub>R1\<^esub>) | x1' \<le>\<^bsub>R1\<^esub> x3'] \<Rrightarrow> (\<le>)) R2"
   and "([x1' x2' \<Colon> (\<le>\<^bsub>R1\<^esub>)] \<Rrightarrow>\<^sub>m [x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x2 \<^bsub>L1\<^esub>\<lessapprox> x1'] \<Rrightarrow>
     [in_field (\<le>\<^bsub>L2 x1 (r1 x2')\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 (l1 x1) x2'\<^esub>)) l2"
   and "([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x1' x2' \<Colon> (\<le>\<^bsub>R1\<^esub>) | x2 \<^bsub>L1\<^esub>\<lessapprox> x1'] \<Rrightarrow>
@@ -68,23 +68,23 @@ theorem preorder_equivalenceI:
   (auto intro: reflexive_on_if_le_pred_if_reflexive_on
     in_field_if_in_dom in_field_if_in_codom)
 
-theorem partial_equivalence_equivalenceI:
+theorem partial_equivalence_rel_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>L2 x (r1 x')\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)) (l2\<^bsub>x' x\<^esub>) (r2\<^bsub>x x'\<^esub>)"
-  and "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
-  and "([x1' x2' \<Colon> (\<ge>\<^bsub>R1\<^esub>)] \<Rrightarrow>\<^sub>m [x3' x4' \<Colon> (\<le>\<^bsub>R1\<^esub>) | x1' \<le>\<^bsub>R1\<^esub> x3'] \<Rrightarrow> (\<le>)) R2"
+  and "([x1 _ \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 _ \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
+  and "([x1' _ \<Colon> (\<ge>\<^bsub>R1\<^esub>)] \<Rrightarrow>\<^sub>m [x3' _ \<Colon> (\<le>\<^bsub>R1\<^esub>) | x1' \<le>\<^bsub>R1\<^esub> x3'] \<Rrightarrow> (\<le>)) R2"
   and "([x1' x2' \<Colon> (\<le>\<^bsub>R1\<^esub>)] \<Rrightarrow>\<^sub>m [x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x2 \<^bsub>L1\<^esub>\<lessapprox> x1'] \<Rrightarrow>
     [in_field (\<le>\<^bsub>L2 x1 (r1 x2')\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 (l1 x1) x2'\<^esub>)) l2"
   and "([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x1' x2' \<Colon> (\<le>\<^bsub>R1\<^esub>) | x2 \<^bsub>L1\<^esub>\<lessapprox> x1'] \<Rrightarrow>
     [in_field (\<le>\<^bsub>R2 (l1 x1) x2'\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 x1 (r1 x2')\<^esub>)) r2"
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
-  using assms by (intro partial_equivalence_equivalence_if_galois_equivalenceI
+  using assms by (intro partial_equivalence_rel_equivalence_if_galois_equivalenceI
     galois_equivalence_if_mono_if_preorder_equivalenceI'
     tdfr.transitive_left2_if_preorder_equivalenceI
     tdfr.transitive_right2_if_preorder_equivalenceI
-    partial_equivalence_leftI flip.partial_equivalence_leftI
-    tdfr.partial_equivalence_left2_if_partial_equivalence_equivalenceI
-    tdfr.partial_equivalence_right2_if_partial_equivalence_equivalenceI)
+    partial_equivalence_rel_leftI flip.partial_equivalence_rel_leftI
+    tdfr.partial_equivalence_rel_left2_if_partial_equivalence_rel_equivalenceI
+    tdfr.partial_equivalence_rel_right2_if_partial_equivalence_rel_equivalenceI)
   auto
 
 
@@ -104,12 +104,12 @@ text \<open>See
 end
 
 
-paragraph \<open>Parametric Function Relator\<close>
+paragraph \<open>Monotone Function Relator\<close>
 
-context transport_Param_Fun_Rel
+context transport_Mono_Fun_Rel
 begin
 
-interpretation flip : transport_Param_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation flip : transport_Mono_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
 subparagraph \<open>Closure of Order and Galois Concepts\<close>
 
@@ -151,13 +151,13 @@ theorem preorder_equivalenceI:
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
   using assms by (intro preorder_equivalence_if_galois_equivalenceI) auto
 
-theorem partial_equivalence_equivalenceI:
+theorem partial_equivalence_rel_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "((\<le>\<^bsub>L2\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R2\<^esub>)) l2 r2"
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
-  using assms by (intro tpdfr.partial_equivalence_equivalence_if_galois_equivalenceI
+  using assms by (intro tpdfr.partial_equivalence_rel_equivalence_if_galois_equivalenceI
     galois_equivalenceI
-    partial_equivalence_leftI flip.partial_equivalence_leftI)
+    partial_equivalence_rel_leftI flip.partial_equivalence_rel_leftI)
   auto
 
 
@@ -177,24 +177,24 @@ end
 
 paragraph \<open>Dependent Function Relator\<close>
 
-text \<open>While a general transport of functions is only possible for the parametric
-function space (see above), the locales @{locale "transport_Dep_Fun_Rel"} and
+text \<open>While a general transport of functions is only possible for the monotone
+function relator (see above), the locales @{locale "transport_Dep_Fun_Rel"} and
 @{locale "transport_Fun_Rel"} contain special cases to transport functions
-that are proven to be parametric using the standard function space.
+that are proven to be monotone using the standard function space.
 
-Moreover, in the special case of equivalences on partial equivalences, the
-standard function space is parametric - see
-@{thm "transport_Param_Dep_Fun_Rel.left_rel_eq_tdfr_leftI_if_equivalencesI"}
-As such, we can derive general transport theorems from the parametric cases
+Moreover, in the special case of equivalences on partial equivalence relations,
+the standard function space is monotone - see
+@{thm "transport_Mono_Dep_Fun_Rel.left_rel_eq_tdfr_leftI_if_equivalencesI"}
+As such, we can derive general transport theorems from the monotone cases
 above.\<close>
 
 context transport_Dep_Fun_Rel
 begin
 
-interpretation tpdfr : transport_Param_Dep_Fun_Rel L1 R1 l1 r1 L2 R2 l2 r2 .
-interpretation flip : transport_Param_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation tpdfr : transport_Mono_Dep_Fun_Rel L1 R1 l1 r1 L2 R2 l2 r2 .
+interpretation flip : transport_Mono_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
-theorem partial_equivalence_equivalenceI:
+theorem partial_equivalence_rel_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>L2 x (r1 x')\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)) (l2\<^bsub>x' x\<^esub>) (r2\<^bsub>x x'\<^esub>)"
   and "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
@@ -208,11 +208,11 @@ proof -
   from assms have "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) = (tpdfr.L \<equiv>\<^bsub>PER\<^esub> tpdfr.R)"
     by (subst tpdfr.left_rel_eq_tdfr_leftI_if_equivalencesI
         flip.left_rel_eq_tdfr_leftI_if_equivalencesI,
-      auto intro!: partial_equivalence_left2_if_partial_equivalence_equivalenceI
-        partial_equivalence_right2_if_partial_equivalence_equivalenceI
+      auto intro!: partial_equivalence_rel_left2_if_partial_equivalence_rel_equivalenceI
+        partial_equivalence_rel_right2_if_partial_equivalence_rel_equivalenceI
       iff: t1.galois_equivalence_right_left_iff_galois_equivalence_left_right)+
   with assms show ?thesis
-    by (auto intro!: tpdfr.partial_equivalence_equivalenceI)
+    by (auto intro!: tpdfr.partial_equivalence_rel_equivalenceI)
 qed
 
 end
@@ -223,17 +223,17 @@ paragraph \<open>Function Relator\<close>
 context transport_Fun_Rel
 begin
 
-interpretation tpfr : transport_Param_Fun_Rel L1 R1 l1 r1 L2 R2 l2 r2 .
-interpretation flip_tpfr : transport_Param_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
+interpretation tpfr : transport_Mono_Fun_Rel L1 R1 l1 r1 L2 R2 l2 r2 .
+interpretation flip_tpfr : transport_Mono_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
-theorem partial_equivalence_equivalenceI:
+theorem partial_equivalence_rel_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "((\<le>\<^bsub>L2\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R2\<^esub>)) l2 r2"
   shows "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
 proof -
   from assms have "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) = (tpfr.tpdfr.L \<equiv>\<^bsub>PER\<^esub> tpfr.tpdfr.R)"
     by (subst tpfr.left_rel_eq_tfr_leftI flip_tpfr.left_rel_eq_tfr_leftI; auto)+
-  with assms show ?thesis by (auto intro!: tpfr.partial_equivalence_equivalenceI)
+  with assms show ?thesis by (auto intro!: tpfr.partial_equivalence_rel_equivalenceI)
 qed
 
 end

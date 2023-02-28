@@ -2,10 +2,10 @@
 section \<open>Orders\<close>
 theory Orders
   imports
-    Equivalences
+    Equivalence_Relations
     Order_Functions
     Order_Functors
-    Partial_Equivalences
+    Partial_Equivalence_Relations
     Partial_Orders
     Preorders
 begin

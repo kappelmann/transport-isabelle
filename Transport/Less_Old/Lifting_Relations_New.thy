@@ -133,9 +133,9 @@ lemma symmetric_Eq_Rel: "symmetric Eq_Rel"
 lemma transitive_Eq_Rel: "transitive Eq_Rel"
   by (rule transitiveI) (blast intro: Eq_RelI elim: Eq_RelE)
 
-lemma partial_equivalence_Eq_Rel: "partial_equivalence Eq_Rel"
+lemma partial_equivalence_rel_Eq_Rel: "partial_equivalence_rel Eq_Rel"
   using symmetric_Eq_Rel transitive_Eq_Rel
-  by (rule partial_equivalenceI)
+  by (rule partial_equivalence_relI)
 
 lemma injective_Eq_Rel: "rel_injective Eq_Rel"
   by (subst Eq_Rel_eq_Fun_Rel_id)

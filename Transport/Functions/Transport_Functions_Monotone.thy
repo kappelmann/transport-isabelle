@@ -151,9 +151,9 @@ lemma mono_wrt_rel_leftI:
 end
 
 
-paragraph \<open>Parametric Dependent Function Relator\<close>
+paragraph \<open>Monotone Dependent Function Relator\<close>
 
-context transport_Param_Dep_Fun_Rel
+context transport_Mono_Dep_Fun_Rel
 begin
 
 lemmas mono_wrt_rel_leftI = mono_wrt_rel_Refl_Rel_Refl_Rel_if_mono_wrt_rel
@@ -161,9 +161,9 @@ lemmas mono_wrt_rel_leftI = mono_wrt_rel_Refl_Rel_Refl_Rel_if_mono_wrt_rel
 
 end
 
-paragraph \<open>Parametric Function Relator\<close>
+paragraph \<open>Monotone Function Relator\<close>
 
-context transport_Param_Fun_Rel
+context transport_Mono_Fun_Rel
 begin
 
 lemmas mono_wrt_rel_leftI = tpdfr.mono_wrt_rel_leftI[OF tfr.mono_wrt_rel_leftI]
