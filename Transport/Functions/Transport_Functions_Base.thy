@@ -6,6 +6,12 @@ theory Transport_Functions_Base
     Transport_Base
 begin
 
+paragraph \<open>Summary\<close>
+text \<open>Basic setup for closure proofs. We introduce locales for the syntax,
+the dependent relator, the non-dependent relator, the monotone dependent relator,
+and the monotone non-dependent relator.\<close>
+
+
 definition "flip2 f x1 x2 x3 x4 \<equiv> f x2 x1 x4 x3"
 
 lemma flip2_eq: "flip2 f x1 x2 x3 x4 = f x2 x1 x4 x3"
@@ -160,7 +166,7 @@ lemmas transport_defs = left_rel_eq_Dep_Fun_Rel left_eq_dep_fun_map
 
 sublocale transport L R l r .
 
-(*TODO: somehow the notation for the fixed parameters L and R, defined in
+(*FIXME: somehow the notation for the fixed parameters L and R, defined in
 Order_Functions_Base.thy, is lost. We hence re-declare it here.*)
 notation L (infix "\<le>\<^bsub>L\<^esub>" 50)
 notation R (infix "\<le>\<^bsub>R\<^esub>" 50)
@@ -287,7 +293,7 @@ locale transport_Fun_Rel =
   and r2 :: "'b2 \<Rightarrow> 'b1"
 begin
 
-(*TODO: we have to repeat the Galois syntax here since tdfr already contains
+(*FIXME: we have to repeat the Galois syntax here since tdfr already contains
 a Galois instance, blocking a galois sublocale interpretation here*)
 notation tdfr.L ("L")
 notation tdfr.R ("R")
@@ -390,7 +396,7 @@ lemmas transport_defs = left_rel_eq_tdfr_left_Refl_Rel
 
 sublocale transport L R l r .
 
-(*TODO: somehow the notation for the fixed parameters L and R, defined in
+(*FIXME: somehow the notation for the fixed parameters L and R, defined in
 Order_Functions_Base.thy, is lost. We hence re-declare it here.*)
 notation L (infix "\<le>\<^bsub>L\<^esub>" 50)
 notation R (infix "\<le>\<^bsub>R\<^esub>" 50)
@@ -415,7 +421,7 @@ locale transport_Mono_Fun_Rel =
   and r2 :: "'b2 \<Rightarrow> 'b1"
 begin
 
-(*TODO: we have to repeat the Galois syntax here since tdfr already contains
+(*FIXME: we have to repeat the Galois syntax here since tdfr already contains
 a Galois instance, blocking a galois sublocale interpretation here*)
 notation tpdfr.L ("L")
 notation tpdfr.R ("R")

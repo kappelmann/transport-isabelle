@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-section \<open>Orders\<close>
+subsection \<open>Orders\<close>
 theory Orders
   imports
     Equivalence_Relations
@@ -9,6 +9,9 @@ theory Orders
     Partial_Orders
     Preorders
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>Basic order-theoretic concepts.\<close>
 
 
 end

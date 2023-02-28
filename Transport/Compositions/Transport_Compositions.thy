@@ -6,10 +6,13 @@ theory Transport_Compositions
     Transport_Compositions_Generic
 begin
 
+paragraph \<open>Summary\<close>
 text \<open>We provide two ways to compose transportable components:
 a slightly intricate, generic one in @{locale "transport_comp"} and
 another straightforward but less general one in @{locale "transport_comp_agree"}.
 As a special case from the latter, we obtain @{locale "transport_comp_same"},
-which includes the cases most prominently covered in the literature.\<close>
+which includes the cases most prominently covered in the literature.
+
+See the Transport paper for more details.\<close>
 
 end

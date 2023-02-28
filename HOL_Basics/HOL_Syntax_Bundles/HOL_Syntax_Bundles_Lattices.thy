@@ -1,6 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-section \<open>Syntax For Lattices\<close>
-theory Lattices_Syntax
+theory HOL_Syntax_Bundles_Lattices
   imports
     HOL.Lattices
 begin

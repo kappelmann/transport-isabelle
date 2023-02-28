@@ -1,11 +1,15 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-section \<open>Predicates\<close>
+subsection \<open>Predicates\<close>
 theory Predicates
   imports
     Functions_Base
     Predicates_Order
     Predicates_Lattice
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>Basic concepts on predicates.\<close>
+
 
 definition "pred_map f (P :: 'a \<Rightarrow> bool) x \<equiv> P (f x)"
 

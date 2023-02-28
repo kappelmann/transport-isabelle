@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Galois Relator\<close>
+paragraph \<open>Galois Relator\<close>
 theory Transport_Compositions_Agree_Galois_Relator
   imports
     Transport_Compositions_Agree_Base

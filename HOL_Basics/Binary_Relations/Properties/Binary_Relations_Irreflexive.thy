@@ -1,9 +1,9 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Irreflexive\<close>
+paragraph \<open>Irreflexive\<close>
 theory Binary_Relations_Irreflexive
   imports
     Binary_Relation_Functions
-    Lattices_Syntax
+    HOL_Syntax_Bundles_Lattices
 begin
 
 consts irreflexive_on :: "'a \<Rightarrow> ('b \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow> bool"

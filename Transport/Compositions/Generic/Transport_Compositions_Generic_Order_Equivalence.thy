@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Order Equivalence\<close>
+paragraph \<open>Order Equivalence\<close>
 theory Transport_Compositions_Generic_Order_Equivalence
   imports
     HOL_Basics.Galois_Equivalences
@@ -14,8 +14,8 @@ begin
 
 interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1  .
 
-paragraph \<open>Unit\<close>
-subparagraph \<open>Inflationary\<close>
+subparagraph \<open>Unit\<close>
+text \<open>Inflationary\<close>
 
 lemma inflationary_on_in_dom_unitI:
   assumes "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
@@ -109,7 +109,7 @@ proof -
 qed
 
 
-subparagraph \<open>Deflationary\<close>
+text \<open>Deflationary\<close>
 
 lemma deflationary_on_in_dom_unitI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1" "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
@@ -198,7 +198,7 @@ proof -
 qed
 
 
-subparagraph \<open>Relational Equivalence\<close>
+text \<open>Relational Equivalence\<close>
 
 corollary rel_equivalence_on_in_field_unitI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1" "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
@@ -219,7 +219,7 @@ corollary rel_equivalence_on_in_field_unitI:
   (auto simp only: in_codom_eq_in_dom_if_reflexive_on_in_field)
 
 
-paragraph \<open>Counit\<close>
+subparagraph \<open>Counit\<close>
 
 text \<open>Corresponding lemmas for the counit can be obtained by flipping the
 interpretation of the locale, i.e.
@@ -236,7 +236,7 @@ interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1
 end
 
 
-paragraph \<open>Order Equivalence\<close>
+text \<open>Order Equivalence\<close>
 
 interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1
   rewrites "flip.t2.unit \<equiv> \<epsilon>\<^sub>1" and "flip.t2.counit \<equiv> \<eta>\<^sub>1"

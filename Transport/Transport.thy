@@ -8,5 +8,12 @@ theory Transport
     Transport_Identity
 begin
 
+paragraph \<open>Summary\<close>
+text \<open>We formalise the theory for the Transport framework.
+The Transport framework allows us to transport terms along (partial) Galois
+connections (@{term "galois.galois_connection"}) and equivalences
+(@{term "galois.galois_equivalence"}).
+For details, refer to the Transport paper.\<close>
+
 
 end

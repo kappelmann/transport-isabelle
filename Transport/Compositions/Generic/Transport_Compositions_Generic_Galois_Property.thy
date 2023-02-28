@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Galois Property\<close>
+paragraph \<open>Galois Property\<close>
 theory Transport_Compositions_Generic_Galois_Property
   imports
     Transport_Compositions_Generic_Base

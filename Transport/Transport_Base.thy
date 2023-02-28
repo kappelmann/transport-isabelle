@@ -6,6 +6,10 @@ theory Transport_Base
     HOL_Basics.Galois_Relator
 begin
 
+paragraph \<open>Summary\<close>
+text \<open>Basic setup for commonly used concepts in Transport, including a suitable
+locale.\<close>
+
 locale transport = galois L R l r
   for L :: "'a \<Rightarrow> 'a \<Rightarrow> bool"
   and R :: "'b \<Rightarrow> 'b \<Rightarrow> bool"
@@ -13,7 +17,7 @@ locale transport = galois L R l r
   and r :: "'b \<Rightarrow> 'a"
 begin
 
-subsubsection \<open>Galois Connections on Orders\<close>
+subsubsection \<open>Ordered Galois Connections\<close>
 
 definition "preorder_galois_connection \<equiv>
   ((\<le>\<^bsub>L\<^esub>) \<stileturn> (\<le>\<^bsub>R\<^esub>)) l r
@@ -105,7 +109,7 @@ next
 qed
 
 
-subsubsection \<open>Equivalences on Orders\<close>
+subsubsection \<open>Ordered Equivalences\<close>
 
 definition "preorder_equivalence \<equiv>
   ((\<le>\<^bsub>L\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R\<^esub>)) l r

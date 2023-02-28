@@ -19,17 +19,24 @@ structure Transport_Parse_Util : TRANSPORT_PARSE_UTIL =
 struct
 
 fun check_scan msg_of p x = if p x then x else Scan.fail_with msg_of x
+
 val eq_parser = Parse.$$$ "\<equiv>" || Parse.$$$ "="
+
 fun entry_parser name_parser delimiter_parser value_parser =
   name_parser --| delimiter_parser -- value_parser
+
 val pretty_names = map Pretty.str #> Pretty.commas #> Pretty.block
+
 fun name_parser names parse_name =
   let
     val pretty_names = pretty_names names |> Pretty.string_of
     val name_parser = Parse.name >> parse_name
   in Parse.group (K pretty_names) name_parser end
+
 fun eq_name_entry (rn, (xn, _)) = rn = xn
+
 fun check_required_entries rs xs = subset eq_name_entry (rs, xs)
+
 fun required_entries_parser entry_parser param_name_to_string rs =
   let
     fun failure_msg xs _ = Pretty.breaks [

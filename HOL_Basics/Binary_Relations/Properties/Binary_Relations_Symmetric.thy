@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Symmetric\<close>
+paragraph \<open>Symmetric\<close>
 theory Binary_Relations_Symmetric
   imports
     Functions_Monotone

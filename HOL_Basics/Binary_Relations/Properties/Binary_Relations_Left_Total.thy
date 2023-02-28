@@ -1,9 +1,9 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Left Total\<close>
+paragraph \<open>Left Total\<close>
 theory Binary_Relations_Left_Total
   imports
     Binary_Relation_Functions
-    Lattices_Syntax
+    HOL_Syntax_Bundles_Lattices
 begin
 
 consts left_total_on :: "'a \<Rightarrow> ('b \<Rightarrow> 'c \<Rightarrow> bool) \<Rightarrow> bool"

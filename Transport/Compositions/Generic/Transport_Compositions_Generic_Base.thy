@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Basic Setup\<close>
+paragraph \<open>Basic Setup\<close>
 theory Transport_Compositions_Generic_Base
   imports
     HOL_Basics.Galois_Relator
@@ -21,7 +21,10 @@ begin
 text \<open>This locale collects results about the composition of transportable
 components under some generic compatibility conditions on @{term "R1"} and
 @{term "L2"} (cf. below). The composition is rather subtle, but in return can
-cover quite general cases.\<close>
+cover quite general cases.
+
+Explanations and intuition about the construction can be found in the Transport
+paper.\<close>
 
 notation L1 (infix "\<le>\<^bsub>L1\<^esub>" 50)
 notation R1 (infix "\<le>\<^bsub>R1\<^esub>" 50)
@@ -94,7 +97,7 @@ end
 
 sublocale transport L R l r .
 
-(*TODO: somehow the notation for the fixed parameters L and R, defined in
+(*FIXME: somehow the notation for the fixed parameters L and R, defined in
 Order_Functions_Base.thy, is lost. We hence re-declare it here.*)
 notation L (infix "\<le>\<^bsub>L\<^esub>" 50)
 notation R (infix "\<le>\<^bsub>R\<^esub>" 50)
@@ -129,7 +132,7 @@ corollary left_rel_inv_iff_left_rel_if_galois_prop [iff]:
   using assms by (simp flip: ge_left_rel_eq_left_rel_inv_if_galois_prop)
 
 
-paragraph \<open>Simplification of Relations\<close>
+subparagraph \<open>Simplification of Relations\<close>
 
 lemma left_rel_le_left_rel1I:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -197,14 +200,13 @@ proof (intro exI conjI)
   qed
 qed
 
-
 end
 
 
-paragraph \<open>Generic Left to Right Introduction Rules\<close>
+subparagraph \<open>Generic Left to Right Introduction Rules\<close>
 
 text \<open>The following lemmas generalise the proof outline used, for example,
-when proving monotonicity and the Galois property.\<close>
+when proving monotonicity and the Galois property (cf. the Transport paper).\<close>
 
 interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1 .
 
@@ -291,7 +293,7 @@ proof -
 qed
 
 
-paragraph \<open>Simplification of Monotonicity Assumptions\<close>
+subparagraph \<open>Simplification of Monotonicity Assumptions\<close>
 
 text \<open>Some sufficient conditions for monotonicity assumptions that repeatedly
 arise in various places.\<close>
@@ -309,7 +311,7 @@ lemma mono_in_codom_left_rel_left1_if_in_codom_rel_comp_le:
   using assms by (intro dep_mono_wrt_predI) blast
 
 
-paragraph \<open>Simplification of Compatibility Conditions\<close>
+subparagraph \<open>Simplification of Compatibility Conditions\<close>
 
 text \<open>Most results will depend on certain compatibility conditions between
 @{term "(\<le>\<^bsub>R1\<^esub>)"} and @{term "(\<le>\<^bsub>L2\<^esub>)"}. We next derive some sufficient assumptions

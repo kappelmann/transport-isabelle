@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Transitive\<close>
+paragraph \<open>Transitive\<close>
 theory Binary_Relations_Transitive
   imports
     Binary_Relation_Functions

@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Restricted_Equality\<close>
+subsubsection \<open>Restricted_Equality\<close>
 theory Restricted_Equality
   imports
     Binary_Relations_Order_Base
@@ -7,6 +7,12 @@ theory Restricted_Equality
     Equivalence_Relations
     Partial_Orders
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>Introduces the concept of restricted equalities.
+An equality @{term "(=)"} can be restricted to only apply to a subset of its
+elements. The restriction can be formulated, for example, by a predicate or a
+set.\<close>
 
 consts eq_restrict :: "'a \<Rightarrow> 'b \<Rightarrow> 'b \<Rightarrow> bool"
 
@@ -60,7 +66,7 @@ lemma in_codom_eq_restrict_eq [simp]: "in_codom (=\<^bsub>P\<^esub>) = P" by aut
 lemma in_field_eq_restrict_eq [simp]: "in_field (=\<^bsub>P\<^esub>) = P" by auto
 
 
-subsubsection \<open>Order Properties\<close>
+paragraph \<open>Order Properties\<close>
 
 context
   fixes P :: "'a \<Rightarrow> bool"

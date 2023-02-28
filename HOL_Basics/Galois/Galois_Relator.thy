@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Relator For Galois Connections\<close>
+subsubsection \<open>Relator For Galois Connections\<close>
 theory Galois_Relator
   imports
     Galois_Property
@@ -10,6 +10,9 @@ locale galois_rel = orders L R
   and R :: "'c \<Rightarrow> 'd \<Rightarrow> bool"
   and r :: "'d \<Rightarrow> 'b"
 begin
+
+text \<open>Morally speaking, the Galois relator characterises when two terms
+\<^term>\<open>x :: 'a\<close> and \<^term>\<open>y :: 'b\<close> are "similar".\<close>
 
 definition "Galois x y \<equiv> in_codom (\<le>\<^bsub>R\<^esub>) y \<and> x \<le>\<^bsub>L\<^esub> r y"
 

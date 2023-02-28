@@ -1,8 +1,14 @@
-theory Transport_Lifting
+\<^marker>\<open>creator "Kevin Kappelmann"\<close>
+subsubsection \<open>Transport for Partial Quotient Types\<close>
+theory Transport_Partial_Quotient_Types
   imports
     HOL.Lifting
     Transport.Transport
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>Every partial quotient type @{term Quotient}, as used by the Lifting
+package, is transportable.\<close>
 
 context transport
 begin

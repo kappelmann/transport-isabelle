@@ -1,8 +1,8 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Lattice\<close>
+subsubsection \<open>Lattice\<close>
 theory Predicates_Lattice
   imports
-    Lattices_Syntax
+    HOL_Syntax_Bundles_Lattices
     HOL.Boolean_Algebras
 begin
 

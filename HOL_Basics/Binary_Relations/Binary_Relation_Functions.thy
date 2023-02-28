@@ -1,9 +1,12 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Basic Functions\<close>
+subsubsection \<open>Basic Functions\<close>
 theory Binary_Relation_Functions
   imports
     HOL.HOL
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>Basic functions on binary relations.\<close>
 
 definition "rel_comp R S x y \<equiv> \<exists>z. R x z \<and> S z y"
 

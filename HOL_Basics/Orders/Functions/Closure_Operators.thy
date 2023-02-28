@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Closure Operators\<close>
+paragraph \<open>Closure Operators\<close>
 theory Closure_Operators
   imports
     Order_Functions_Base

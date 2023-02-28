@@ -1,8 +1,8 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Surjective\<close>
+paragraph \<open>Surjective\<close>
 theory Functions_Surjective
   imports
-    Lattices_Syntax
+    HOL_Syntax_Bundles_Lattices
 begin
 
 consts surjective_at :: "'a \<Rightarrow> ('b \<Rightarrow> 'c) \<Rightarrow> bool"

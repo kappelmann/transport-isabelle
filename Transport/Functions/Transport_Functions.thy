@@ -9,7 +9,13 @@ theory Transport_Functions
     Transport_Functions_Relation_Simplifications
 begin
 
+paragraph \<open>Summary\<close>
+text \<open>Composition under (dependent) (monotone) function relators.
+See the Transport paper for more details.\<close>
+
 subsubsection \<open>Summary of Main Results\<close>
+
+text \<open>More precise results can be found in the corresponding subtheories.\<close>
 
 paragraph \<open>Monotone Dependent Function Relator\<close>
 
@@ -93,7 +99,7 @@ subparagraph \<open>Simplification of Left and Right Relations\<close>
 text \<open>See @{thm "left_rel_eq_tdfr_leftI_if_equivalencesI"}.\<close>
 
 
-subparagraph \<open>Simplification of Galois Relation\<close>
+subparagraph \<open>Simplification of Galois relator\<close>
 
 text \<open>See
 @{thm "Galois_eq_Dep_Fun_Rel_Galois_restrict_if_mono_if_galois_connectionI"
@@ -166,7 +172,7 @@ subparagraph \<open>Simplification of Left and Right Relations\<close>
 text \<open>See @{thm "left_rel_eq_tfr_leftI"}.\<close>
 
 
-subparagraph \<open>Simplification of Galois Relation\<close>
+subparagraph \<open>Simplification of Galois relator\<close>
 
 text \<open>See @{thm "Galois_eq_Fun_Rel_Galois_restrictI"
 "Fun_Rel_Galois_restrict_left_right_eq_Fun_Rel_GaloisI"

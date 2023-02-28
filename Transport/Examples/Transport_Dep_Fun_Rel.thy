@@ -1,10 +1,16 @@
-theory Transport_Dep_Rel
+\<^marker>\<open>creator "Kevin Kappelmann"\<close>
+subsubsection \<open>Transport for Dependent Function Relator\<close>
+theory Transport_Dep_Fun_Rel
   imports
-    Main
     Transport_PER
     Transport_Syntax
     "HOL-Library.IArray"
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>Dependent function relator examples from the Transport paper.
+Refer to the paper for more details.\<close>
+
 
 context
   includes galois_rel_syntax transport_syntax
@@ -23,9 +29,11 @@ lemma sub_parametric [transport_parametric]:
 transport_term nat_sub :: "nat \<Rightarrow> nat \<Rightarrow> nat" where x = "(-) :: int \<Rightarrow> _"
   and L = "[i _ \<Colon> Zpos] \<Rrightarrow> [j _ \<Colon> Zpos | j \<le> i] \<Rrightarrow> Zpos"
   and R = "[n _ \<Colon> (=)] \<Rrightarrow> [m _ \<Colon> (=) | m \<le> n] \<Rrightarrow> (=)"
+  (*fastforce discharges the remaining side-conditions*)
   by transport_term_prover fastforce+
 
-(*Note: as of now, transport_term does not rewrite the Galois relator of dependent relators*)
+text \<open>Note: as of now, @{command transport_term} does not rewrite the
+Galois relator of dependent function relators.\<close>
 thm nat_sub_related'
 thm nat_sub_app_eq
 
@@ -61,6 +69,7 @@ transport_term iarray_index where x = "(!) :: 'a list \<Rightarrow> _"
   and L = "([xs _ \<Colon> LRel R] \<Rrightarrow> [i _ \<Colon> (=) | i < length xs] \<Rrightarrow> R)"
   and R = "([xs _ \<Colon> IARel R] \<Rrightarrow> [i _ \<Colon> (=) | i < IArray.length xs] \<Rrightarrow> R)"
   by transport_term_prover
+  (*fastforce discharges the remaining side-conditions*)
   (fastforce simp: list_all2_lengthD elim: iarray.rel_cases)+
 
 end

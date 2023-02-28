@@ -1,9 +1,9 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Injective\<close>
+paragraph \<open>Injective\<close>
 theory Binary_Relations_Injective
   imports
     Binary_Relation_Functions
-    Lattices_Syntax
+    HOL_Syntax_Bundles_Lattices
 begin
 
 consts rel_injective_on :: "'a \<Rightarrow> ('b \<Rightarrow> 'c \<Rightarrow> bool) \<Rightarrow> bool"

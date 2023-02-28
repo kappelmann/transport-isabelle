@@ -1,9 +1,9 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Surjective\<close>
+paragraph \<open>Surjective\<close>
 theory Binary_Relations_Surjective
   imports
     Binary_Relation_Functions
-    Lattices_Syntax
+    HOL_Syntax_Bundles_Lattices
 begin
 
 consts rel_surjective_at :: "'a \<Rightarrow> ('b \<Rightarrow> 'c \<Rightarrow> bool) \<Rightarrow> bool"

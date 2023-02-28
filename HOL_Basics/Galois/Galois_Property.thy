@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Galois Property\<close>
+subsubsection \<open>Galois Property\<close>
 theory Galois_Property
   imports
     Half_Galois_Property

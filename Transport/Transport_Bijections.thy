@@ -6,6 +6,9 @@ theory Transport_Bijections
     Transport_Base
 begin
 
+paragraph \<open>Summary\<close>
+text \<open>Setup for Transport using bijective transport functions.\<close>
+
 locale transport_bijection =
   fixes L :: "'a \<Rightarrow> 'a \<Rightarrow> bool"
   and R :: "'b \<Rightarrow> 'b \<Rightarrow> bool"

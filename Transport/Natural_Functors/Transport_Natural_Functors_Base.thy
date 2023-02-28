@@ -7,6 +7,9 @@ theory Transport_Natural_Functors_Base
     Transport_Base
 begin
 
+paragraph \<open>Summary\<close>
+text \<open>Basic setup for closure proofs and simple lemmas.\<close>
+
 text \<open>In the following, we willingly use granular apply-style proofs since,
 in practice, these theorems have to be automatically generated whenever we
 declare a new natural functor.
@@ -77,7 +80,7 @@ consts Fmap :: "('a1 \<Rightarrow> 'a2) \<Rightarrow> ('b1 \<Rightarrow> 'b2) \<
 
 axiomatization
   where Fmap_id: "Fmap id id id = id"
-  and Fmap_comp: "\<And>f1 f2 f3 g1 g2 t3.
+  and Fmap_comp: "\<And>f1 f2 f3 g1 g2 g3.
     Fmap (g1 \<circ> f1) (g2 \<circ> f2) (g3 \<circ> f3) = Fmap g1 g2 g3 \<circ> Fmap f1 f2 f3"
   and Fmap_cong: "\<And>f1 f2 f3 g1 g2 g3 x.
     (\<And>x1. x1 \<in> Fset1 x \<Longrightarrow> f1 x1 = g1 x1) \<Longrightarrow>
@@ -641,7 +644,7 @@ end
 
 sublocale transport L R l r .
 
-(*TODO: somehow the notation for the fixed parameters L and R, defined in
+(*FIXME: somehow the notation for the fixed parameters L and R, defined in
 Order_Functions_Base.thy, is lost. We hence re-declare it here.*)
 notation L (infix "\<le>\<^bsub>L\<^esub>" 50)
 notation R (infix "\<le>\<^bsub>R\<^esub>" 50)

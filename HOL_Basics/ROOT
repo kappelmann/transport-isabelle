@@ -18,12 +18,4 @@ session HOL_Basics = "HOL" +
     "Predicates"
     "Galois"
   theories
-    LBinary_Relations
-    LFunctions
-    Galois
-    HOL_Syntax_Bundles
-    Lattices_Syntax
-    Orders
-    Predicates
-
-
+    HOL_Basics

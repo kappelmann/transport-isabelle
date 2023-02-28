@@ -1,3 +1,5 @@
+\<^marker>\<open>creator "Kevin Kappelmann"\<close>
+subsubsection \<open>Transport for HOL Type Definitions\<close>
 theory Transport_Typedef_Base
   imports
     Transport.Transport_Bijections

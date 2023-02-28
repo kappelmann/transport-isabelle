@@ -5,6 +5,10 @@ theory Transport_Identity
     Transport_Bijections
 begin
 
+paragraph \<open>Summary\<close>
+text \<open>Setup for Transport using the identity transport function.\<close>
+
+
 locale transport_id =
   fixes L :: "'a \<Rightarrow> 'a \<Rightarrow> bool"
 begin

@@ -2,7 +2,7 @@ chapter HOL
 
 session Transport = "HOL" +
   description
-    "Transport of definitions and theorems via Galois connections and equivalences."
+    "Transport via partial Galois connections and equivalences."
   options
     [timeout = 360]
   sessions
@@ -27,5 +27,9 @@ session Transport_Examples in Examples = "Transport" +
   directories
     "Typedef"
   theories
-    Transport_PER
+    Transport_Dep_Fun_Rel
+    Transport_List_Sets
+    Transport_Partial_Quotient_Types
+    Transport_Set_Extension
+    Transport_Typedef_Base
 

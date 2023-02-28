@@ -1,3 +1,5 @@
+\<^marker>\<open>creator "Kevin Kappelmann"\<close>
+subsection \<open>Transport via Equivalences on PERs\<close>
 theory Transport_PER
   imports
     Transport.Transport
@@ -6,6 +8,20 @@ theory Transport_PER
     E_Unification.E_Unification
   keywords "transport_term" :: thy_goal_defn
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>We implement a simple Transport prototype. The prototype is restricted
+to work with equivalences on partial equivalence relations.
+It is also not forming the compositions of equivalences so far.
+The support for dependent function relators is restricted to the form
+described in
+@{thm transport_Dep_Fun_Rel_no_dep_fun.partial_equivalence_rel_equivalenceI}.
+The relations can be dependent, but the functions must be simple.
+This is not production ready, but a proof of concept.
+
+The package provides a command @{command "transport_term"}, which sets up the
+required goals to prove a given term. See the examples in this directory for
+some use cases and refer to the Transport paper.\<close>
 
 context transport
 begin
@@ -19,6 +35,8 @@ lemma Galois_left_if_left_rel_if_partial_equivalence_rel_equivalence:
 
 definition "transport_per x y \<equiv> ((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r \<and> x \<^bsub>L\<^esub>\<lessapprox> y"
 
+text \<open>The choice of @{term "x \<le>\<^bsub>L\<^esub> x"} is arbitrary. All we need is
+@{term "in_dom (\<le>\<^bsub>L\<^esub>) x"}.\<close>
 lemma transport_per_start:
   assumes "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
   and "x \<le>\<^bsub>L\<^esub> x"
@@ -35,6 +53,8 @@ end
 
 context transport_Fun_Rel
 begin
+
+text \<open>Simplification of Galois relator for simple function relator.\<close>
 
 corollary Galois_eq_Fun_Rel_Galois:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -78,6 +98,7 @@ ML\<open>
 \<close>
 
 ML\<open>
+  (*simplifies the generated definition of a transported term*)
   fun simp_def ctxt simps y_def =
     let
       val ctxt = ctxt addsimps simps
@@ -89,6 +110,8 @@ ML\<open>
     in (y_def_simplified, y_def_eta_expanded_simplified) end
 \<close>
 
+text \<open>Definitions used by Transport that need to be folded before a proof and
+unfolded after success.\<close>
 ML\<open>
   structure Transport_Defs = Named_Thms(
     val name = @{binding "transport_def"}
@@ -102,7 +125,8 @@ declare
   transport_Fun_Rel.transport_defs[transport_def]
 
 ML\<open>
-  (*first-order unification with higher-order pattern unification with hints fallback*)
+  (*first-order unification with higher-order pattern unification with hints
+    as a fallback*)
   val norm_thm_beta_eta =
     UUtil.norm_thm_beta_eta UUtil.norm_type_unif UUtil.norm_term_unif
   fun unify_hints ctxt =
@@ -117,10 +141,12 @@ ML\<open>
       val unify = First_Order_Unification.e_unify unify_types ho_unify
     in unify ctxt end
 
+  (*resoluton with above unifier*)
   val any_unify_hints_resolve_tac = Unify_Resolve.any_unify_resolve_tac
     norm_thm_beta_eta unify_hints
 \<close>
 
+text \<open>Introduction rules for the PER equivalence prover.\<close>
 ML\<open>
   structure PER_Intros = Named_Thms(
     val name = @{binding "per_intro"}
@@ -130,6 +156,7 @@ ML\<open>
 \<close>
 
 declare
+  (*completely dependent case not supported as of now*)
   (* transport_Dep_Fun_Rel.partial_equivalence_rel_equivalenceI[per_intro] *)
   transport_Dep_Fun_Rel_no_dep_fun.partial_equivalence_rel_equivalenceI[per_intro]
   transport.rel_if_partial_equivalence_rel_equivalence_if_iff_if_partial_equivalence_rel_equivalenceI[per_intro]
@@ -157,9 +184,12 @@ ML\<open>
   val _ = Theory.setup Transport_Parametrics.setup
 \<close>
 
+text \<open>Discharges the @{term "L x x"} goals by registered lemmas.\<close>
 method parametricity_prover =
   (simp_all only: transport_def transport_parametric)
 
+text \<open>First derive the PER equivalence, then look for registered
+parametricity lemmas.\<close>
 method transport_term_prover = per_prover, parametricity_prover?
 
 ML\<open>
@@ -170,23 +200,7 @@ ML\<open>
   val _ = Theory.setup Transport_Related_Intros.setup
 \<close>
 
-lemmas Fun_Rel_relD = Dep_Fun_Rel_relD[where ?S="\<lambda>_ _. S" for S]
-
-declare
-  Fun_Rel_relD[transport_related_intro]
-
-ML\<open>
-  fun transport_related_tac ctxt =
-    let
-      val transport_related_intros = Transport_Related_Intros.get ctxt
-      val resolve_tac = any_unify_hints_resolve_tac ctxt
-    in REPEAT1 o resolve_tac transport_related_intros end
-\<close>
-
-method_setup transport_related_prover =
-  \<open>Scan.succeed (SIMPLE_METHOD o REPEAT_SOME o transport_related_tac)\<close>
-  "Relatedness prover for Transport"
-
+text \<open>Rewrite rules to simplify the derived Galois relator.\<close>
 ML\<open>
   structure Transport_Relator_Rewrites = Named_Thms(
     val name = @{binding "transport_relator_rewrite"}
@@ -198,9 +212,9 @@ ML\<open>
 declare
   transport_Fun_Rel.Galois_eq_Fun_Rel_Galois[transport_relator_rewrite]
   transport_id.Galois_eq_left[transport_relator_rewrite]
-  transport_id.Galois_eq_left[transport_relator_rewrite]
 
 ML\<open>
+  (*simple rewrite tactic for Galois relators*)
   fun per_simp_prover ctxt thm =
     let
       val prems = Thm.cprems_of thm
@@ -221,6 +235,8 @@ ML\<open>
       Raw_Simplifier.rewrite_thm (false, false, false) per_simp_prover ctxt thm
     end
 \<close>
+
+text \<open>Parsing setup\<close>
 
 ML\<open>
   type cmd_params =
@@ -261,7 +277,10 @@ in
 end
 \<close>
 
+text \<open>The transport_term command\<close>
+
 ML\<open>
+  (*some utilities to destruct terms*)
   val transport_per_start_thm = @{thm "transport.transport_per_start"}
   val related_if_transport_per_thm = @{thm "transport.Galois_left_if_transport_per"}
   fun dest_transport_per \<^Const_>\<open>transport.transport_per S T for L R l r x y\<close>
@@ -274,6 +293,7 @@ ML\<open>
     = ((Ta, Tb), (L, R, r, x, y))
   val dest_hom_Galois_y = dest_hom_Galois #> (fn (_, (_, _, _, _, y)) => y)
 
+  (*bindings for generated theorems and definitions*)
   val binding_transport_per = \<^binding>\<open>transport_per\<close>
   val binding_per = \<^binding>\<open>per\<close>
   val binding_parametric = \<^binding>\<open>parametric\<close>
@@ -312,6 +332,7 @@ ML\<open>
         ] @ binding_thms_attribs)
     in Local_Theory.notes facts ctxt |> snd end
 
+  (*black-box transport as described in the Transport paper*)
   fun after_qed_blackbox (binding, mixfix) [thms as [per_thm, parametricity_thm]] ctxt =
     let
       val transport_per_thm = List.foldl (op INCR_COMP) transport_per_start_thm thms
@@ -328,6 +349,7 @@ ML\<open>
         ]
     in note_facts (binding, mixfix) ctxt related_thm y binding_thms end
 
+  (*experimental white-box transport support*)
   fun after_qed_whitebox (binding, mixfix) [[related_thm]] ctxt =
     let
       (*fix possibly occurring meta type variables*)
@@ -413,13 +435,32 @@ ML\<open>
     Parse_Spec.constdecl
     (*other params*)
     -- cmd_params_parser
+    (*optionally pass unfold theorems in case of white-box transports*)
     -- Scan.optional (Parse.reserved "unfold" |-- Parse.thms1) []
+    (*use a bang "!" to start white-box transport mode (experimental)*)
     -- Parse.opt_bang
 
   val _ =
     Outer_Syntax.local_theory_to_proof \<^command_keyword>\<open>transport_term\<close>
       "transport of definition" (parse_strings >> setup_proof)
 \<close>
+
+text \<open>The following sets up an experimental white-box prover; but it
+can be ignored as it is not very functional at the moment.\<close>
+lemmas Fun_Rel_relD = Dep_Fun_Rel_relD[where ?S="\<lambda>_ _. S" for S]
+declare Fun_Rel_relD[transport_related_intro]
+
+ML\<open>
+  fun transport_related_tac ctxt =
+    let
+      val transport_related_intros = Transport_Related_Intros.get ctxt
+      val resolve_tac = any_unify_hints_resolve_tac ctxt
+    in REPEAT1 o resolve_tac transport_related_intros end
+\<close>
+
+method_setup transport_related_prover =
+  \<open>Scan.succeed (SIMPLE_METHOD o REPEAT_SOME o transport_related_tac)\<close>
+  "Relatedness prover for Transport"
 
 
 end

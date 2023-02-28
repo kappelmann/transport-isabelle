@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Transport For Natural Functors\<close>
+subsection \<open>Transport for Natural Functors\<close>
 theory Transport_Natural_Functors
   imports
     Transport_Natural_Functors_Galois
@@ -7,6 +7,12 @@ theory Transport_Natural_Functors
     Transport_Natural_Functors_Order_Base
     Transport_Natural_Functors_Order_Equivalence
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>Summary of results for a fixed natural functor with 3 parameters. All
+apply-style proofs are written such that they also apply to functors with other
+arities. An automatic derivation of these results for all natural functors needs
+to be implemented in the BNF package. This is future work.\<close>
 
 context transport_natural_functor
 begin
@@ -43,7 +49,8 @@ theorem partial_equivalence_rel_equivalenceI:
   apply assumption+
   done
 
-text \<open>Simplification of Galois relation see @{thm "Galois_eq_Frel_Galois"}.\<close>
+text \<open>For the simplification of the Galois relator see
+@{thm "Galois_eq_Frel_Galois"}.\<close>
 
 end
 

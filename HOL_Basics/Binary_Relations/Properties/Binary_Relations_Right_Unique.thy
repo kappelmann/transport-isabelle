@@ -1,9 +1,9 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Right Unique\<close>
+paragraph \<open>Right Unique\<close>
 theory Binary_Relations_Right_Unique
   imports
     Binary_Relation_Functions
-    Lattices_Syntax
+    HOL_Syntax_Bundles_Lattices
 begin
 
 consts right_unique_on :: "'a \<Rightarrow> ('b \<Rightarrow> 'c \<Rightarrow> bool) \<Rightarrow> bool"

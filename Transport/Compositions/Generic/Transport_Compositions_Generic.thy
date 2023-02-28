@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Generic Compositions\<close>
+subsubsection \<open>Generic Compositions\<close>
 theory Transport_Compositions_Generic
   imports
     Transport_Compositions_Generic_Galois_Equivalence
@@ -8,9 +8,9 @@ theory Transport_Compositions_Generic
     Transport_Compositions_Generic_Order_Equivalence
 begin
 
-subsubsection \<open>Summary of Main Results\<close>
+paragraph \<open>Summary of Main Results\<close>
 
-paragraph \<open>Closure of Order and Galois Concepts\<close>
+subparagraph \<open>Closure of Order and Galois Concepts\<close>
 
 context transport_comp
 begin
@@ -78,7 +78,7 @@ theorem partial_equivalence_rel_equivalenceI:
   auto
 
 
-paragraph \<open>Simplification of Galois Relation\<close>
+subparagraph \<open>Simplification of GaloisGalois relator\<close>
 
 theorem Galois_eq_Galois_rel_compI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -94,7 +94,7 @@ text \<open>For theorems with weaker assumptions, see
 "Galois_eq_Galois_rel_comp_if_galois_connection_if_galois_equivalenceI"}.\<close>
 
 
-paragraph \<open>Simplification of Compatibility Assumption\<close>
+subparagraph \<open>Simplification of Compatibility Assumption\<close>
 
 text \<open>See @{theory "Transport.Transport_Compositions_Generic_Base"}.\<close>
 

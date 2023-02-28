@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Basic Properties\<close>
+subsubsection \<open>Basic Properties\<close>
 theory Binary_Relation_Properties
   imports
     Binary_Relations_Antisymmetric

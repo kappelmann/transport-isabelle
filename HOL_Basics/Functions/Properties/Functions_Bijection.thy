@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Bijection\<close>
+paragraph \<open>Bijection\<close>
 theory Functions_Bijection
   imports
     Functions_Inverse

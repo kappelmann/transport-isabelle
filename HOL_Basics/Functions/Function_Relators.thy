@@ -1,11 +1,15 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Relators\<close>
+subsubsection \<open>Relators\<close>
 theory Function_Relators
   imports
     Binary_Relation_Functions
     Functions_Base
     Predicates_Lattice
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>Introduces the concept of function relators. The slogan of function
+relators is "related functions map related inputs to related outputs".\<close>
 
 definition "Dep_Fun_Rel_rel R S f g \<equiv> \<forall>x y. R x y \<longrightarrow> S x y (f x) (g y)"
 
@@ -104,7 +108,7 @@ lemma Fun_Rel_eq_eq_eq [simp]: "((=) \<Rrightarrow> (=)) = (=)"
   by (intro ext) auto
 
 
-subsubsection \<open>Composition\<close>
+paragraph \<open>Composition\<close>
 
 lemma Dep_Fun_Rel_rel_compI:
   assumes Dep_Fun_Rel1: "([x y \<Colon> R] \<Rrightarrow> S x y) f g"
@@ -133,7 +137,7 @@ corollary Dep_Fun_Rel_pred_comp_Dep_Fun_Rel_rel_compI':
   using assms by (intro Dep_Fun_Rel_pred_comp_Dep_Fun_Rel_rel_compI)
 
 
-subsubsection \<open>Restrictions\<close>
+paragraph \<open>Restrictions\<close>
 
 lemma restrict_left_Dep_Fun_Rel_rel_restrict_left_eq:
   fixes R :: "'a1 \<Rightarrow> 'a2 \<Rightarrow> bool"

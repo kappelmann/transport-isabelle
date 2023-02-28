@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Galois Connection\<close>
+paragraph \<open>Galois Connection\<close>
 theory Transport_Compositions_Generic_Galois_Connection
   imports
     HOL_Basics.Galois_Equivalences

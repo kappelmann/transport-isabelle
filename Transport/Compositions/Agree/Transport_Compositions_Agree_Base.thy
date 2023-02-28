@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Basic Setup\<close>
+paragraph \<open>Basic Setup\<close>
 theory Transport_Compositions_Agree_Base
   imports
     HOL_Basics.Galois_Relator
@@ -90,7 +90,7 @@ end
 
 sublocale transport L R l r .
 
-(*TODO: somehow the notation for the fixed parameters L and R, defined in
+(*FIXME: somehow the notation for the fixed parameters L and R, defined in
 Order_Functions_Base.thy, is lost. We hence re-declare it here.*)
 notation L (infix "\<le>\<^bsub>L\<^esub>" 50)
 notation R (infix "\<le>\<^bsub>R\<^esub>" 50)

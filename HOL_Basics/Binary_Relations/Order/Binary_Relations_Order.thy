@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Order\<close>
+subsubsection \<open>Order\<close>
 theory Binary_Relations_Order
   imports
     Binary_Relations_Order_Base
@@ -7,6 +7,9 @@ theory Binary_Relations_Order
     Binary_Relations_Symmetric
     Binary_Relations_Transitive
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>Basic results about the order on binary relations.\<close>
 
 lemma in_dom_if_rel_if_rel_comp_le:
   assumes "(R \<circ>\<circ> S) \<le> (S \<circ>\<circ> R)"

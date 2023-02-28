@@ -1,9 +1,9 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Injective\<close>
+paragraph \<open>Injective\<close>
 theory Functions_Injective
   imports
     Functions_Base
-    Lattices_Syntax
+    HOL_Syntax_Bundles_Lattices
 begin
 
 consts injective_on :: "'a \<Rightarrow> ('b \<Rightarrow> 'c) \<Rightarrow> bool"

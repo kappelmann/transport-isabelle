@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-section \<open>Binary Relations\<close>
+subsection \<open>Binary Relations\<close>
 theory LBinary_Relations
   imports
     Binary_Relation_Functions
@@ -8,6 +8,9 @@ theory LBinary_Relations
     Binary_Relation_Properties
     Restricted_Equality
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>Basic concepts on binary relations.\<close>
 
 
 end

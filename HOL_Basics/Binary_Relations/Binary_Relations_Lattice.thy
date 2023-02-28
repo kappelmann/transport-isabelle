@@ -1,10 +1,13 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Lattice\<close>
+subsubsection \<open>Lattice\<close>
 theory Binary_Relations_Lattice
   imports
     Binary_Relations_Order_Base
     HOL.Boolean_Algebras
 begin
+
+paragraph \<open>Summary\<close>
+text \<open>Basic results about the lattice structure on binary relations.\<close>
 
 lemma rel_infI [intro]:
   assumes "R x y"

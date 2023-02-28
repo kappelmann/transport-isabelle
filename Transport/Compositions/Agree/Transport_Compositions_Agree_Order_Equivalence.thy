@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Order Equivalence\<close>
+paragraph \<open>Order Equivalence\<close>
 theory Transport_Compositions_Agree_Order_Equivalence
   imports
     Transport_Compositions_Agree_Monotone
@@ -8,8 +8,8 @@ begin
 context transport_comp_agree
 begin
 
-paragraph \<open>Unit\<close>
-subparagraph \<open>Inflationary\<close>
+subparagraph \<open>Unit\<close>
+text \<open>Inflationary\<close>
 
 lemma inflationary_on_unitI:
   assumes mono_l1: "([P] \<Rrightarrow>\<^sub>m P') l1"
@@ -40,7 +40,7 @@ corollary inflationary_on_in_field_unitI:
   using assms by (intro inflationary_on_unitI dep_mono_wrt_predI) auto
 
 
-subparagraph \<open>Deflationary\<close>
+text \<open>Deflationary\<close>
 
 context
 begin
@@ -67,7 +67,7 @@ lemma deflationary_on_in_field_unitI:
 end
 
 
-subparagraph \<open>Relational Equivalence\<close>
+text \<open>Relational Equivalence\<close>
 
 corollary rel_equivalence_on_in_field_unitI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2\<^esub>)) l1"
@@ -83,13 +83,13 @@ corollary rel_equivalence_on_in_field_unitI:
   auto
 
 
-paragraph \<open>Counit\<close>
+subparagraph \<open>Counit\<close>
 
 text \<open>Corresponding lemmas for the counit can be obtained by flipping the
 interpretation of the locale.\<close>
 
 
-paragraph \<open>Order Equivalence\<close>
+subparagraph \<open>Order Equivalence\<close>
 
 interpretation flip : transport_comp_agree R2 L2 r2 l2 R1 L1 r1 l1
   rewrites "flip.g1.unit \<equiv> \<epsilon>\<^sub>2" and "flip.g2.unit \<equiv> \<epsilon>\<^sub>1" and "flip.unit \<equiv> \<epsilon>"

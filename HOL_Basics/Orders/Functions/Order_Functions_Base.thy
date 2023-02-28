@@ -1,12 +1,12 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Basics\<close>
+paragraph \<open>Basics\<close>
 theory Order_Functions_Base
   imports
     Functions_Monotone
     Restricted_Equality
 begin
 
-paragraph \<open>Bi-Relation\<close>
+subparagraph \<open>Bi-Relation\<close>
 
 definition "bi_related R x y \<equiv> R x y \<and> R y x"
 
@@ -110,7 +110,7 @@ corollary eq_if_all_rel_iff_if_antisymmetric_on_if_reflexive_on':
     bi_related_if_all_rel_iff_if_reflexive_on')
 
 
-paragraph \<open>Inflationary\<close>
+subparagraph \<open>Inflationary\<close>
 
 consts inflationary_on :: "'a \<Rightarrow> ('b \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow> ('b \<Rightarrow> 'b) \<Rightarrow> bool"
 
@@ -196,7 +196,7 @@ lemma inflationary_eq_dep_mono_wrt_pred: "inflationary = dep_mono_wrt_pred \<top
   by (intro ext) (fastforce dest: inflationaryD)
 
 
-paragraph \<open>Deflationary\<close>
+subparagraph \<open>Deflationary\<close>
 
 definition "deflationary_on P R \<equiv> inflationary_on P R\<inverse>"
 
@@ -284,7 +284,7 @@ lemma deflationary_eq_dep_mono_wrt_pred_rel_inv:
   by (intro ext) (fastforce dest: deflationaryD)
 
 
-paragraph \<open>Relational Equivalence\<close>
+subparagraph \<open>Relational Equivalence\<close>
 
 definition "rel_equivalence_on \<equiv> inflationary_on \<sqinter> deflationary_on"
 
