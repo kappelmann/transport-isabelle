@@ -5,22 +5,22 @@ theory Closure_Operators
     Order_Functions_Base
 begin
 
-definition "idempotent_on P R f \<equiv> \<forall>x. P x \<longrightarrow> f x \<equiv>\<^bsub>R\<^esub> f (f x)"
+definition "idempotent_on P R f \<equiv> rel_equivalence_on P (rel_map f R) f"
 
 lemma idempotent_onI [intro]:
   assumes "\<And>x. P x \<Longrightarrow> f x \<equiv>\<^bsub>R\<^esub> f (f x)"
   shows "idempotent_on P R f"
-  unfolding idempotent_on_def using assms by blast
+  unfolding idempotent_on_def using assms by fastforce
 
 lemma idempotent_onE [elim]:
   assumes "idempotent_on P R f"
   and "P x"
   obtains "R (f (f x)) (f x)" "R (f x) (f (f x))"
-  using assms unfolding idempotent_on_def by blast
+  using assms unfolding idempotent_on_def by fastforce
 
 lemma rel_equivalence_on_rel_map_iff_idempotent_on [iff]:
   "rel_equivalence_on P (rel_map f R) f \<longleftrightarrow> idempotent_on P R f"
-  by fastforce
+  unfolding idempotent_on_def by simp
 
 lemma bi_related_if_idempotent_onD:
   assumes "idempotent_on P R f"

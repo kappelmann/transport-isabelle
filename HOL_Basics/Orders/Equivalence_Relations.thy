@@ -44,7 +44,7 @@ lemma equivalence_relI [intro]:
   by (intro equivalence_rel_onI partial_equivalence_rel_on_if_partial_equivalence_rel
     reflexive_on_if_reflexive)
 
-lemma equivalenceE [elim]:
+lemma equivalence_relE [elim]:
   assumes "equivalence_rel R"
   obtains "partial_equivalence_rel R" "reflexive R"
   using assms unfolding equivalence_rel_eq_equivalence_rel_on
@@ -56,7 +56,7 @@ lemma equivalence_rel_on_if_equivalence:
   fixes P :: "'a \<Rightarrow> bool" and R :: "'a \<Rightarrow> _"
   assumes "equivalence_rel R"
   shows "equivalence_rel_on P R"
-  using assms by (elim equivalenceE)
+  using assms by (elim equivalence_relE)
   (intro equivalence_rel_onI partial_equivalence_rel_on_if_partial_equivalence_rel
     reflexive_on_if_reflexive)
 
