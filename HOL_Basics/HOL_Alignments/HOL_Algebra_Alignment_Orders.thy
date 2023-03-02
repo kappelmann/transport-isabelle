@@ -1,9 +1,9 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
 subsubsection \<open>Alignment With Definitions from HOL-Algebra\<close>
-theory Order_HOL_Algebra_Alignments
+theory HOL_Algebra_Alignment_Orders
   imports
     "HOL-Algebra.Order"
-    Order_HOL_Alignments
+    HOL_Alignment_Orders
 begin
 
 named_theorems HOL_Algebra_order_alignment

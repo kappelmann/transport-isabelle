@@ -15,6 +15,7 @@ session Transport = "HOL" +
     "Natural_Functors"
   theories
     Transport
+    Transport_Natural_Functors
 
 session Transport_Examples in Examples = "Transport" +
   description

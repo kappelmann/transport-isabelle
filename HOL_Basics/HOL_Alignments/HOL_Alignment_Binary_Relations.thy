@@ -1,6 +1,6 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
 subsubsection \<open>Alignment With Definitions from HOL.Main\<close>
-theory Binary_Relation_HOL_Alignments
+theory HOL_Alignment_Binary_Relations
   imports
     Main
     HOL_Mem_Of

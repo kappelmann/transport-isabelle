@@ -1,8 +1,8 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
 subsubsection \<open>Alignment With Definitions from HOL.Main\<close>
-theory Function_HOL_Alignments
+theory HOL_Alignment_Functions
   imports
-    Binary_Relation_HOL_Alignments
+    HOL_Alignment_Binary_Relations
     HOL_Syntax_Bundles_Functions
     LFunctions
 begin

@@ -1,9 +1,9 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
 subsubsection \<open>Alignment With Definitions from HOL\<close>
-theory Order_HOL_Alignments
+theory HOL_Alignment_Orders
   imports
     "HOL-Library.Preorder"
-    Binary_Relation_HOL_Alignments
+    HOL_Alignment_Binary_Relations
     HOL_Syntax_Bundles_Orders
     Orders
 begin

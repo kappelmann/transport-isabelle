@@ -3,7 +3,7 @@ subsubsection \<open>Basic Setup\<close>
 theory Transport_Natural_Functors_Base
   imports
     HOL.BNF_Def
-    HOL_Basics.Binary_Relations_Lattice
+    HOL_Basics.HOL_Alignment_Functions
     Transport_Base
 begin
 
@@ -19,36 +19,6 @@ one to axiomatically declare a bounded natural functor. However, we only need a
 subset of these axioms - the boundedness of the functor is irrelevant for our
 purposes. For this reason - and the sake of completeness - we state all the
 required axioms explicitly below.\<close>
-
-bundle HOL_comp_inv_syntax
-begin
-notation Fun.comp (infixl "\<circ>" 55)
-notation Relation.converse ("(_\<inverse>)" [1000] 999)
-notation Relation.conversep ("(_\<inverse>\<inverse>)" [1000] 1000)
-end
-bundle no_HOL_comp_inv_syntax
-begin
-no_notation Fun.comp (infixl "\<circ>" 55)
-no_notation Relation.converse ("(_\<inverse>)" [1000] 999)
-no_notation Relation.conversep ("(_\<inverse>\<inverse>)" [1000] 1000)
-end
-unbundle no_HOL_comp_inv_syntax
-
-lemma Fun_comp_eq_comp: "Fun.comp = Functions_Base.comp"
-  by (intro ext) simp
-
-lemma Fun_id_eq_id: "Fun.id = id"
-  by (intro ext) simp
-
-lemma relcompp_eq_rel_comp: "(OO) = (\<circ>\<circ>)" by (intro ext) blast
-
-lemma conversep_eq_rel_inv: "conversep = rel_inv" by (intro ext) blast
-
-lemma Domainp_eq_in_dom: "Domainp = in_dom"
-  by (intro ext) blast
-
-lemma eq_onp_eq_eq_restrict_left: "eq_onp P = (=)\<restriction>\<^bsub>P\<^esub>"
-  unfolding eq_onp_def by auto
 
 lemma Grp_UNIV_eq_eq_comp: "BNF_Def.Grp UNIV f = (=) \<circ> f"
   by (intro ext) (auto elim: GrpE intro: GrpI)

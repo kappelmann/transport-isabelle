@@ -26,7 +26,7 @@ Includes
 \<^enum> Basic concepts on predicates.
 \<^enum> Syntax bundles for HOL @{dir "HOL_Syntax_Bundles"}.
 \<^enum> Alignments for concepts that have counterparts in the HOL library \<hyphen>
-  see files called "XXX_Alignments".
+  see @{dir "HOL_Alignments"}.
 
 \<^emph>\<open>Motivation\<close>: Many useful definitions in Isabelle/HOL are introduced only
 after the type of sets has been introduced.

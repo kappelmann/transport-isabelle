@@ -10,8 +10,8 @@ text \<open>Basic functions on binary relations.\<close>
 
 definition "rel_comp R S x y \<equiv> \<exists>z. R x z \<and> S z y"
 
-bundle rel_comp_syntax begin notation rel_comp (infixl "\<circ>\<circ>" 75) end
-bundle no_rel_comp_syntax begin no_notation rel_comp (infixl "\<circ>\<circ>" 75) end
+bundle rel_comp_syntax begin notation rel_comp (infixl "\<circ>\<circ>" 55) end
+bundle no_rel_comp_syntax begin no_notation rel_comp (infixl "\<circ>\<circ>" 55) end
 unbundle rel_comp_syntax
 
 lemma rel_compI [intro]:

@@ -1,9 +1,9 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
 subsubsection \<open>Alignment With Definitions from HOL-Algebra\<close>
-theory Galois_HOL_Algebra_Alignments
+theory HOL_Algebra_Alignment_Galois
   imports
     "HOL-Algebra.Galois_Connection"
-    Order_HOL_Algebra_Alignments
+    HOL_Algebra_Alignment_Orders
     Galois
 begin
 
