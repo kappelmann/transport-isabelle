@@ -183,57 +183,55 @@ corollary mono_wrt_rel_iff_le_rel_map: "(R \<Rrightarrow>\<^sub>m S) f \<longlef
 corollary mono_wrt_pred_iff_le_pred_map: "([P] \<Rrightarrow>\<^sub>m Q) f \<longleftrightarrow> P \<le> pred_map f Q"
   using mono_wrt_pred_if_le_pred_map le_pred_map_if_mono_wrt_pred by auto
 
-text \<open>We define new constants for monotonicity because @{term "mono"} from HOL
-requires @{class "order"} instances.\<close>
-definition "mono' \<equiv> ((\<le>) \<Rrightarrow>\<^sub>m (\<le>))"
+definition "mono \<equiv> ((\<le>) \<Rrightarrow>\<^sub>m (\<le>))"
 
-definition "antimono' \<equiv> ((\<le>) \<Rrightarrow>\<^sub>m (\<ge>))"
+definition "antimono \<equiv> ((\<le>) \<Rrightarrow>\<^sub>m (\<ge>))"
 
-lemma mono'I [intro]:
+lemma monoI [intro]:
   assumes "\<And>x y. x \<le> y \<Longrightarrow> f x \<le> f y"
-  shows "mono' f"
-  unfolding mono'_def using assms by blast
+  shows "mono f"
+  unfolding mono_def using assms by blast
 
-lemma mono'E [elim]:
-  assumes "mono' f"
+lemma monoE [elim]:
+  assumes "mono f"
   and "x \<le> y"
   obtains "f x \<le> f y"
-  using assms unfolding mono'_def by blast
+  using assms unfolding mono_def by blast
 
-lemma mono'D:
-  assumes "mono' f"
+lemma monoD:
+  assumes "mono f"
   and "x \<le> y"
   shows "f x \<le> f y"
   using assms by blast
 
-lemma antimono'I [intro]:
+lemma antimonoI [intro]:
   assumes "\<And>x y. x \<le> y \<Longrightarrow> f y \<le> f x"
-  shows "antimono' f"
-  unfolding antimono'_def using assms by blast
+  shows "antimono f"
+  unfolding antimono_def using assms by blast
 
-lemma antimono'E [elim]:
-  assumes "antimono' f"
+lemma antimonoE [elim]:
+  assumes "antimono f"
   and "x \<le> y"
   obtains "f y \<le> f x"
-  using assms unfolding antimono'_def by blast
+  using assms unfolding antimono_def by blast
 
-lemma antimono'D:
-  assumes "antimono' f"
+lemma antimonoD:
+  assumes "antimono f"
   and "x \<le> y"
   shows "f y \<le> f x"
   using assms by blast
 
-lemma antimono'_Dep_Fun_Rel_rel_left: "antimono' (\<lambda>R. [x y \<Colon> R] \<Rrightarrow> S x y)"
-  by (intro antimono'I) auto
+lemma antimono_Dep_Fun_Rel_rel_left: "antimono (\<lambda>R. [x y \<Colon> R] \<Rrightarrow> S x y)"
+  by (intro antimonoI) auto
 
-lemma antimono'_Dep_Fun_Rel_pred_left: "antimono' (\<lambda>P. [x \<Colon> P] \<Rrightarrow> Q x)"
-  by (intro antimono'I) auto
+lemma antimono_Dep_Fun_Rel_pred_left: "antimono (\<lambda>P. [x \<Colon> P] \<Rrightarrow> Q x)"
+  by (intro antimonoI) auto
 
-lemma antimono'_dep_mono_wrt_rel_left: "antimono' (\<lambda>R. [x y \<Colon> R] \<Rrightarrow>\<^sub>m S x y)"
-  by (intro antimono'I) auto
+lemma antimono_dep_mono_wrt_rel_left: "antimono (\<lambda>R. [x y \<Colon> R] \<Rrightarrow>\<^sub>m S x y)"
+  by (intro antimonoI) auto
 
-lemma antimono'_dep_mono_wrt_pred_left: "antimono' (\<lambda>P. [x \<Colon> P] \<Rrightarrow>\<^sub>m Q x)"
-  by (intro antimono'I) auto
+lemma antimono_dep_mono_wrt_pred_left: "antimono (\<lambda>P. [x \<Colon> P] \<Rrightarrow>\<^sub>m Q x)"
+  by (intro antimonoI) auto
 
 lemma Dep_Fun_Rel_rel_if_le_left_if_Dep_Fun_Rel_rel:
   assumes "([x y \<Colon> R] \<Rrightarrow> S x y) f g"
@@ -259,17 +257,17 @@ lemma dep_mono_wrt_pred_if_le_left_if_dep_mono_wrt_pred:
   shows "([x \<Colon> T] \<Rrightarrow>\<^sub>m Q x) f"
   using assms by blast
 
-lemma mono'_Dep_Fun_Rel_rel_right: "mono' (\<lambda>S. [x y \<Colon> R] \<Rrightarrow> S x y)"
-  by (intro mono'I) blast
+lemma mono_Dep_Fun_Rel_rel_right: "mono (\<lambda>S. [x y \<Colon> R] \<Rrightarrow> S x y)"
+  by (intro monoI) blast
 
-lemma mono'_Dep_Fun_Rel_pred_right: "mono' (\<lambda>Q. [x \<Colon> P] \<Rrightarrow> Q x)"
-  by (intro mono'I) blast
+lemma mono_Dep_Fun_Rel_pred_right: "mono (\<lambda>Q. [x \<Colon> P] \<Rrightarrow> Q x)"
+  by (intro monoI) blast
 
-lemma mono'_dep_mono_wrt_rel_right: "mono' (\<lambda>S. [x y \<Colon> R] \<Rrightarrow>\<^sub>m S x y)"
-  by (intro mono'I) blast
+lemma mono_dep_mono_wrt_rel_right: "mono (\<lambda>S. [x y \<Colon> R] \<Rrightarrow>\<^sub>m S x y)"
+  by (intro monoI) blast
 
-lemma mono'_dep_mono_wrt_pred_right: "mono' (\<lambda>Q. [x \<Colon> P] \<Rrightarrow>\<^sub>m Q x)"
-  by (intro mono'I) blast
+lemma mono_dep_mono_wrt_pred_right: "mono (\<lambda>Q. [x \<Colon> P] \<Rrightarrow>\<^sub>m Q x)"
+  by (intro monoI) blast
 
 lemma Dep_Fun_Rel_rel_if_le_right_if_Dep_Fun_Rel_rel:
   assumes "([x y \<Colon> R] \<Rrightarrow> S x y) f g"
@@ -337,11 +335,11 @@ paragraph \<open>Instantiations\<close>
 lemma mono_wrt_rel_self_id: "(R \<Rrightarrow>\<^sub>m R) id" by auto
 lemma mono_wrt_pred_self_id: "([P] \<Rrightarrow>\<^sub>m P) id" by auto
 
-lemma mono'_in_dom: "mono' in_dom" by (intro mono'I) fast
-lemma mono'_in_codom: "mono' in_codom" by (intro mono'I) fast
-lemma mono'_in_field: "mono' in_field" by (intro mono'I) fast
-lemma mono'_rel_comp1: "mono' (\<circ>\<circ>)" by (intro mono'I) fast
-lemma mono'_rel_comp2: "mono' ((\<circ>\<circ>) x)" by (intro mono'I) fast
+lemma mono_in_dom: "mono in_dom" by (intro monoI) fast
+lemma mono_in_codom: "mono in_codom" by (intro monoI) fast
+lemma mono_in_field: "mono in_field" by (intro monoI) fast
+lemma mono_rel_comp1: "mono (\<circ>\<circ>)" by (intro monoI) fast
+lemma mono_rel_comp2: "mono ((\<circ>\<circ>) x)" by (intro monoI) fast
 
 
 end

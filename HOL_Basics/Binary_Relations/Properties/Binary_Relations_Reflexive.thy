@@ -43,9 +43,9 @@ lemma reflexive_on_rel_inv_iff_reflexive_on [iff]:
   "reflexive_on P R\<inverse> \<longleftrightarrow> reflexive_on (P :: 'a \<Rightarrow> bool) (R :: 'a \<Rightarrow> _)"
   by blast
 
-lemma antimono'_reflexive_on [iff]:
-  "antimono' (\<lambda>(P :: 'a \<Rightarrow> bool). reflexive_on P (R :: 'a \<Rightarrow> _))"
-  by (intro antimono'I) auto
+lemma antimono_reflexive_on [iff]:
+  "antimono (\<lambda>(P :: 'a \<Rightarrow> bool). reflexive_on P (R :: 'a \<Rightarrow> _))"
+  by (intro antimonoI) auto
 
 lemma reflexive_on_if_le_pred_if_reflexive_on:
   fixes P P' :: "'a \<Rightarrow> bool" and R :: "'a \<Rightarrow> _"

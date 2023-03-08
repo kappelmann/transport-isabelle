@@ -29,9 +29,9 @@ lemma symmetric_on_rel_inv_iff_symmetric_on [iff]:
   "symmetric_on P R\<inverse> \<longleftrightarrow> symmetric_on (P :: 'a \<Rightarrow> bool) (R :: 'a \<Rightarrow> _)"
   by (blast dest: symmetric_onD)
 
-lemma antimono'_symmetric_on [iff]:
-  "antimono' (\<lambda>(P :: 'a \<Rightarrow> bool). symmetric_on P (R :: 'a \<Rightarrow> _))"
-  by (intro antimono'I) (auto dest: symmetric_onD)
+lemma antimono_symmetric_on [iff]:
+  "antimono (\<lambda>(P :: 'a \<Rightarrow> bool). symmetric_on P (R :: 'a \<Rightarrow> _))"
+  by (intro antimonoI) (auto dest: symmetric_onD)
 
 lemma symmetric_on_if_le_pred_if_symmetric_on:
   fixes P P' :: "'a \<Rightarrow> bool" and R :: "'a \<Rightarrow> _"

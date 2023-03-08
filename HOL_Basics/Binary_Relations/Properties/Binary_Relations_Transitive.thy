@@ -40,9 +40,9 @@ lemma transitive_on_rel_inv_iff_transitive_on [iff]:
   "transitive_on P R\<inverse> \<longleftrightarrow> transitive_on (P :: 'a \<Rightarrow> bool) (R :: 'a \<Rightarrow> _)"
   by (auto intro!: transitive_onI dest: transitive_onD)
 
-lemma antimono'_transitive_on [iff]:
-  "antimono' (\<lambda>(P :: 'a \<Rightarrow> bool). transitive_on P (R :: 'a \<Rightarrow> _))"
-  by (intro antimono'I) (auto dest: transitive_onD)
+lemma antimono_transitive_on [iff]:
+  "antimono (\<lambda>(P :: 'a \<Rightarrow> bool). transitive_on P (R :: 'a \<Rightarrow> _))"
+  by (intro antimonoI) (auto dest: transitive_onD)
 
 lemma transitive_on_if_le_pred_if_transitive_on:
   fixes P P' :: "'a \<Rightarrow> bool" and R :: "'a \<Rightarrow> _"

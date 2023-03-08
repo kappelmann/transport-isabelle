@@ -50,8 +50,8 @@ lemma transitive_bi_related_if_transitive [intro]:
   shows "transitive (\<equiv>\<^bsub>R\<^esub>)"
   using assms by (intro transitiveI bi_relatedI) auto
 
-lemma mono'_bi_related [iff]: "mono' bi_related"
-  by (intro mono'I) blast
+lemma mono_bi_related [iff]: "mono bi_related"
+  by (intro monoI) blast
 
 lemma bi_related_if_le_rel_if_bi_related:
   assumes "x \<equiv>\<^bsub>R\<^esub> y"
@@ -136,9 +136,9 @@ lemma inflationary_onD [dest]:
 lemma inflationary_on_eq_dep_mono_wrt_pred: "inflationary_on = dep_mono_wrt_pred"
   by blast
 
-lemma antimono'_inflationary_on_pred [iff]:
-  "antimono' (\<lambda>(P :: 'a \<Rightarrow> bool). inflationary_on P (R :: 'a \<Rightarrow> _))"
-  by (intro antimono'I) auto
+lemma antimono_inflationary_on_pred [iff]:
+  "antimono (\<lambda>(P :: 'a \<Rightarrow> bool). inflationary_on P (R :: 'a \<Rightarrow> _))"
+  by (intro antimonoI) auto
 
 lemma inflationary_on_if_le_pred_if_inflationary_on:
   fixes P P' :: "'a \<Rightarrow> bool" and R :: "'a \<Rightarrow> _"
@@ -147,9 +147,9 @@ lemma inflationary_on_if_le_pred_if_inflationary_on:
   shows "inflationary_on P' R f"
   using assms by blast
 
-lemma mono'_inflationary_on_rel [iff]:
-  "mono' (\<lambda>(R :: 'a \<Rightarrow> _). inflationary_on (P :: 'a \<Rightarrow> bool) R)"
-  by (intro mono'I) auto
+lemma mono_inflationary_on_rel [iff]:
+  "mono (\<lambda>(R :: 'a \<Rightarrow> _). inflationary_on (P :: 'a \<Rightarrow> bool) R)"
+  by (intro monoI) auto
 
 lemma inflationary_on_if_le_rel_if_inflationary_on:
   assumes "inflationary_on P R f"
@@ -226,9 +226,9 @@ lemma deflationary_on_eq_dep_mono_wrt_pred_rel_inv:
   "deflationary_on P R = ([x \<Colon> P] \<Rrightarrow>\<^sub>m R\<inverse> x)"
   by blast
 
-lemma antimono'_deflationary_on_pred [iff]:
-  "antimono' (\<lambda>(P :: 'a \<Rightarrow> bool). deflationary_on P (R :: 'a \<Rightarrow> _))"
-  by (intro antimono'I) auto
+lemma antimono_deflationary_on_pred [iff]:
+  "antimono (\<lambda>(P :: 'a \<Rightarrow> bool). deflationary_on P (R :: 'a \<Rightarrow> _))"
+  by (intro antimonoI) auto
 
 lemma deflationary_on_if_le_pred_if_deflationary_on:
   fixes P P' :: "'a \<Rightarrow> bool" and R :: "'a \<Rightarrow> _"
@@ -237,9 +237,9 @@ lemma deflationary_on_if_le_pred_if_deflationary_on:
   shows "deflationary_on P' R f"
   using assms by blast
 
-lemma mono'_deflationary_on_rel [iff]:
-  "mono' (\<lambda>(R :: 'a \<Rightarrow> _). deflationary_on (P :: 'a \<Rightarrow> bool) R)"
-  by (intro mono'I) auto
+lemma mono_deflationary_on_rel [iff]:
+  "mono (\<lambda>(R :: 'a \<Rightarrow> _). deflationary_on (P :: 'a \<Rightarrow> bool) R)"
+  by (intro monoI) auto
 
 lemma deflationary_on_if_le_rel_if_deflationary_on:
   assumes "deflationary_on P R f"
@@ -333,9 +333,9 @@ lemma rel_equivalence_on_rel_inv_eq_rel_equivalence_on [simp]:
   "rel_equivalence_on P R\<inverse> = rel_equivalence_on P R"
   by (intro ext) fastforce
 
-lemma antimono'_rel_equivalence_on_pred [iff]:
-  "antimono' (\<lambda>(P :: 'a \<Rightarrow> bool). rel_equivalence_on P (R :: 'a \<Rightarrow> _))"
-  by (intro antimono'I) blast
+lemma antimono_rel_equivalence_on_pred [iff]:
+  "antimono (\<lambda>(P :: 'a \<Rightarrow> bool). rel_equivalence_on P (R :: 'a \<Rightarrow> _))"
+  by (intro antimonoI) blast
 
 lemma rel_equivalence_on_if_le_pred_if_rel_equivalence_on:
   fixes P P' :: "'a \<Rightarrow> bool" and R :: "'a \<Rightarrow> _"

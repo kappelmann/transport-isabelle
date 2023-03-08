@@ -354,9 +354,9 @@ lemma rel_comp_comp_le_rel_comp_if_rel_comp_le_if_transitive:
 proof -
   from trans_R have R_R_le: "(R \<circ>\<circ> R) \<le> R" by (intro rel_comp_le_self_if_transitive)
   have "(R \<circ>\<circ> S \<circ>\<circ> R) \<le> (S \<circ>\<circ> R \<circ>\<circ> R)"
-    using mono'D[OF mono'_rel_comp1 R_S_le] by blast
+    using monoD[OF mono_rel_comp1 R_S_le] by blast
   also have "... \<le> (S \<circ>\<circ> R)"
-    using mono'D[OF mono'_rel_comp2 R_R_le] by (auto simp flip: rel_comp_assoc)
+    using monoD[OF mono_rel_comp2 R_R_le] by (auto simp flip: rel_comp_assoc)
   finally show ?thesis .
 qed
 
@@ -367,8 +367,8 @@ lemma rel_comp_comp_le_rel_comp_if_rel_comp_le_if_transitive':
 proof -
   from trans_R have R_R_le: "(R \<circ>\<circ> R) \<le> R" by (intro rel_comp_le_self_if_transitive)
   have "(R \<circ>\<circ> S \<circ>\<circ> R) \<le> (R \<circ>\<circ> R \<circ>\<circ> S)"
-    using mono'D[OF mono'_rel_comp2 S_R_le] by (auto simp flip: rel_comp_assoc)
-  also have "... \<le> (R \<circ>\<circ> S)" using mono'D[OF mono'_rel_comp1 R_R_le] by blast
+    using monoD[OF mono_rel_comp2 S_R_le] by (auto simp flip: rel_comp_assoc)
+  also have "... \<le> (R \<circ>\<circ> S)" using monoD[OF mono_rel_comp1 R_R_le] by blast
   finally show ?thesis .
 qed
 
@@ -433,12 +433,12 @@ lemma left2_right1_left2_le_right1_left2_if_right1_left2_right1_le_right1_left2I
 lemma in_dom_right1_left2_right1_le_if_right1_left2_right1_le:
   assumes "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>))"
   shows "in_dom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_dom (\<le>\<^bsub>L2\<^esub>)"
-  using mono'D[OF mono'_in_dom assms] by (auto intro: in_dom_if_in_dom_rel_comp)
+  using monoD[OF mono_in_dom assms] by (auto intro: in_dom_if_in_dom_rel_comp)
 
 lemma in_codom_right1_left2_right1_le_if_right1_left2_right1_le:
   assumes "((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>))"
   shows "in_codom ((\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>)) \<le> in_codom (\<le>\<^bsub>L2\<^esub>)"
-  using mono'D[OF mono'_in_codom assms]
+  using monoD[OF mono_in_codom assms]
   by (auto intro: in_codom_if_in_codom_rel_comp)
 
 text \<open>Our main results will be derivable for two different sets of compatibility

@@ -111,6 +111,12 @@ lemma monotone_eq_mono_wrt_rel [HOL_fun_alignment]: "monotone = mono_wrt_rel"
 lemma pred_fun_eq_mono_wrt_pred [HOL_fun_alignment]: "pred_fun = mono_wrt_pred"
   by (intro ext) auto
 
+lemma Fun_mono_eq_mono [HOL_fun_alignment]: "Fun.mono = mono"
+  by (intro ext) (auto intro: Fun.mono_onI dest: Fun.monoD)
+
+lemma Fun_antimono_eq_antimono [HOL_fun_alignment]: "Fun.antimono = antimono"
+  by (intro ext) (auto intro: monotoneI dest: monotoneD)
+
 
 subparagraph \<open>Surjective\<close>
 
