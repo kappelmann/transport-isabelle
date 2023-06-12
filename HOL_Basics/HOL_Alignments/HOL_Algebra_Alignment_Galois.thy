@@ -46,34 +46,34 @@ end
 context galois_bijection
 begin
 
-context
+context             
   fixes L R l r
   defines "L \<equiv> (\<sqsubseteq>\<^bsub>\<X>\<^esub>)\<restriction>\<^bsub>carrier \<X>\<^esub>\<upharpoonleft>\<^bsub>carrier \<X>\<^esub>" and "R \<equiv> (\<sqsubseteq>\<^bsub>\<Y>\<^esub>)\<restriction>\<^bsub>carrier \<Y>\<^esub>\<upharpoonleft>\<^bsub>carrier \<Y>\<^esub>"
     and "l \<equiv> \<pi>\<^sup>*" and "r \<equiv> \<pi>\<^sub>*"
   notes defs[simp] = L_def R_def l_def r_def and restrict_right_eq[simp]
-    and restrict_leftI[intro!] restrict_leftE[elim!]
+    and restrict_leftI[intro!] restrict_leftE[elim!] in_codom_restrict_leftE[elim!]
 begin
 
 interpretation galois R L r l .
 
 lemma half_galois_prop_left_right_left [HOL_Algebra_galois_alignment]:
   "(R \<^sub>h\<unlhd> L) r l"
-  using gal_bij_conn.galois_property lower_inv_eq upper_inv_eq upper_closed
-  by (intro half_galois_prop_leftI) (auto; metis)
+  using gal_bij_conn.right lower_inv_eq upper_closed upper_inv_eq
+  by (intro half_galois_prop_leftI; elim left_GaloisE) (auto; metis)
 
 lemma half_galois_prop_right_right_left [HOL_Algebra_galois_alignment]:
-  "(R \<unlhd>\<^sub>h L) r l"
-  using gal_bij_conn.galois_property lower_inv_eq upper_inv_eq lower_closed
-  by (intro half_galois_prop_rightI) (auto elim!: in_codom_restrict_leftE; metis)
-
+  "(R \<unlhd>\<^sub>h L) r l"  
+  using gal_bij_conn.left lower_closed lower_inv_eq upper_inv_eq
+  by (intro half_galois_prop_rightI; elim Galois_rightE) (auto; metis)
+  
 lemma prop_right_right_left [HOL_Algebra_galois_alignment]: "(R \<unlhd> L) r l"
   using half_galois_prop_left_right_left half_galois_prop_right_right_left by blast
 
 lemma galois_equivalence [HOL_Algebra_galois_alignment]: "(L \<equiv>\<^sub>G R) l r"
   using gal_bij_conn.galois_connection prop_right_right_left
-  by (intro galois.galois_equivalenceI) auto
+  by (intro galois.galois_equivalenceI) auto                                   
 
-end
+end                                                     
 end
 
 

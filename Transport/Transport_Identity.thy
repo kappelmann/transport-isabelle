@@ -18,7 +18,7 @@ sublocale tbij? : transport_bijection L L id id
 
 interpretation transport L L id id .
 
-lemma Galois_eq_left: "(\<^bsub>L\<^esub>\<lessapprox>) = (\<le>\<^bsub>L\<^esub>)"
+lemma left_Galois_eq_left: "(\<^bsub>L\<^esub>\<lessapprox>) = (\<le>\<^bsub>L\<^esub>)"
   by (intro ext iffI) auto
 
 end

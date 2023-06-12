@@ -89,13 +89,14 @@ lemma irreflexive_on_set_iff_irreflexive_on_pred [iff]:
     irreflexive_on (mem_of S) R"
   by simp
 
-lemma irreflp_on_eq_irreflexive_on [HOL_bin_rel_alignment]:
+(*TODO: uncomment for next Isabelle release*)
+(*lemma irreflp_on_eq_irreflexive_on [HOL_bin_rel_alignment]:
   "irreflp_on = irreflexive_on"
   by (intro ext) (blast intro: irreflp_onI dest: irreflp_onD)
 
 lemma irreflp_eq_irreflexive [HOL_bin_rel_alignment]: "irreflp = irreflexive"
   by (intro ext) (blast intro: irreflpI dest: irreflexiveD irreflpD)
-
+*)
 
 subparagraph \<open>Left-Total\<close>
 

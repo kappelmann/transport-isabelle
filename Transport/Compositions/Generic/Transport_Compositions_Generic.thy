@@ -78,20 +78,19 @@ theorem partial_equivalence_rel_equivalenceI:
   auto
 
 
-subparagraph \<open>Simplification of GaloisGalois relator\<close>
+subparagraph \<open>Simplification of Galois relator\<close>
 
-theorem Galois_eq_Galois_rel_compI:
+theorem left_Galois_eq_comp_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "((\<le>\<^bsub>R2\<^esub>) \<stileturn>\<^bsub>pre\<^esub> (\<le>\<^bsub>L2\<^esub>)) r2 l2"
   and "middle_compatible_codom"
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ((\<^bsub>L1\<^esub>\<lessapprox>) \<circ>\<circ> (\<^bsub>L2\<^esub>\<lessapprox>))"
-  using assms by (intro
-    Galois_eq_Galois_rel_comp_if_galois_connection_if_galois_equivalenceI)
+  using assms by (intro left_Galois_eq_comp_left_Galois_if_galois_connection_if_galois_equivalenceI)
   auto
 
 text \<open>For theorems with weaker assumptions, see
-@{thm "Galois_eq_Galois_rel_compI'"
-"Galois_eq_Galois_rel_comp_if_galois_connection_if_galois_equivalenceI"}.\<close>
+@{thm "left_Galois_eq_comp_left_GaloisI'"
+"left_Galois_eq_comp_left_Galois_if_galois_connection_if_galois_equivalenceI"}.\<close>
 
 
 subparagraph \<open>Simplification of Compatibility Assumption\<close>

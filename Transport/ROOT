@@ -24,7 +24,7 @@ session Transport_Examples in Examples = "Transport" +
     [timeout = 120]
   sessions
     Isabelle_Set
-    E_Unification
+    ML_Unification
   directories
     "Typedef"
   theories

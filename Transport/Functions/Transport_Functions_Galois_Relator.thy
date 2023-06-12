@@ -13,7 +13,7 @@ begin
 interpretation flip : transport_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
   rewrites "flip.t1.counit \<equiv> \<eta>\<^sub>1" by (simp only: t1.flip_counit_eq_unit)
 
-lemma Dep_Fun_Rel_Galois_if_GaloisI:
+lemma Dep_Fun_Rel_left_Galois_if_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and refl_L1: "reflexive_on (in_dom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and mono_r2: "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
@@ -27,9 +27,8 @@ lemma Dep_Fun_Rel_Galois_if_GaloisI:
 proof (intro Dep_Fun_Rel_relI)
   fix x x' assume "x \<^bsub>L1\<^esub>\<lessapprox> x'"
   show "f x \<^bsub>L2 x x'\<^esub>\<lessapprox> g x'"
-  proof (intro t2.GaloisI)
-    from \<open>x \<^bsub>L1\<^esub>\<lessapprox> x'\<close> \<open>((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1\<close> have "x \<le>\<^bsub>L1\<^esub> r1 x'" "l1 x \<le>\<^bsub>R1\<^esub> x'"
-      by auto
+  proof (intro t2.left_GaloisI)
+    from \<open>x \<^bsub>L1\<^esub>\<lessapprox> x'\<close> \<open>((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1\<close> have "x \<le>\<^bsub>L1\<^esub> r1 x'" "l1 x \<le>\<^bsub>R1\<^esub> x'" by auto
     with \<open>g \<le>\<^bsub>R\<^esub> g\<close> have "g (l1 x) \<le>\<^bsub>R2 (l1 x) x'\<^esub> g x'" by blast
     then show "in_codom (\<le>\<^bsub>R2 (l1 x) x'\<^esub>) (g x')" by blast
 
@@ -47,7 +46,7 @@ proof (intro Dep_Fun_Rel_relI)
   qed
 qed
 
-lemma left_rel_right_if_Dep_Fun_Rel_GaloisI:
+lemma left_rel_right_if_Dep_Fun_Rel_left_GaloisI:
   assumes mono_l1: "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and half_galois_prop_right1: "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and L2_unit_le2: "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>) \<le> (\<le>\<^bsub>L2 x1 x2\<^esub>)"
@@ -58,7 +57,7 @@ lemma left_rel_right_if_Dep_Fun_Rel_GaloisI:
 proof (intro left_relI)
   fix x1 x2 assume "x1 \<le>\<^bsub>L1\<^esub> x2"
   with mono_l1 half_galois_prop_right1 have "x1 \<^bsub>L1\<^esub>\<lessapprox> l1 x2"
-    by (intro t1.Galois_left_if_left_relI) auto
+    by (intro t1.left_Galois_left_if_left_relI) auto
   with rel_f_g have "f x1 \<^bsub>L2 x1 (l1 x2)\<^esub>\<lessapprox> g (l1 x2)" by blast
   then have "in_codom (\<le>\<^bsub>R2 (l1 x1) (l1 x2)\<^esub>) (g (l1 x2))"
     "f x1 \<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub> r2\<^bsub>x1 (l1 x2)\<^esub> (g (l1 x2))" by auto
@@ -68,7 +67,7 @@ proof (intro left_relI)
   then show "f x1 \<le>\<^bsub>L2 x1 x2\<^esub> r g x2" by simp
 qed
 
-lemma Galois_if_Dep_Fun_Rel_GaloisI:
+lemma left_Galois_if_Dep_Fun_Rel_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>) \<le> (\<le>\<^bsub>L2 x1 x2\<^esub>)"
@@ -77,9 +76,9 @@ lemma Galois_if_Dep_Fun_Rel_GaloisI:
   and "in_codom (\<le>\<^bsub>R\<^esub>) g"
   and "([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g"
-  using assms by (intro GaloisI left_rel_right_if_Dep_Fun_Rel_GaloisI) auto
+  using assms by (intro left_GaloisI left_rel_right_if_Dep_Fun_Rel_left_GaloisI) auto
 
-lemma left_right_rel_if_Dep_Fun_Rel_GaloisI:
+lemma left_right_rel_if_Dep_Fun_Rel_left_GaloisI:
   assumes mono_r1: "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and half_galois_prop_left2: "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
     ((\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x1') x2'\<^esub>)) (l2\<^bsub>x2' (r1 x1')\<^esub>) (r2\<^bsub>(r1 x1') x2'\<^esub>)"
@@ -101,7 +100,7 @@ proof (rule flip.left_relI)
   then show "l f x1' \<le>\<^bsub>R2 x1' x2'\<^esub> g x2'" by simp
 qed
 
-lemma Galois_if_Dep_Fun_Rel_GaloisI':
+lemma left_Galois_if_Dep_Fun_Rel_left_GaloisI':
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1" and "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
@@ -114,10 +113,10 @@ lemma Galois_if_Dep_Fun_Rel_GaloisI':
     (\<le>\<^bsub>R2 x1' x2'\<^esub>) (l2\<^bsub>x2' (r1 x1')\<^esub> y) \<le> (\<le>\<^bsub>R2 x1' x2'\<^esub>) (l2\<^bsub>x1' (r1 x1')\<^esub> y)"
   and "([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g"
-  using assms by (intro Galois_if_Dep_Fun_Rel_GaloisI in_codomI[where ?x="l f"])
-  (auto intro!: left_right_rel_if_Dep_Fun_Rel_GaloisI)
+  using assms by (intro left_Galois_if_Dep_Fun_Rel_left_GaloisI in_codomI[where ?x="l f"])
+  (auto intro!: left_right_rel_if_Dep_Fun_Rel_left_GaloisI)
 
-lemma Galois_iff_Dep_Fun_Rel_GaloisI:
+lemma left_Galois_iff_Dep_Fun_Rel_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_dom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
@@ -132,9 +131,9 @@ lemma Galois_iff_Dep_Fun_Rel_GaloisI:
   and "g \<le>\<^bsub>R\<^esub> g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
   using assms by (intro iffI)
-  (auto intro!: Dep_Fun_Rel_Galois_if_GaloisI Galois_if_Dep_Fun_Rel_GaloisI)
+  (auto intro!: Dep_Fun_Rel_left_Galois_if_left_GaloisI left_Galois_if_Dep_Fun_Rel_left_GaloisI)
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_ge_left_rel2I:
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_ge_left_rel2_assmI:
   assumes "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow>
     ([in_codom (\<le>\<^bsub>R2 (l1 x1) (l1 x2)\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 x1 x2\<^esub>)) (r2\<^bsub>x1 (l1 x2)\<^esub>) (r2\<^bsub>x2 (l1 x2)\<^esub>)"
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> transitive (\<le>\<^bsub>L2 x1 x2\<^esub>)"
@@ -142,7 +141,7 @@ lemma Galois_iff_Dep_Fun_Rel_Galois_ge_left_rel2I:
     (\<ge>\<^bsub>L2 x1 x2\<^esub>) (r2\<^bsub>x1 (l1 x2)\<^esub> y') \<le> (\<ge>\<^bsub>L2 x1 x2\<^esub>) (r2\<^bsub>x2 (l1 x2)\<^esub> y')"
   using assms by blast
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_ge_left_rel2I':
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_ge_left_rel2_assmI':
   assumes "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow>
     ([in_dom (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x (l1 x)\<^esub>) (r2\<^bsub>x x'\<^esub>)"
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> transitive (\<le>\<^bsub>L2 x1 x2\<^esub>)"
@@ -150,7 +149,7 @@ lemma Galois_iff_Dep_Fun_Rel_Galois_ge_left_rel2I':
     (\<ge>\<^bsub>L2 x (r1 x')\<^esub>) (r2\<^bsub>x (l1 x)\<^esub> y') \<le> (\<ge>\<^bsub>L2 x (r1 x')\<^esub>) (r2\<^bsub>x x'\<^esub> y')"
   using assms by blast
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_mono_assm_in_codom_rightI:
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_mono_assm_in_codom_rightI:
   assumes mono_l1: "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and half_galois_prop_right1: "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and refl_L1: "reflexive_on (in_codom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
@@ -162,7 +161,7 @@ lemma Galois_iff_Dep_Fun_Rel_Galois_mono_assm_in_codom_rightI:
 proof (intro Dep_Fun_Rel_predI)
   from mono_l1 half_galois_prop_right1 refl_L1 \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close>
   have "l1 x2 \<le>\<^bsub>R1\<^esub> l1 x2" "x2 \<^bsub>L1\<^esub>\<lessapprox> l1 x2"
-    by (blast intro: t1.Galois_left_if_left_relI)+
+    by (blast intro: t1.left_Galois_left_if_left_relI)+
   fix y' assume "in_codom (\<le>\<^bsub>R2 (l1 x1) (l1 x2)\<^esub>) y'"
   with Dep_Fun_Rel_relD[OF
     dep_mono_wrt_relD[OF mono_r2 \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close>] \<open>l1 x2 \<le>\<^bsub>R1\<^esub> l1 x2\<close>]
@@ -172,7 +171,7 @@ proof (intro Dep_Fun_Rel_predI)
     by blast
 qed
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_mono_assm_in_dom_rightI:
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_mono_assm_in_dom_rightI:
   assumes mono_l1: "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and half_galois_prop_right1: "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and refl_L1: "reflexive_on (in_dom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
@@ -183,12 +182,12 @@ lemma Galois_iff_Dep_Fun_Rel_Galois_mono_assm_in_dom_rightI:
 proof -
   from mono_l1 half_galois_prop_right1 refl_L1 \<open>x \<^bsub>L1\<^esub>\<lessapprox> x'\<close>
     have "x \<le>\<^bsub>L1\<^esub> x" "l1 x \<le>\<^bsub>R1\<^esub> x'" "x \<^bsub>L1\<^esub>\<lessapprox> l1 x"
-    by (auto intro!: t1.half_galois_prop_leftD t1.Galois_left_if_left_relI)
+    by (auto intro!: t1.half_galois_prop_leftD t1.left_Galois_left_if_left_relI)
   with Dep_Fun_Rel_relD[OF dep_mono_wrt_relD[OF mono_r2 \<open>x \<le>\<^bsub>L1\<^esub> x\<close>] \<open>l1 x \<le>\<^bsub>R1\<^esub> x'\<close>]
     show ?thesis by blast
 qed
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_if_monoI:
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_if_monoI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
@@ -200,15 +199,15 @@ lemma Galois_iff_Dep_Fun_Rel_Galois_if_monoI:
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> transitive (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   and "g \<le>\<^bsub>R\<^esub> g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
-  using assms by (intro Galois_iff_Dep_Fun_Rel_GaloisI
-    Galois_iff_Dep_Fun_Rel_Galois_ge_left_rel2I
-    Galois_iff_Dep_Fun_Rel_Galois_ge_left_rel2I'
-    Galois_iff_Dep_Fun_Rel_Galois_mono_assm_in_dom_rightI
-    Galois_iff_Dep_Fun_Rel_Galois_mono_assm_in_codom_rightI)
+  using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_GaloisI
+    left_Galois_iff_Dep_Fun_Rel_left_Galois_ge_left_rel2_assmI
+    left_Galois_iff_Dep_Fun_Rel_left_Galois_ge_left_rel2_assmI'
+    left_Galois_iff_Dep_Fun_Rel_left_Galois_mono_assm_in_dom_rightI
+    left_Galois_iff_Dep_Fun_Rel_left_Galois_mono_assm_in_codom_rightI)
   (auto intro: reflexive_on_if_le_pred_if_reflexive_on in_field_if_in_dom
     in_field_if_in_codom)
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_left_rel2_le_assmI:
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_left_rel2_le_assmI:
   assumes refl_L1: "reflexive_on (in_dom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and mono_L2: "([x1 \<Colon> \<top>] \<Rrightarrow>\<^sub>m [x2 _ \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x2] \<Rrightarrow>\<^sub>m (\<le>)) L2"
   and "x1 \<le>\<^bsub>L1\<^esub> x2"
@@ -219,7 +218,7 @@ proof -
     show "(\<le>\<^bsub>L2 x1 x1\<^esub>) \<le> (\<le>\<^bsub>L2 x1 x2\<^esub>)" by auto
 qed
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_left_rel2_unit1_le_assmI:
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_left_rel2_unit1_le_assmI:
   assumes mono_l1: "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and half_galois_prop_right1: "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and refl_L1: "reflexive_on (in_codom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
@@ -235,7 +234,7 @@ proof -
     show "(\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>) \<le> (\<le>\<^bsub>L2 x1 x2\<^esub>)" using \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close> by auto
 qed
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_if_monoI':
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_if_monoI':
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
@@ -247,13 +246,13 @@ lemma Galois_iff_Dep_Fun_Rel_Galois_if_monoI':
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> transitive (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   and "g \<le>\<^bsub>R\<^esub> g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
-  using assms by (intro Galois_iff_Dep_Fun_Rel_Galois_if_monoI
-    Galois_iff_Dep_Fun_Rel_Galois_left_rel2_unit1_le_assmI
-    Galois_iff_Dep_Fun_Rel_Galois_left_rel2_le_assmI)
+  using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_Galois_if_monoI
+    left_Galois_iff_Dep_Fun_Rel_left_Galois_left_rel2_unit1_le_assmI
+    left_Galois_iff_Dep_Fun_Rel_left_Galois_left_rel2_le_assmI)
   (auto intro: reflexive_on_if_le_pred_if_reflexive_on in_field_if_in_codom
     in_field_if_in_dom)
 
-corollary Galois_iff_Dep_Fun_Rel_Galois_if_mono_if_galois_connectionI:
+corollary left_Galois_iff_Dep_Fun_Rel_left_Galois_if_mono_if_galois_connectionI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<stileturn> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
@@ -264,9 +263,11 @@ corollary Galois_iff_Dep_Fun_Rel_Galois_if_mono_if_galois_connectionI:
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> transitive (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   and "g \<le>\<^bsub>R\<^esub> g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
-  using assms by (intro Galois_iff_Dep_Fun_Rel_Galois_if_monoI') auto
+  using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_Galois_if_monoI') auto
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_left_rel2_unit1_le_assm_if_galois_equivI:
+interpretation flip_inv : galois "(\<ge>\<^bsub>R1\<^esub>)" "(\<ge>\<^bsub>L1\<^esub>)" r1 l1 .
+
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_left_rel2_unit1_le_assm_if_galois_equivI:
   assumes galois_equiv1: "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and refl_L1: "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and mono_L2: "([x1 \<Colon> \<top>] \<Rrightarrow>\<^sub>m [x2 _ \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x2] \<Rrightarrow>\<^sub>m (\<le>)) L2"
@@ -277,13 +278,13 @@ proof -
   from galois_equiv1 refl_L1 \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close> have "\<eta>\<^sub>1 x2 \<le>\<^bsub>L1\<^esub> x2" by (intro
     flip.t1.counit_rel_if_reflexive_on_if_half_galois_prop_left_if_mono_wrt_rel)
     blast+
-  from galois_equiv1 refl_L1 \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close> have "x1 \<le>\<^bsub>L1\<^esub> \<eta>\<^sub>1 x2"
-    by (fastforce intro: t1.rel_unit_if_left_rel_if_mono_wrt_relI)
+  have "x1 \<le>\<^bsub>L1\<^esub> \<eta>\<^sub>1 x2" by (rule t1.rel_unit_if_left_rel_if_mono_wrt_relI)
+    (insert galois_equiv1 refl_L1 \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close>, auto)
   with dep_mono_wrt_relD[OF dep_mono_wrt_predD[OF mono_L2] \<open>\<eta>\<^sub>1 x2 \<le>\<^bsub>L1\<^esub> x2\<close>]
     show "(\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>) \<le> (\<le>\<^bsub>L2 x1 x2\<^esub>)" by auto
 qed
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_if_galois_equivalenceI:
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
@@ -294,12 +295,12 @@ lemma Galois_iff_Dep_Fun_Rel_Galois_if_galois_equivalenceI:
   and "g \<le>\<^bsub>R\<^esub> g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
   using assms by (intro
-    Galois_iff_Dep_Fun_Rel_Galois_if_monoI
-    Galois_iff_Dep_Fun_Rel_Galois_left_rel2_le_assmI
-    Galois_iff_Dep_Fun_Rel_Galois_left_rel2_unit1_le_assm_if_galois_equivI)
+    left_Galois_iff_Dep_Fun_Rel_left_Galois_if_monoI
+    left_Galois_iff_Dep_Fun_Rel_left_Galois_left_rel2_le_assmI
+    left_Galois_iff_Dep_Fun_Rel_left_Galois_left_rel2_unit1_le_assm_if_galois_equivI)
   auto
 
-corollary Galois_iff_Dep_Fun_Rel_Galois_if_galois_equivalenceI':
+corollary left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI':
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
@@ -309,11 +310,11 @@ corollary Galois_iff_Dep_Fun_Rel_Galois_if_galois_equivalenceI':
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> transitive (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   and "g \<le>\<^bsub>R\<^esub> g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
-  using assms by (intro Galois_iff_Dep_Fun_Rel_Galois_if_galois_equivalenceI
+  using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI
     reflexive_on_in_field_mono_assm_left2I)
   auto
 
-corollary Galois_iff_Dep_Fun_Rel_Galois_if_preorder_equivalenceI:
+corollary left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
   and "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
@@ -322,13 +323,13 @@ corollary Galois_iff_Dep_Fun_Rel_Galois_if_preorder_equivalenceI:
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> transitive (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   and "g \<le>\<^bsub>R\<^esub> g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
-  using assms by (intro Galois_iff_Dep_Fun_Rel_Galois_if_galois_equivalenceI')
+  using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI')
   auto
 
 
 subparagraph \<open>Simplification of Restricted Function Relator\<close>
 
-lemma Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_GaloisI:
+lemma Dep_Fun_Rel_left_Galois_restrict_left_right_eq_Dep_Fun_Rel_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1" and "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
@@ -342,11 +343,11 @@ lemma Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_GaloisI:
   shows "([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>
     = ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))"
   using assms by (intro ext iffI restrict_leftI restrict_rightI
-    in_domI[where ?y="r _"] left_rel_right_if_Dep_Fun_Rel_GaloisI
-    in_codomI[where ?x="l _"] left_right_rel_if_Dep_Fun_Rel_GaloisI)
+    in_domI[where ?y="r _"] left_rel_right_if_Dep_Fun_Rel_left_GaloisI
+    in_codomI[where ?x="l _"] left_right_rel_if_Dep_Fun_Rel_left_GaloisI)
   auto
 
-lemma Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_GaloisI':
+lemma Dep_Fun_Rel_left_Galois_restrict_left_right_eq_Dep_Fun_Rel_left_GaloisI':
   assumes "((\<le>\<^bsub>L1\<^esub>) \<stileturn> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "reflexive_on (in_field (\<le>\<^bsub>R1\<^esub>)) (\<le>\<^bsub>R1\<^esub>)"
@@ -363,19 +364,19 @@ lemma Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_GaloisI':
   shows "([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>
     = ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))"
   using assms by (intro
-    Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_GaloisI
+    Dep_Fun_Rel_left_Galois_restrict_left_right_eq_Dep_Fun_Rel_left_GaloisI
     left_rel_right_iff_left_right_rel_if_galois_prop_le_assms_leftI
     reflexive_on_in_field_mono_assm_left2I
     left_rel_right_iff_left_right_rel_if_galois_prop_le_assms_rightI
     mono_wrt_rel_left_in_dom_mono_left_assm
     galois_connection_left_right_if_galois_connection_mono_assms_leftI
     galois_connection_left_right_if_galois_connection_mono_assms_rightI
-    Galois_iff_Dep_Fun_Rel_Galois_ge_left_rel2I)
+    left_Galois_iff_Dep_Fun_Rel_left_Galois_ge_left_rel2_assmI)
   auto
 
 text \<open>Simplification of Restricted Function Relator for Nested Transports\<close>
 
-lemma Dep_Fun_Rel_Galois_restrict_left_right_restrict_left_right_eq:
+lemma Dep_Fun_Rel_left_Galois_restrict_left_right_restrict_left_right_eq:
   fixes S :: "'a1 \<Rightarrow> 'a2 \<Rightarrow> 'b1 \<Rightarrow> 'b2 \<Rightarrow> bool"
   assumes "((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   shows "([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (S x x')\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L2 x (r1 x')\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)\<^esub>)
@@ -391,7 +392,7 @@ proof -
   also have "... = ?rhs"
     using assms by (subst restrict_left_right_eq_restrict_right_left,
       subst restrict_right_Dep_Fun_Rel_rel_restrict_right_eq)
-    (auto elim!: in_codomE t1.GaloisE
+    (auto elim!: in_codomE t1.left_GaloisE
       simp only: restrict_left_right_eq_restrict_right_left)
   finally show ?thesis .
 qed
@@ -404,7 +405,7 @@ paragraph \<open>Function Relator\<close>
 context transport_Fun_Rel
 begin
 
-corollary Fun_Rel_Galois_if_GaloisI:
+corollary Fun_Rel_left_Galois_if_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_dom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "((\<le>\<^bsub>R2\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2\<^esub>)) r2"
@@ -412,25 +413,25 @@ corollary Fun_Rel_Galois_if_GaloisI:
   and "g \<le>\<^bsub>R\<^esub> g"
   and "f \<^bsub>L\<^esub>\<lessapprox> g"
   shows "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>)) f g"
-  using assms by (intro tdfr.Dep_Fun_Rel_Galois_if_GaloisI) simp_all
+  using assms by (intro tdfr.Dep_Fun_Rel_left_Galois_if_left_GaloisI) simp_all
 
-corollary Galois_if_Fun_Rel_GaloisI:
+corollary left_Galois_if_Fun_Rel_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "in_codom (\<le>\<^bsub>R\<^esub>) g"
   and "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>)) f g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g"
-  using assms by (intro tdfr.Galois_if_Dep_Fun_Rel_GaloisI) simp_all
+  using assms by (intro tdfr.left_Galois_if_Dep_Fun_Rel_left_GaloisI) simp_all
 
-lemma Galois_if_Fun_Rel_GaloisI':
+lemma left_Galois_if_Fun_Rel_left_GaloisI':
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1" and "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "((\<le>\<^bsub>L2\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R2\<^esub>)) l2 r2"
   and "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>)) f g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g"
-  using assms by (intro tdfr.Galois_if_Dep_Fun_Rel_GaloisI') simp_all
+  using assms by (intro tdfr.left_Galois_if_Dep_Fun_Rel_left_GaloisI') simp_all
 
-corollary Galois_iff_Fun_Rel_GaloisI:
+corollary left_Galois_iff_Fun_Rel_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_dom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
@@ -438,29 +439,29 @@ corollary Galois_iff_Fun_Rel_GaloisI:
   and "transitive (\<le>\<^bsub>L2\<^esub>)"
   and "g \<le>\<^bsub>R\<^esub> g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>)) f g"
-  using assms by (intro tdfr.Galois_iff_Dep_Fun_Rel_GaloisI) simp_all
+  using assms by (intro tdfr.left_Galois_iff_Dep_Fun_Rel_left_GaloisI) simp_all
 
 
 subparagraph \<open>Simplification of Restricted Function Relator\<close>
 
-lemma Fun_Rel_Galois_restrict_left_right_eq_Fun_Rel_GaloisI:
+lemma Fun_Rel_left_Galois_restrict_left_right_eq_Fun_Rel_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1" and "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "((\<le>\<^bsub>L2\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R2\<^esub>)) l2 r2"
   shows "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub> = ((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>))"
   using assms
-  by (intro tdfr.Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_GaloisI)
+  by (intro tdfr.Dep_Fun_Rel_left_Galois_restrict_left_right_eq_Dep_Fun_Rel_left_GaloisI)
   simp_all
 
 text \<open>Simplification of Restricted Function Relator for Nested Transports\<close>
 
-lemma Fun_Rel_Galois_restrict_left_right_restrict_left_right_eq:
+lemma Fun_Rel_left_Galois_restrict_left_right_restrict_left_right_eq:
   fixes S :: "'b1 \<Rightarrow> 'b2 \<Rightarrow> bool"
   assumes "((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   shows "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> S\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L2\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R2\<^esub>)\<^esub>)\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub> =
     ((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> S)\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>"
   using assms
-  by (intro tdfr.Dep_Fun_Rel_Galois_restrict_left_right_restrict_left_right_eq)
+  by (intro tdfr.Dep_Fun_Rel_left_Galois_restrict_left_right_restrict_left_right_eq)
   simp_all
 
 end
@@ -471,7 +472,7 @@ paragraph \<open>Monotone Dependent Function Relator\<close>
 context transport_Mono_Dep_Fun_Rel
 begin
 
-lemma Dep_Fun_Rel_Galois_if_GaloisI:
+lemma Dep_Fun_Rel_left_Galois_if_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_dom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
@@ -482,10 +483,10 @@ lemma Dep_Fun_Rel_Galois_if_GaloisI:
   and "f \<^bsub>L\<^esub>\<lessapprox> g"
   shows "([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
   using assms unfolding left_rel_eq_tdfr_left_Refl_Rel right_rel_eq_tdfr_right_Refl_Rel
-  by (intro tdfr.Dep_Fun_Rel_Galois_if_GaloisI tdfr.GaloisI)
-  (auto elim!: galois_rel.GaloisE in_codomE)
+  by (intro tdfr.Dep_Fun_Rel_left_Galois_if_left_GaloisI tdfr.left_GaloisI)
+  (auto elim!: galois_rel.left_GaloisE in_codomE)
 
-lemma Galois_if_Dep_Fun_Rel_GaloisI:
+lemma left_Galois_if_Dep_Fun_Rel_left_GaloisI:
   assumes "(tdfr.R \<Rrightarrow>\<^sub>m tdfr.L) r"
   and "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -497,10 +498,10 @@ lemma Galois_if_Dep_Fun_Rel_GaloisI:
   and "([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g"
   using assms unfolding left_rel_eq_tdfr_left_Refl_Rel right_rel_eq_tdfr_right_Refl_Rel
-  by (intro tdfr.Galois_Refl_RelI tdfr.Galois_if_Dep_Fun_Rel_GaloisI)
+  by (intro tdfr.Galois_Refl_RelI tdfr.left_Galois_if_Dep_Fun_Rel_left_GaloisI)
   (auto simp: in_codom_eq_in_dom_if_reflexive_on_in_field)
 
-lemma Galois_iff_Dep_Fun_Rel_GaloisI:
+lemma left_Galois_iff_Dep_Fun_Rel_left_GaloisI:
   assumes "(tdfr.R \<Rrightarrow>\<^sub>m tdfr.L) r"
   and "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -514,16 +515,16 @@ lemma Galois_iff_Dep_Fun_Rel_GaloisI:
   and "in_dom (\<le>\<^bsub>L\<^esub>) f"
   and "in_codom (\<le>\<^bsub>R\<^esub>) g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
-  using assms by (intro iffI Dep_Fun_Rel_Galois_if_GaloisI
-    tdfr.Galois_iff_Dep_Fun_Rel_Galois_ge_left_rel2I'
-    tdfr.Galois_iff_Dep_Fun_Rel_Galois_mono_assm_in_dom_rightI)
-  (auto intro!: Galois_if_Dep_Fun_Rel_GaloisI
-    tdfr.Galois_iff_Dep_Fun_Rel_Galois_ge_left_rel2I
-    tdfr.Galois_iff_Dep_Fun_Rel_Galois_mono_assm_in_codom_rightI
+  using assms by (intro iffI Dep_Fun_Rel_left_Galois_if_left_GaloisI
+    tdfr.left_Galois_iff_Dep_Fun_Rel_left_Galois_ge_left_rel2_assmI'
+    tdfr.left_Galois_iff_Dep_Fun_Rel_left_Galois_mono_assm_in_dom_rightI)
+  (auto intro!: left_Galois_if_Dep_Fun_Rel_left_GaloisI
+    tdfr.left_Galois_iff_Dep_Fun_Rel_left_Galois_ge_left_rel2_assmI
+    tdfr.left_Galois_iff_Dep_Fun_Rel_left_Galois_mono_assm_in_codom_rightI
     intro: reflexive_on_if_le_pred_if_reflexive_on
       in_field_if_in_dom in_field_if_in_codom)
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_if_mono_if_galois_connectionI:
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_if_mono_if_galois_connectionI:
   assumes galois_conn1: "((\<le>\<^bsub>L1\<^esub>) \<stileturn> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and refl_L1: "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
@@ -543,7 +544,7 @@ proof -
     proof (intro Dep_Fun_Rel_predI)
       from galois_conn1 refl_L1 \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close>
         have "x1 \<le>\<^bsub>L1\<^esub> x1" "l1 x1 \<le>\<^bsub>R1\<^esub> l1 x2" "x1 \<^bsub>L1\<^esub>\<lessapprox> l1 x1"
-        by (blast intro: t1.Galois_left_if_left_relI)+
+        by (blast intro: t1.left_Galois_left_if_left_relI)+
       fix y' assume "in_dom (\<le>\<^bsub>R2 (l1 x1) (l1 x2)\<^esub>) y'"
       with Dep_Fun_Rel_relD[OF dep_mono_wrt_relD[OF mono_r2 \<open>x1 \<le>\<^bsub>L1\<^esub> x1\<close>]
         \<open>l1 x1 \<le>\<^bsub>R1\<^esub> l1 x2\<close>]
@@ -555,14 +556,15 @@ proof -
     with hyps show ?thesis using trans_L2 by blast
   qed
   then show ?thesis using assms
-    using assms by (intro Galois_iff_Dep_Fun_Rel_GaloisI
-      tdfr.mono_wrt_rel_rightI tdfr.mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_GaloisI
-      tdfr.Galois_iff_Dep_Fun_Rel_Galois_ge_left_rel2I
-      tdfr.Galois_iff_Dep_Fun_Rel_Galois_mono_assm_in_codom_rightI)
+    using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_GaloisI
+      tdfr.mono_wrt_rel_rightI
+      tdfr.mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_left_GaloisI
+      tdfr.left_Galois_iff_Dep_Fun_Rel_left_Galois_ge_left_rel2_assmI
+      tdfr.left_Galois_iff_Dep_Fun_Rel_left_Galois_mono_assm_in_codom_rightI)
     (auto intro: reflexive_on_if_le_pred_if_reflexive_on in_field_if_in_codom)
 qed
 
-corollary Galois_iff_Dep_Fun_Rel_Galois_if_mono_if_galois_connectionI':
+corollary left_Galois_iff_Dep_Fun_Rel_left_Galois_if_mono_if_galois_connectionI':
   assumes "((\<le>\<^bsub>L1\<^esub>) \<stileturn> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
@@ -575,12 +577,12 @@ corollary Galois_iff_Dep_Fun_Rel_Galois_if_mono_if_galois_connectionI':
   and "in_codom (\<le>\<^bsub>R\<^esub>) g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g" (is "?lhs \<longleftrightarrow> ?rhs")
   using assms by (intro
-    Galois_iff_Dep_Fun_Rel_Galois_if_mono_if_galois_connectionI
-    tdfr.Galois_iff_Dep_Fun_Rel_Galois_left_rel2_unit1_le_assmI
-    tdfr.Galois_iff_Dep_Fun_Rel_Galois_left_rel2_le_assmI)
+    left_Galois_iff_Dep_Fun_Rel_left_Galois_if_mono_if_galois_connectionI
+    tdfr.left_Galois_iff_Dep_Fun_Rel_left_Galois_left_rel2_unit1_le_assmI
+    tdfr.left_Galois_iff_Dep_Fun_Rel_left_Galois_left_rel2_le_assmI)
   auto
 
-corollary Galois_eq_Dep_Fun_Rel_Galois_restrict_if_mono_if_galois_connectionI:
+corollary left_Galois_eq_Dep_Fun_Rel_left_Galois_restrict_if_mono_if_galois_connectionI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<stileturn> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
@@ -591,11 +593,11 @@ corollary Galois_eq_Dep_Fun_Rel_Galois_restrict_if_mono_if_galois_connectionI:
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> transitive (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>"
   using assms by (intro ext iffI restrict_leftI restrict_rightI
-    iffD1[OF Galois_iff_Dep_Fun_Rel_Galois_if_mono_if_galois_connectionI'])
+    iffD1[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_mono_if_galois_connectionI'])
   (auto intro!:
-    iffD2[OF Galois_iff_Dep_Fun_Rel_Galois_if_mono_if_galois_connectionI'])
+    iffD2[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_mono_if_galois_connectionI'])
 
-lemma Galois_iff_Dep_Fun_Rel_Galois_if_galois_equivalenceI:
+lemma left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
@@ -606,13 +608,13 @@ lemma Galois_iff_Dep_Fun_Rel_Galois_if_galois_equivalenceI:
   and "in_dom (\<le>\<^bsub>L\<^esub>) f"
   and "in_codom (\<le>\<^bsub>R\<^esub>) g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
-  using assms by (intro Galois_iff_Dep_Fun_Rel_Galois_if_mono_if_galois_connectionI
-    tdfr.Galois_iff_Dep_Fun_Rel_Galois_left_rel2_le_assmI
+  using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_Galois_if_mono_if_galois_connectionI
+    tdfr.left_Galois_iff_Dep_Fun_Rel_left_Galois_left_rel2_le_assmI
     tdfr.reflexive_on_in_field_mono_assm_left2I
-    tdfr.Galois_iff_Dep_Fun_Rel_Galois_left_rel2_unit1_le_assm_if_galois_equivI)
+    tdfr.left_Galois_iff_Dep_Fun_Rel_left_Galois_left_rel2_unit1_le_assm_if_galois_equivI)
   auto
 
-theorem Galois_eq_Dep_Fun_Rel_Galois_restrict_if_galois_equivalenceI:
+theorem left_Galois_eq_Dep_Fun_Rel_left_Galois_restrict_if_galois_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
@@ -622,11 +624,11 @@ theorem Galois_eq_Dep_Fun_Rel_Galois_restrict_if_galois_equivalenceI:
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> transitive (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>"
   using assms by (intro ext iffI restrict_leftI restrict_rightI
-    iffD1[OF Galois_iff_Dep_Fun_Rel_Galois_if_galois_equivalenceI])
-  (auto elim!: GaloisE intro!:
-    iffD2[OF Galois_iff_Dep_Fun_Rel_Galois_if_galois_equivalenceI])
+    iffD1[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI])
+  (auto elim!: left_GaloisE intro!:
+    iffD2[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI])
 
-corollary Galois_iff_Dep_Fun_Rel_Galois_if_preorder_equivalenceI:
+corollary left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
   and "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
@@ -636,10 +638,10 @@ corollary Galois_iff_Dep_Fun_Rel_Galois_if_preorder_equivalenceI:
   and "in_dom (\<le>\<^bsub>L\<^esub>) f"
   and "in_codom (\<le>\<^bsub>R\<^esub>) g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
-  using assms by (intro Galois_iff_Dep_Fun_Rel_Galois_if_galois_equivalenceI)
+  using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI)
   auto
 
-corollary Galois_eq_Dep_Fun_Rel_Galois_restrict_if_preorder_equivalenceI:
+corollary left_Galois_eq_Dep_Fun_Rel_left_Galois_restrict_if_preorder_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
   and "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
@@ -648,14 +650,14 @@ corollary Galois_eq_Dep_Fun_Rel_Galois_restrict_if_preorder_equivalenceI:
   and "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> transitive (\<le>\<^bsub>L2 x1 x2\<^esub>)"
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>"
   using assms by (intro ext iffI restrict_leftI restrict_rightI
-    iffD1[OF Galois_iff_Dep_Fun_Rel_Galois_if_preorder_equivalenceI])
-  (auto elim!: GaloisE intro!:
-    iffD2[OF Galois_iff_Dep_Fun_Rel_Galois_if_preorder_equivalenceI])
+    iffD1[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI])
+  (auto elim!: left_GaloisE intro!:
+    iffD2[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI])
 
 
 subparagraph \<open>Simplification of Restricted Function Relator\<close>
 
-lemma Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_Galois_if_reflexive_onI:
+lemma Dep_Fun_Rel_left_Galois_restrict_left_right_eq_Dep_Fun_Rel_left_Galois_if_reflexive_onI:
   assumes "reflexive_on (in_field tdfr.L) tdfr.L"
   and "reflexive_on (in_field tdfr.R) tdfr.R"
   and "((\<le>\<^bsub>L1\<^esub>) \<stileturn> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -675,12 +677,12 @@ lemma Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_Galois_if_reflexive_
     = ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))"
   using assms by (auto simp only: left_rel_eq_tdfr_left_rel_if_reflexive_on
       right_rel_eq_tdfr_right_rel_if_reflexive_on
-    intro!: tdfr.Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_GaloisI')
+    intro!: tdfr.Dep_Fun_Rel_left_Galois_restrict_left_right_eq_Dep_Fun_Rel_left_GaloisI')
 
 interpretation flip : transport_Dep_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2
   rewrites "flip.t1.unit \<equiv> \<epsilon>\<^sub>1" by (simp only: t1.flip_unit_eq_counit)
 
-lemma Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_GaloisI:
+lemma Dep_Fun_Rel_left_Galois_restrict_left_right_eq_Dep_Fun_Rel_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
     ((\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x1') x2'\<^esub>)) (l2\<^bsub>x2' (r1 x1')\<^esub>) (r2\<^bsub>(r1 x1') x2'\<^esub>)"
@@ -695,7 +697,7 @@ lemma Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_GaloisI:
   shows "([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>
     = ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))"
   using assms by (intro
-    Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_Galois_if_reflexive_onI
+    Dep_Fun_Rel_left_Galois_restrict_left_right_eq_Dep_Fun_Rel_left_Galois_if_reflexive_onI
     tdfr.reflexive_on_in_field_left_if_equivalencesI
     flip.reflexive_on_in_field_left_if_equivalencesI
     tdfr.galois_equivalence_if_mono_if_galois_equivalence_mono_assms_leftI
@@ -705,7 +707,7 @@ lemma Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_GaloisI:
 
 text \<open>Simplification of Restricted Function Relator for Nested Transports\<close>
 
-lemma Dep_Fun_Rel_Galois_restrict_left_right_restrict_left_right_eq:
+lemma Dep_Fun_Rel_left_Galois_restrict_left_right_restrict_left_right_eq:
   fixes S :: "'a1 \<Rightarrow> 'a2 \<Rightarrow> 'b1 \<Rightarrow> 'b2 \<Rightarrow> bool"
   assumes "((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   shows "([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (S x x')\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L2 x (r1 x')\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)\<^esub>)
@@ -720,7 +722,7 @@ proof (intro ext)
     by blast
   also with assms have "... \<longleftrightarrow> ?rhs\<restriction>\<^bsub>in_dom tdfr.L\<^esub>\<upharpoonleft>\<^bsub>in_codom tdfr.R\<^esub> f g \<and> ?DL f \<and> ?CR g"
     by (simp only:
-      tdfr.Dep_Fun_Rel_Galois_restrict_left_right_restrict_left_right_eq)
+      tdfr.Dep_Fun_Rel_left_Galois_restrict_left_right_restrict_left_right_eq)
   also have "... \<longleftrightarrow> ?rhs\<restriction>\<^bsub>?DL\<^esub>\<upharpoonleft>\<^bsub>?CR\<^esub> f g"
     unfolding left_rel_eq_tdfr_left_Refl_Rel right_rel_eq_tdfr_right_Refl_Rel
     by blast
@@ -735,18 +737,18 @@ paragraph \<open>Monotone Function Relator\<close>
 context transport_Mono_Fun_Rel
 begin
 
-corollary Fun_Rel_Galois_if_GaloisI:
+corollary Fun_Rel_left_Galois_if_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_dom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
   and "((\<le>\<^bsub>R2\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2\<^esub>)) (r2)"
   and "transitive (\<le>\<^bsub>L2\<^esub>)"
   and "f \<^bsub>L\<^esub>\<lessapprox> g"
   shows "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>)) f g"
-  using assms by (intro tpdfr.Dep_Fun_Rel_Galois_if_GaloisI) simp_all
+  using assms by (intro tpdfr.Dep_Fun_Rel_left_Galois_if_left_GaloisI) simp_all
 
 interpretation flip : transport_Mono_Fun_Rel R1 L1 r1 l1 R2 L2 r2 l2 .
 
-lemma Galois_if_Fun_Rel_GaloisI:
+lemma left_Galois_if_Fun_Rel_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "((\<le>\<^bsub>R2\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2\<^esub>)) r2"
@@ -755,10 +757,10 @@ lemma Galois_if_Fun_Rel_GaloisI:
   and "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>)) f g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g"
   using assms
-  by (intro tpdfr.Galois_if_Dep_Fun_Rel_GaloisI flip.tfr.mono_wrt_rel_leftI)
+  by (intro tpdfr.left_Galois_if_Dep_Fun_Rel_left_GaloisI flip.tfr.mono_wrt_rel_leftI)
   simp_all
 
-corollary Galois_iff_Fun_Rel_GaloisI:
+corollary left_Galois_iff_Fun_Rel_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_dom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
@@ -767,10 +769,10 @@ corollary Galois_iff_Fun_Rel_GaloisI:
   and "in_dom (\<le>\<^bsub>L\<^esub>) f"
   and "in_codom (\<le>\<^bsub>R\<^esub>) g"
   shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>)) f g"
-  using assms by (intro iffI Fun_Rel_Galois_if_GaloisI)
-  (auto intro!: Galois_if_Fun_Rel_GaloisI)
+  using assms by (intro iffI Fun_Rel_left_Galois_if_left_GaloisI)
+  (auto intro!: left_Galois_if_Fun_Rel_left_GaloisI)
 
-theorem Galois_eq_Fun_Rel_Galois_restrictI:
+theorem left_Galois_eq_Fun_Rel_left_Galois_restrictI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_dom (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
@@ -778,13 +780,13 @@ theorem Galois_eq_Fun_Rel_Galois_restrictI:
   and "transitive (\<le>\<^bsub>L2\<^esub>)"
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>"
   using assms by (intro ext iffI restrict_leftI restrict_rightI
-    iffD1[OF Galois_iff_Fun_Rel_GaloisI])
-  (auto elim!: tpdfr.GaloisE intro!: iffD2[OF Galois_iff_Fun_Rel_GaloisI])
+    iffD1[OF left_Galois_iff_Fun_Rel_left_GaloisI])
+  (auto elim!: tpdfr.left_GaloisE intro!: iffD2[OF left_Galois_iff_Fun_Rel_left_GaloisI])
 
 
 subparagraph \<open>Simplification of Restricted Function Relator\<close>
 
-lemma Fun_Rel_Galois_restrict_left_right_eq_Fun_Rel_Galois_if_reflexive_onI:
+lemma Fun_Rel_left_Galois_restrict_left_right_eq_Fun_Rel_left_Galois_if_reflexive_onI:
   assumes "reflexive_on (in_field tfr.tdfr.L) tfr.tdfr.L"
   and "reflexive_on (in_field tfr.tdfr.R) tfr.tdfr.R"
   and "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1" and "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
@@ -793,9 +795,9 @@ lemma Fun_Rel_Galois_restrict_left_right_eq_Fun_Rel_Galois_if_reflexive_onI:
   shows "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub> = ((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>))"
   using assms by (auto simp only: tpdfr.left_rel_eq_tdfr_left_rel_if_reflexive_on
       tpdfr.right_rel_eq_tdfr_right_rel_if_reflexive_on
-    intro!: tfr.Fun_Rel_Galois_restrict_left_right_eq_Fun_Rel_GaloisI)
+    intro!: tfr.Fun_Rel_left_Galois_restrict_left_right_eq_Fun_Rel_left_GaloisI)
 
-lemma Fun_Rel_Galois_restrict_left_right_eq_Fun_Rel_GaloisI:
+lemma Fun_Rel_left_Galois_restrict_left_right_eq_Fun_Rel_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1" and "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "reflexive_on (in_field (\<le>\<^bsub>L1\<^esub>)) (\<le>\<^bsub>L1\<^esub>)"
@@ -805,7 +807,7 @@ lemma Fun_Rel_Galois_restrict_left_right_eq_Fun_Rel_GaloisI:
   and "partial_equivalence_rel (\<le>\<^bsub>R2\<^esub>)"
   shows "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub> = ((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>))"
   using assms by (intro
-    Fun_Rel_Galois_restrict_left_right_eq_Fun_Rel_Galois_if_reflexive_onI
+    Fun_Rel_left_Galois_restrict_left_right_eq_Fun_Rel_left_Galois_if_reflexive_onI
     tfr.reflexive_on_in_field_leftI
     flip.tfr.reflexive_on_in_field_leftI)
   auto
@@ -813,13 +815,13 @@ lemma Fun_Rel_Galois_restrict_left_right_eq_Fun_Rel_GaloisI:
 
 text \<open>Simplification of Restricted Function Relator for Nested Transports\<close>
 
-lemma Fun_Rel_Galois_restrict_left_right_restrict_left_right_eq:
+lemma Fun_Rel_left_Galois_restrict_left_right_restrict_left_right_eq:
   fixes S :: "'b1 \<Rightarrow> 'b2 \<Rightarrow> bool"
   assumes "((\<le>\<^bsub>L1\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   shows "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> S\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L2\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R2\<^esub>)\<^esub>)\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub> =
     ((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> S)\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>"
   using assms
-  by (intro tpdfr.Dep_Fun_Rel_Galois_restrict_left_right_restrict_left_right_eq)
+  by (intro tpdfr.Dep_Fun_Rel_left_Galois_restrict_left_right_restrict_left_right_eq)
   simp_all
 
 end

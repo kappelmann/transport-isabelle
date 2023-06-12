@@ -14,7 +14,7 @@ begin
 text \<open>Due to
 @{thm "transport_Mono_Dep_Fun_Rel.left_rel_eq_tdfr_left_rel_if_reflexive_on"},
 we can apply all results from @{locale "transport_Mono_Dep_Fun_Rel"} to
-@{locale "transport_Dep_Fun_Rel"} whenver @{term "(\<le>\<^bsub>L\<^esub>)"} and @{term "(\<le>\<^bsub>R\<^esub>)"} are
+@{locale "transport_Dep_Fun_Rel"} whenever @{term "(\<le>\<^bsub>L\<^esub>)"} and @{term "(\<le>\<^bsub>R\<^esub>)"} are
 reflexive.\<close>
 
 lemma reflexive_on_in_field_left_rel2_le_assmI:

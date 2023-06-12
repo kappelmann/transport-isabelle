@@ -22,9 +22,6 @@ sig
   val mk_rel_type : typ -> typ
   (* conversions *)
   val judgement_conv : conv -> conv
-  val binop_conv : conv -> conv -> conv
-  val lhs_conv : conv -> conv
-  val rhs_conv : conv -> conv
 
   (* bindings *)
   val concat_bindings : binding list -> binding
@@ -62,11 +59,6 @@ val boolT = HOLogic.boolT
 fun mk_rel_type T = [T, T] ---> boolT
 
 val judgement_conv = HOLogic.Trueprop_conv
-fun binop_conv conv_lhs conv_rhs =
-  Conv.combination_conv (Conv.arg_conv conv_lhs) conv_rhs
-
-val lhs_conv = Conv.arg1_conv
-val rhs_conv = Conv.arg_conv
 
 val split_conjunctions =
   Method.Basic (fn _ => SIMPLE_METHOD (HEADGOAL Goal.conjunction_tac))

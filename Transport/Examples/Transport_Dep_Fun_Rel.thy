@@ -8,12 +8,16 @@ theory Transport_Dep_Fun_Rel
 begin
 
 paragraph \<open>Summary\<close>
-text \<open>Dependent function relator examples from the Transport paper.
+text \<open>Dependent function relator examples from the paper
+"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann.
 Refer to the paper for more details.\<close>
 
 
 context
   includes galois_rel_syntax transport_syntax
+  notes
+    transport.rel_if_partial_equivalence_rel_equivalence_if_iff_if_partial_equivalence_rel_equivalenceI
+    [per_intro]
 begin
 interpretation transport L R l r for L R l r .
 
@@ -36,7 +40,6 @@ text \<open>Note: as of now, @{command transport_term} does not rewrite the
 Galois relator of dependent function relators.\<close>
 thm nat_sub_related'
 thm nat_sub_app_eq
-
 
 abbreviation "LRel \<equiv> list_all2"
 abbreviation "IARel \<equiv> rel_iarray"

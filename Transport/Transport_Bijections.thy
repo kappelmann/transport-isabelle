@@ -21,6 +21,7 @@ locale transport_bijection =
 begin
 
 interpretation transport L R l r .
+interpretation g_flip_inv : galois "(\<ge>\<^bsub>R\<^esub>)" "(\<ge>\<^bsub>L\<^esub>)" r l .
 
 lemma bijection_on_in_field: "bijection_on (in_field (\<le>\<^bsub>L\<^esub>)) (in_field (\<le>\<^bsub>R\<^esub>)) l r"
   using mono_wrt_rel_left mono_wrt_rel_right inverse_left_right inverse_right_left
@@ -35,7 +36,7 @@ lemma half_galois_prop_left: "((\<le>\<^bsub>L\<^esub>) \<^sub>h\<unlhd> (\<le>\
 lemma half_galois_prop_right: "((\<le>\<^bsub>L\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R\<^esub>)) l r"
   using mono_wrt_rel_right inverse_left_right
   by (intro half_galois_prop_rightI)
-  (auto dest!: in_field_if_in_dom inverse_onD)
+  (force dest: in_field_if_in_dom inverse_onD)
 
 lemma galois_prop: "((\<le>\<^bsub>L\<^esub>) \<unlhd> (\<le>\<^bsub>R\<^esub>)) l r"
   using half_galois_prop_left half_galois_prop_right
@@ -175,9 +176,9 @@ sublocale tper_bij? : transport_partial_equivalence_rel_bijection "(=\<^bsub>P\<
     flip_of.mono_wrt_rel_left_if_reflexive_on_if_le_eq_if_mono_wrt_in_field
       [of "in_field (=\<^bsub>P\<^esub>)"])
 
-lemma Galois_eq_Galois_eq_eq_restrict: "(\<^bsub>L\<^esub>\<lessapprox>) = (galois_rel.Galois (=) (=) r)\<restriction>\<^bsub>P\<^esub>\<upharpoonleft>\<^bsub>Q\<^esub>"
-  by (subst galois_rel.Galois_restrict_left_eq_Galois_left_restrict_left
-    galois_rel.Galois_restrict_right_eq_Galois_right_restrict_right
+lemma left_Galois_eq_Galois_eq_eq_restrict: "(\<^bsub>L\<^esub>\<lessapprox>) = (galois_rel.Galois (=) (=) r)\<restriction>\<^bsub>P\<^esub>\<upharpoonleft>\<^bsub>Q\<^esub>"
+  by (subst galois_rel.left_Galois_restrict_left_eq_left_Galois_left_restrict_left
+    galois_rel.left_Galois_restrict_right_eq_left_Galois_right_restrict_right
     restrict_right_eq rel_inv_eq_self_if_symmetric)+
   (auto simp: eq_restrict_eq_eq_restrict_left)
 

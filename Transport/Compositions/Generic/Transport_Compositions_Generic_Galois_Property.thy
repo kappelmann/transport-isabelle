@@ -23,14 +23,14 @@ lemma half_galois_prop_left_left_rightI:
   and mono_in_codom_r2: "([in_codom (\<le>\<^bsub>R\<^esub>)] \<Rrightarrow>\<^sub>m in_codom (\<le>\<^bsub>R1\<^esub>)) r2"
   shows "((\<le>\<^bsub>L\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R\<^esub>)) l r"
 proof (rule half_galois_prop_leftI)
-  fix x z assume "in_codom (\<le>\<^bsub>R\<^esub>) z" "x \<le>\<^bsub>L\<^esub> r z"
+  fix x z assume "x \<^bsub>L\<^esub>\<lessapprox> z"
   then show "l x \<le>\<^bsub>R\<^esub> z"
   proof (intro right_rel_if_left_relI)
-    from \<open>in_codom (\<le>\<^bsub>R\<^esub>) z\<close> show "in_codom (\<le>\<^bsub>R2\<^esub>) z" by blast
+    from \<open>x \<^bsub>L\<^esub>\<lessapprox> z\<close> show "in_codom (\<le>\<^bsub>R2\<^esub>) z" by blast
     fix y assume "y \<le>\<^bsub>R1\<^esub> l1 (r z)"
     moreover have "l1 (r z) \<le>\<^bsub>R1\<^esub> r2 z"
     proof -
-      from mono_in_codom_r2 \<open>in_codom (\<le>\<^bsub>R\<^esub>) z\<close> have "in_codom (\<le>\<^bsub>R1\<^esub>) (r2 z)" by blast
+      from mono_in_codom_r2 \<open>x \<^bsub>L\<^esub>\<lessapprox> z\<close> have "in_codom (\<le>\<^bsub>R1\<^esub>) (r2 z)" by blast
       with deflationary_counit1 show "l1 (r z) \<le>\<^bsub>R1\<^esub> r2 z" by auto
     qed
     ultimately show "y \<le>\<^bsub>R1\<^esub> r2 z" using trans_R1 by blast
@@ -51,14 +51,14 @@ lemma half_galois_prop_left_left_rightI':
   and mono_in_codom_r2: "([in_codom (\<le>\<^bsub>R\<^esub>)] \<Rrightarrow>\<^sub>m in_codom (\<le>\<^bsub>R1\<^esub>)) r2"
   shows "((\<le>\<^bsub>L\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R\<^esub>)) l r"
 proof (rule half_galois_prop_leftI)
-  fix x z assume "in_codom (\<le>\<^bsub>R\<^esub>) z" "x \<le>\<^bsub>L\<^esub> r z"
+  fix x z assume "x \<^bsub>L\<^esub>\<lessapprox> z"
   then show "l x \<le>\<^bsub>R\<^esub> z"
   proof (intro right_rel_if_left_relI')
-    from \<open>in_codom (\<le>\<^bsub>R\<^esub>) z\<close> show "in_codom (\<le>\<^bsub>R2\<^esub>) z" by blast
+    from \<open>x \<^bsub>L\<^esub>\<lessapprox> z\<close> show "in_codom (\<le>\<^bsub>R2\<^esub>) z" by blast
     fix y assume "y \<le>\<^bsub>R1\<^esub> l1 (r z)"
     moreover have "l1 (r z) \<le>\<^bsub>R1\<^esub> r2 z"
     proof -
-      from mono_in_codom_r2 \<open>in_codom (\<le>\<^bsub>R\<^esub>) z\<close> have "in_codom (\<le>\<^bsub>R1\<^esub>) (r2 z)" by blast
+      from mono_in_codom_r2 \<open>x \<^bsub>L\<^esub>\<lessapprox> z\<close> have "in_codom (\<le>\<^bsub>R1\<^esub>) (r2 z)" by blast
       with deflationary_counit1 show "l1 (r z) \<le>\<^bsub>R1\<^esub> r2 z" by auto
     qed
     ultimately show "y \<le>\<^bsub>R1\<^esub> r2 z" using trans_R1 by blast
@@ -82,24 +82,24 @@ lemma half_galois_prop_right_left_rightI:
   and "in_codom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_codom (\<le>\<^bsub>R1\<^esub>)"
   shows "((\<le>\<^bsub>L\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R\<^esub>)) l r"
 proof (rule half_galois_prop_rightI)
-  fix x z assume "in_dom (\<le>\<^bsub>L\<^esub>) x" "l x \<le>\<^bsub>R\<^esub> z"
+  fix x z assume "x \<lessapprox>\<^bsub>R\<^esub> z"
   then show "x \<le>\<^bsub>L\<^esub> r z"
   proof (intro flip.right_rel_if_left_relI)
     fix y assume "r2 (l x) \<le>\<^bsub>L2\<^esub> y"
     moreover have "l1 x \<le>\<^bsub>L2\<^esub> r2 (l x)"
     proof -
-      from mono_in_dom_l1 \<open>in_dom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
+      from mono_in_dom_l1 \<open>x \<lessapprox>\<^bsub>R\<^esub> z\<close> have "in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
       with inflationary_unit2 show "l1 x \<le>\<^bsub>L2\<^esub> r2 (l x)" by auto
     qed
     ultimately show "l1 x \<le>\<^bsub>L2\<^esub> y" using trans_L2 by blast
     fix y assume "l1 x \<le>\<^bsub>R1\<^esub> y"
-    with \<open>((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1\<close> \<open>in_dom (\<le>\<^bsub>L\<^esub>) x\<close> show "x \<le>\<^bsub>L1\<^esub> r1 y" by blast
+    with \<open>((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1\<close> \<open>x \<lessapprox>\<^bsub>R\<^esub> z\<close> show "x \<le>\<^bsub>L1\<^esub> r1 y" by blast
   next
     assume "in_codom (\<le>\<^bsub>R1\<^esub>) (r2 z)"
     with inflationary_counit1 show "r2 z \<le>\<^bsub>R1\<^esub> l1 (r z)" by auto
     from \<open>((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1\<close> \<open>in_codom (\<le>\<^bsub>R1\<^esub>) (r2 z)\<close> show "in_codom (\<le>\<^bsub>L1\<^esub>) (r z)"
       by (auto intro: in_codom_if_rel_if_dep_mono_wrt_rel)
-  qed (insert assms, auto)
+  qed (insert assms, auto elim: galois_rel.left_GaloisE)
 qed
 
 lemma half_galois_prop_right_left_rightI':
@@ -115,19 +115,20 @@ lemma half_galois_prop_right_left_rightI':
   and "in_dom ((\<le>\<^bsub>L2\<^esub>) \<circ>\<circ> (\<le>\<^bsub>R1\<^esub>) \<circ>\<circ> (\<le>\<^bsub>L2\<^esub>)) \<le> in_dom (\<le>\<^bsub>R1\<^esub>)"
   shows "((\<le>\<^bsub>L\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R\<^esub>)) l r"
 proof (rule half_galois_prop_rightI)
-  fix x z assume "in_dom (\<le>\<^bsub>L\<^esub>) x" "l x \<le>\<^bsub>R\<^esub> z"
+  fix x z assume "x \<lessapprox>\<^bsub>R\<^esub> z"
   then show "x \<le>\<^bsub>L\<^esub> r z"
   proof (intro flip.right_rel_if_left_relI')
-    from \<open>in_dom (\<le>\<^bsub>L\<^esub>) x\<close> inflationary_unit1 show "x \<le>\<^bsub>L1\<^esub> r1 (l1 x)" by fastforce
+    from \<open>x \<lessapprox>\<^bsub>R\<^esub> z\<close> inflationary_unit1 show "x \<le>\<^bsub>L1\<^esub> r1 (l1 x)"
+      by (fastforce elim: galois_rel.left_GaloisE)
     fix y assume "y \<le>\<^bsub>R1\<^esub> r2 z"
     with inflationary_counit1 show "y \<le>\<^bsub>R1\<^esub> l1 (r z)" by auto
   next
     fix y
-    from mono_in_dom_l1 \<open>in_dom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
+    from mono_in_dom_l1 \<open>x \<lessapprox>\<^bsub>R\<^esub> z\<close> have "in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
     with inflationary_unit2 have "l1 x \<le>\<^bsub>L2\<^esub> r2 (l x)" by auto
     moreover assume "r2 (l x) \<le>\<^bsub>L2\<^esub> y"
     ultimately show "l1 x \<le>\<^bsub>L2\<^esub> y" using trans_L2 by blast
-  qed (insert assms, auto)
+  qed (insert assms, auto elim: galois_rel.left_GaloisE)
 qed
 
 lemma galois_prop_left_rightI:

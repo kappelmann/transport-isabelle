@@ -153,32 +153,32 @@ lemmas partial_equivalence_rel_leftI = dfro1.partial_equivalence_relI
 
 subparagraph \<open>Introduction Rules for Assumptions\<close>
 
-lemma transitive_left2_if_transitive_left2_if_GaloisI:
+lemma transitive_left2_if_transitive_left2_if_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and L2_eq: "(\<le>\<^bsub>L2 x1 x2\<^esub>) = (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> transitive (\<le>\<^bsub>L2 x (r1 x')\<^esub>)"
   and "x1 \<le>\<^bsub>L1\<^esub> x2"
   shows "transitive (\<le>\<^bsub>L2 x1 x2\<^esub>)"
-  by (subst L2_eq) (auto intro!: assms t1.Galois_left_if_left_relI)
+  by (subst L2_eq) (auto intro!: assms t1.left_Galois_left_if_left_relI)
 
-lemma symmetric_left2_if_symmetric_left2_if_GaloisI:
+lemma symmetric_left2_if_symmetric_left2_if_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and L2_eq: "(\<le>\<^bsub>L2 x1 x2\<^esub>) = (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> symmetric (\<le>\<^bsub>L2 x (r1 x')\<^esub>)"
   and "x1 \<le>\<^bsub>L1\<^esub> x2"
   shows "symmetric (\<le>\<^bsub>L2 x1 x2\<^esub>)"
-  by (subst L2_eq) (auto intro!: assms t1.Galois_left_if_left_relI)
+  by (subst L2_eq) (auto intro!: assms t1.left_Galois_left_if_left_relI)
 
-lemma partial_equivalence_rel_left2_if_partial_equivalence_rel_left2_if_GaloisI:
+lemma partial_equivalence_rel_left2_if_partial_equivalence_rel_left2_if_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and L2_eq: "(\<le>\<^bsub>L2 x1 x2\<^esub>) = (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> partial_equivalence_rel (\<le>\<^bsub>L2 x (r1 x')\<^esub>)"
   and "x1 \<le>\<^bsub>L1\<^esub> x2"
   shows "partial_equivalence_rel (\<le>\<^bsub>L2 x1 x2\<^esub>)"
-  by (subst L2_eq) (auto intro!: assms t1.Galois_left_if_left_relI)
+  by (subst L2_eq) (auto intro!: assms t1.left_Galois_left_if_left_relI)
 
 context
   assumes galois_prop: "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -202,36 +202,36 @@ interpretation flip_inv :
     galois_prop.half_galois_prop_right_rel_inv_iff_half_galois_prop_left
     simp del: rel_inv_iff_rel)
 
-lemma transitive_right2_if_transitive_right2_if_GaloisI:
+lemma transitive_right2_if_transitive_right2_if_left_GaloisI:
   assumes "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "(\<le>\<^bsub>R2 x1 x2\<^esub>) = (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x1) x2\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> transitive (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)"
   and "x1 \<le>\<^bsub>R1\<^esub> x2"
   shows "transitive (\<le>\<^bsub>R2 x1 x2\<^esub>)"
   using galois_prop assms
-  by (intro flip_inv.transitive_left2_if_transitive_left2_if_GaloisI
+  by (intro flip_inv.transitive_left2_if_transitive_left2_if_left_GaloisI
     [simplified rel_inv_iff_rel, of x1])
   auto
 
-lemma symmetric_right2_if_symmetric_right2_if_GaloisI:
+lemma symmetric_right2_if_symmetric_right2_if_left_GaloisI:
   assumes "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "(\<le>\<^bsub>R2 x1 x2\<^esub>) = (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x1) x2\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> symmetric (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)"
   and "x1 \<le>\<^bsub>R1\<^esub> x2"
   shows "symmetric (\<le>\<^bsub>R2 x1 x2\<^esub>)"
   using galois_prop assms
-  by (intro flip_inv.symmetric_left2_if_symmetric_left2_if_GaloisI
+  by (intro flip_inv.symmetric_left2_if_symmetric_left2_if_left_GaloisI
     [simplified rel_inv_iff_rel, of x1])
   auto
 
-lemma partial_equivalence_rel_right2_if_partial_equivalence_rel_right2_if_GaloisI:
+lemma partial_equivalence_rel_right2_if_partial_equivalence_rel_right2_if_left_GaloisI:
   assumes "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "(\<le>\<^bsub>R2 x1 x2\<^esub>) = (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x1) x2\<^esub>)"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> partial_equivalence_rel (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)"
   and "x1 \<le>\<^bsub>R1\<^esub> x2"
   shows "partial_equivalence_rel (\<le>\<^bsub>R2 x1 x2\<^esub>)"
   using galois_prop assms
-  by (intro flip_inv.partial_equivalence_rel_left2_if_partial_equivalence_rel_left2_if_GaloisI
+  by (intro flip_inv.partial_equivalence_rel_left2_if_partial_equivalence_rel_left2_if_left_GaloisI
     [simplified rel_inv_iff_rel, of x1])
   auto
 
@@ -250,7 +250,7 @@ proof -
   with assms have "(\<le>\<^bsub>L2 x1 x2\<^esub>) = (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)"
     by (intro left2_eq_if_bi_related_if_monoI) blast+
   with assms show ?thesis
-    by (intro transitive_left2_if_transitive_left2_if_GaloisI[of x1]) blast+
+    by (intro transitive_left2_if_transitive_left2_if_left_GaloisI[of x1]) blast+
 qed
 
 lemma symmetric_left2_if_partial_equivalence_rel_equivalenceI:
@@ -266,7 +266,7 @@ proof -
   with assms have "(\<le>\<^bsub>L2 x1 x2\<^esub>) = (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)"
     by (intro left2_eq_if_bi_related_if_monoI) blast+
   with assms show ?thesis
-    by (intro symmetric_left2_if_symmetric_left2_if_GaloisI[of x1]) blast+
+    by (intro symmetric_left2_if_symmetric_left2_if_left_GaloisI[of x1]) blast+
 qed
 
 lemma partial_equivalence_rel_left2_if_partial_equivalence_rel_equivalenceI:
@@ -282,7 +282,7 @@ proof -
   with assms have "(\<le>\<^bsub>L2 x1 x2\<^esub>) = (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)"
     by (intro left2_eq_if_bi_related_if_monoI) blast+
   with assms show ?thesis
-    by (intro partial_equivalence_rel_left2_if_partial_equivalence_rel_left2_if_GaloisI[of x1])
+    by (intro partial_equivalence_rel_left2_if_partial_equivalence_rel_left2_if_left_GaloisI[of x1])
     blast+
 qed
 
@@ -303,7 +303,7 @@ proof -
   with assms have "(\<le>\<^bsub>R2 x1' x2'\<^esub>) = (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x1') x2'\<^esub>)"
     by (intro flip.left2_eq_if_bi_related_if_monoI) blast+
   with assms show ?thesis
-    by (intro transitive_right2_if_transitive_right2_if_GaloisI[of x1']) blast+
+    by (intro transitive_right2_if_transitive_right2_if_left_GaloisI[of x1']) blast+
 qed
 
 lemma symmetric_right2_if_partial_equivalence_rel_equivalenceI:
@@ -319,7 +319,7 @@ proof -
   with assms have "(\<le>\<^bsub>R2 x1' x2'\<^esub>) = (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x1') x2'\<^esub>)"
     by (intro flip.left2_eq_if_bi_related_if_monoI) blast+
   with assms show ?thesis
-    by (intro symmetric_right2_if_symmetric_right2_if_GaloisI[of x1']) blast+
+    by (intro symmetric_right2_if_symmetric_right2_if_left_GaloisI[of x1']) blast+
 qed
 
 lemma partial_equivalence_rel_right2_if_partial_equivalence_rel_equivalenceI:
@@ -335,7 +335,7 @@ proof -
   with assms have "(\<le>\<^bsub>R2 x1' x2'\<^esub>) = (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x1') x2'\<^esub>)"
     by (intro flip.left2_eq_if_bi_related_if_monoI) blast+
   with assms show ?thesis
-    by (intro partial_equivalence_rel_right2_if_partial_equivalence_rel_right2_if_GaloisI[of x1'])
+    by (intro partial_equivalence_rel_right2_if_partial_equivalence_rel_right2_if_left_GaloisI[of x1'])
     blast+
 qed
 

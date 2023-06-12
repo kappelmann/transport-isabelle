@@ -11,7 +11,9 @@ begin
 
 paragraph \<open>Summary\<close>
 text \<open>Composition under (dependent) (monotone) function relators.
-See the Transport paper for more details.\<close>
+Refer to the paper
+"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann
+for more details.\<close>
 
 subsubsection \<open>Summary of Main Results\<close>
 
@@ -102,10 +104,10 @@ text \<open>See @{thm "left_rel_eq_tdfr_leftI_if_equivalencesI"}.\<close>
 subparagraph \<open>Simplification of Galois relator\<close>
 
 text \<open>See
-@{thm "Galois_eq_Dep_Fun_Rel_Galois_restrict_if_mono_if_galois_connectionI"
-"Galois_eq_Dep_Fun_Rel_Galois_restrict_if_preorder_equivalenceI"
-"Dep_Fun_Rel_Galois_restrict_left_right_eq_Dep_Fun_Rel_GaloisI"
-"Dep_Fun_Rel_Galois_restrict_left_right_restrict_left_right_eq"}\<close>
+@{thm "left_Galois_eq_Dep_Fun_Rel_left_Galois_restrict_if_mono_if_galois_connectionI"
+"left_Galois_eq_Dep_Fun_Rel_left_Galois_restrict_if_preorder_equivalenceI"
+"Dep_Fun_Rel_left_Galois_restrict_left_right_eq_Dep_Fun_Rel_left_GaloisI"
+"Dep_Fun_Rel_left_Galois_restrict_left_right_restrict_left_right_eq"}\<close>
 
 end
 
@@ -174,9 +176,9 @@ text \<open>See @{thm "left_rel_eq_tfr_leftI"}.\<close>
 
 subparagraph \<open>Simplification of Galois relator\<close>
 
-text \<open>See @{thm "Galois_eq_Fun_Rel_Galois_restrictI"
-"Fun_Rel_Galois_restrict_left_right_eq_Fun_Rel_GaloisI"
-"Fun_Rel_Galois_restrict_left_right_restrict_left_right_eq"}.\<close>
+text \<open>See @{thm "left_Galois_eq_Fun_Rel_left_Galois_restrictI"
+"Fun_Rel_left_Galois_restrict_left_right_eq_Fun_Rel_left_GaloisI"
+"Fun_Rel_left_Galois_restrict_left_right_restrict_left_right_eq"}.\<close>
 
 end
 

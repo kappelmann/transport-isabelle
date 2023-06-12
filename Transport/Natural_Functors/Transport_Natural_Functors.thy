@@ -50,7 +50,7 @@ theorem partial_equivalence_rel_equivalenceI:
   done
 
 text \<open>For the simplification of the Galois relator see
-@{thm "Galois_eq_Frel_Galois"}.\<close>
+@{thm "left_Galois_eq_Frel_left_Galois"}.\<close>
 
 end
 

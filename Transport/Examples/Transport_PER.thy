@@ -5,7 +5,8 @@ theory Transport_PER
     Transport.Transport
     Transport_Rel_If
     "HOL-Eisbach.Eisbach"
-    E_Unification.E_Unification
+    ML_Unification.ML_Unification
+    ML_Unification.ML_Unification_Resolution
   keywords "transport_term" :: thy_goal_defn
 begin
 
@@ -21,30 +22,31 @@ This is not production ready, but a proof of concept.
 
 The package provides a command @{command "transport_term"}, which sets up the
 required goals to prove a given term. See the examples in this directory for
-some use cases and refer to the Transport paper.\<close>
+some use cases and refer to the paper
+"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann
+for more details.\<close>
 
 context transport
 begin
 
-lemma Galois_left_if_left_rel_if_partial_equivalence_rel_equivalence:
+lemma left_Galois_left_if_left_rel_if_partial_equivalence_rel_equivalence:
   assumes "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
   and "x \<le>\<^bsub>L\<^esub> x"
   shows "x \<^bsub>L\<^esub>\<lessapprox> l x"
-  using assms by (intro Galois_left_if_left_rel_if_inflationary_on_in_fieldI)
+  using assms by (intro left_Galois_left_if_left_rel_if_inflationary_on_in_fieldI)
   (blast elim: preorder_equivalence_order_equivalenceE)+
 
 definition "transport_per x y \<equiv> ((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r \<and> x \<^bsub>L\<^esub>\<lessapprox> y"
 
-text \<open>The choice of @{term "x \<le>\<^bsub>L\<^esub> x"} is arbitrary. All we need is
-@{term "in_dom (\<le>\<^bsub>L\<^esub>) x"}.\<close>
+text \<open>The choice of @{term "x \<le>\<^bsub>L\<^esub> x"} is arbitrary. All we need is @{term "in_dom (\<le>\<^bsub>L\<^esub>) x"}.\<close>
 lemma transport_per_start:
   assumes "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
   and "x \<le>\<^bsub>L\<^esub> x"
   shows "transport_per x (l x)"
   using assms unfolding transport_per_def
-  by (blast intro: Galois_left_if_left_rel_if_partial_equivalence_rel_equivalence)
+  by (blast intro: left_Galois_left_if_left_rel_if_partial_equivalence_rel_equivalence)
 
-lemma Galois_left_if_transport_per:
+lemma left_Galois_if_transport_per:
   assumes "transport_per x y"
   shows "x \<^bsub>L\<^esub>\<lessapprox> y"
   using assms unfolding transport_per_def by blast
@@ -56,7 +58,7 @@ begin
 
 text \<open>Simplification of Galois relator for simple function relator.\<close>
 
-corollary Galois_eq_Fun_Rel_Galois:
+corollary left_Galois_eq_Fun_Rel_left_Galois:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "((\<le>\<^bsub>L2\<^esub>) \<equiv>\<^bsub>PER\<^esub> (\<le>\<^bsub>R2\<^esub>)) l2 r2"
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>))"
@@ -72,7 +74,7 @@ proof (intro ext)
       with \<open>f \<^bsub>L\<^esub>\<lessapprox> g\<close> show ?thesis by blast
     qed
     ultimately show "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>)) f g" using assms
-      by (intro Fun_Rel_Galois_if_GaloisI)
+      by (intro Fun_Rel_left_Galois_if_left_GaloisI)
       (auto elim!: tdfrs.t1.partial_equivalence_rel_equivalenceE
         tdfrs.t1.preorder_equivalence_galois_equivalenceE
         tdfrs.t1.galois_equivalenceE
@@ -80,9 +82,9 @@ proof (intro ext)
   next
     assume "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>)) f g"
     with assms have "((\<^bsub>L1\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L2\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub> f g"
-      by (subst Fun_Rel_Galois_restrict_left_right_eq_Fun_Rel_GaloisI) blast+
+      by (subst Fun_Rel_left_Galois_restrict_left_right_eq_Fun_Rel_left_GaloisI) blast+
     with assms show "f \<^bsub>L\<^esub>\<lessapprox> g"
-      by (intro Galois_if_Fun_Rel_GaloisI) blast+
+      by (intro left_Galois_if_Fun_Rel_left_GaloisI) blast+
   qed
 qed
 
@@ -93,6 +95,7 @@ ML_file\<open>parse_util.ML\<close>
 
 ML\<open>
   structure Util = Transport_Util
+  structure CUtil = Conversion_Util
   structure UUtil = Unification_Util
   structure PUtil = Transport_Parse_Util
 \<close>
@@ -102,7 +105,7 @@ ML\<open>
   fun simp_def ctxt simps y_def =
     let
       val ctxt = ctxt addsimps simps
-      val rhs_simp_conv = Simplifier.rewrite ctxt |> Util.rhs_conv |> UUtil.thm_conv
+      val rhs_simp_conv = Simplifier.rewrite ctxt |> CUtil.rhs_conv |> CUtil.thm_conv
       val y_def_simplified = rhs_simp_conv y_def
 
       val y_def_eta_expanded = Util.equality_eta_expand ctxt "x" y_def
@@ -125,8 +128,7 @@ declare
   transport_Fun_Rel.transport_defs[transport_def]
 
 ML\<open>
-  (*first-order unification with higher-order pattern unification with hints
-    as a fallback*)
+  (*first-order unification with higher-order pattern unification with hints as a fallback*)
   val norm_thm_beta_eta =
     UUtil.norm_thm_beta_eta UUtil.norm_type_unif UUtil.norm_term_unif
   fun unify_hints ctxt =
@@ -159,7 +161,7 @@ declare
   (*completely dependent case not supported as of now*)
   (* transport_Dep_Fun_Rel.partial_equivalence_rel_equivalenceI[per_intro] *)
   transport_Dep_Fun_Rel_no_dep_fun.partial_equivalence_rel_equivalenceI[per_intro]
-  transport.rel_if_partial_equivalence_rel_equivalence_if_iff_if_partial_equivalence_rel_equivalenceI[per_intro]
+  (*transport.rel_if_partial_equivalence_rel_equivalence_if_iff_if_partial_equivalence_rel_equivalenceI[per_intro]*)
   transport_Fun_Rel.partial_equivalence_rel_equivalenceI[per_intro]
   transport_eq_id.partial_equivalence_rel_equivalenceI[per_intro]
   transport_eq_restrict_id.partial_equivalence_rel_equivalence[per_intro]
@@ -168,8 +170,8 @@ ML\<open>
   fun per_prover_tac ctxt =
     let
       val per_intros = PER_Intros.get ctxt
-      val resolve_tac = any_unify_hints_resolve_tac ctxt
-    in REPEAT1 o resolve_tac per_intros end
+      val resolve_tac = any_unify_hints_resolve_tac
+    in REPEAT1 o resolve_tac per_intros ctxt end
 \<close>
 
 method_setup per_prover =
@@ -185,8 +187,23 @@ ML\<open>
 \<close>
 
 text \<open>Discharges the @{term "L x x"} goals by registered lemmas.\<close>
-method parametricity_prover =
-  (simp_all only: transport_def transport_parametric)
+ML\<open>
+  fun parametricity_prover_tac ctxt =
+    let
+      val transport_defs = Transport_Defs.get ctxt
+      val transport_parametric = Transport_Parametrics.get ctxt
+      val resolve_tac = any_unify_hints_resolve_tac
+      val ctxt = clear_simpset ctxt addsimps transport_defs
+    in
+      full_simp_tac ctxt
+      THEN' resolve_tac transport_parametric ctxt
+    end
+\<close>
+
+method_setup parametricity_prover =
+  \<open>Scan.succeed (SIMPLE_METHOD o FIRSTGOAL o parametricity_prover_tac)\<close>
+  "parametricity prover for Transport"
+
 
 text \<open>First derive the PER equivalence, then look for registered
 parametricity lemmas.\<close>
@@ -210,8 +227,8 @@ ML\<open>
 \<close>
 
 declare
-  transport_Fun_Rel.Galois_eq_Fun_Rel_Galois[transport_relator_rewrite]
-  transport_id.Galois_eq_left[transport_relator_rewrite]
+  transport_Fun_Rel.left_Galois_eq_Fun_Rel_left_Galois[transport_relator_rewrite]
+  transport_id.left_Galois_eq_left[transport_relator_rewrite]
 
 ML\<open>
   (*simple rewrite tactic for Galois relators*)
@@ -282,7 +299,7 @@ text \<open>The transport_term command\<close>
 ML\<open>
   (*some utilities to destruct terms*)
   val transport_per_start_thm = @{thm "transport.transport_per_start"}
-  val related_if_transport_per_thm = @{thm "transport.Galois_left_if_transport_per"}
+  val related_if_transport_per_thm = @{thm "transport.left_Galois_if_transport_per"}
   fun dest_transport_per \<^Const_>\<open>transport.transport_per S T for L R l r x y\<close>
     = ((S, T), (L, R, l, r, x, y))
   val dest_transport_per_y = dest_transport_per #> (fn (_, (_, _, _, _, _, y)) => y)
@@ -320,7 +337,7 @@ ML\<open>
             (*fold definition of transported term*)
             Local_Defs.fold ctxt [y_def] thm
             (*simplify other transport definitions in theorem*)
-            |> (Simplifier.rewrite ctxt |> UUtil.thm_conv)
+            |> (Simplifier.rewrite ctxt |> CUtil.thm_conv)
           val thm_attribs = ([folded_thm], attribs)
         in (binding, [thm_attribs]) end
       val facts = map prepare_fact ([
@@ -454,8 +471,8 @@ ML\<open>
   fun transport_related_tac ctxt =
     let
       val transport_related_intros = Transport_Related_Intros.get ctxt
-      val resolve_tac = any_unify_hints_resolve_tac ctxt
-    in REPEAT1 o resolve_tac transport_related_intros end
+      val resolve_tac = any_unify_hints_resolve_tac
+    in REPEAT1 o resolve_tac transport_related_intros ctxt end
 \<close>
 
 method_setup transport_related_prover =

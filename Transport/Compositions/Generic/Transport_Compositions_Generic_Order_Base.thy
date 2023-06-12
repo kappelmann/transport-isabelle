@@ -26,20 +26,18 @@ proof (rule reflexive_onI)
   proof (rule left_relI)
     from refl_R1 have "l1 x \<le>\<^bsub>R1\<^esub> l1 x"
     proof (rule reflexive_onD)
-      from \<open>x \<le>\<^bsub>L\<^esub> x'\<close> galois_prop show "in_dom (\<le>\<^bsub>R1\<^esub>) (l1 x)"
-        by (blast elim: t1.half_galois_prop_left_GaloisE)
+      from \<open>x \<le>\<^bsub>L\<^esub> x'\<close> galois_prop show "in_dom (\<le>\<^bsub>R1\<^esub>) (l1 x)" by blast
     qed
     then show "x \<^bsub>L1\<^esub>\<lessapprox> l1 x"
-    proof (intro t1.GaloisI)
-      from galois_prop \<open>in_dom (\<le>\<^bsub>L1\<^esub>) x\<close> \<open>l1 x \<le>\<^bsub>R1\<^esub> l1 x\<close> show "x \<le>\<^bsub>L1\<^esub> r1 (l1 x)"
-        by blast
+    proof (intro t1.left_GaloisI)
+      from galois_prop \<open>in_dom (\<le>\<^bsub>L1\<^esub>) x\<close> \<open>l1 x \<le>\<^bsub>R1\<^esub> l1 x\<close> show "x \<le>\<^bsub>L1\<^esub> r1 (l1 x)" by blast
     qed blast
     from refl_L2 show "l1 x \<le>\<^bsub>L2\<^esub> l1 x"
     proof (rule reflexive_onD)
       from mono_in_dom_l1 \<open>x \<le>\<^bsub>L\<^esub> x'\<close> show "in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
     qed
     from \<open>l1 x \<le>\<^bsub>R1\<^esub> l1 x\<close> show "l1 x \<^bsub>R1\<^esub>\<lessapprox> x"
-    proof (intro flip1.GaloisI)
+    proof (intro flip1.left_GaloisI)
       from \<open>in_dom (\<le>\<^bsub>L1\<^esub>) x\<close> in_dom_L1_le show "in_codom (\<le>\<^bsub>L1\<^esub>) x" by blast
     qed
   qed
@@ -60,7 +58,7 @@ proof (rule reflexive_onI)
   proof (rule left_relI)
     from refl_R1 \<open>in_codom (\<le>\<^bsub>R1\<^esub>) (l1 x)\<close> have "l1 x \<le>\<^bsub>R1\<^esub> l1 x" by blast
     show "x \<^bsub>L1\<^esub>\<lessapprox> l1 x"
-    proof (rule t1.GaloisI)
+    proof (rule t1.left_GaloisI)
       from in_codom_L1_le \<open>in_codom (\<le>\<^bsub>L1\<^esub>) x\<close> have "in_dom (\<le>\<^bsub>L1\<^esub>) x" by blast
       with \<open>l1 x \<le>\<^bsub>R1\<^esub> l1 x\<close> show "x \<le>\<^bsub>L1\<^esub> r1 (l1 x)" by (intro L1_r1_l1I)
     qed fact
@@ -68,7 +66,7 @@ proof (rule reflexive_onI)
     proof (rule reflexive_onD)
       from mono_in_codom_l1 \<open>x' \<le>\<^bsub>L\<^esub> x\<close> show "in_codom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
     qed
-    show "l1 x \<^bsub>R1\<^esub>\<lessapprox> x" by (rule flip1.GaloisI) fact+
+    show "l1 x \<^bsub>R1\<^esub>\<lessapprox> x" by (rule flip1.left_GaloisI) fact+
   qed
 qed
 
@@ -117,7 +115,7 @@ proof (rule transitiveI)
   show "x1 \<le>\<^bsub>L\<^esub> x3"
   proof (rule left_relI)
     show "x1 \<^bsub>L1\<^esub>\<lessapprox> y1" "y1 \<le>\<^bsub>L2\<^esub> y'" by fact+
-    show "y' \<^bsub>R1\<^esub>\<lessapprox> x3" by (rule flip1.GaloisI) fact+
+    show "y' \<^bsub>R1\<^esub>\<lessapprox> x3" by (rule flip1.left_GaloisI) fact+
   qed
 qed
 
@@ -141,7 +139,7 @@ proof (rule transitiveI)
   show "x1 \<le>\<^bsub>L\<^esub> x3"
   proof (rule left_relI)
     from \<open>in_dom (\<le>\<^bsub>L1\<^esub>) x1\<close> \<open>l1 x1 \<le>\<^bsub>R1\<^esub> y'\<close> galois_prop show "x1 \<^bsub>L1\<^esub>\<lessapprox> y'"
-      by (intro t1.Galois_if_left_right_rel_if_in_dom_if_half_galois_prop_right)
+      by (intro t1.left_Galois_if_Galois_right_if_half_galois_prop_right t1.left_GaloisI)
       auto
     show "y' \<le>\<^bsub>L2\<^esub> y4" by fact
     from \<open>y' \<le>\<^bsub>L2\<^esub> y4\<close> \<open>y4 \<^bsub>R1\<^esub>\<lessapprox> x3\<close> show "y4 \<^bsub>R1\<^esub>\<lessapprox> x3" by blast
@@ -206,7 +204,7 @@ lemma symmetric_leftI:
   shows "symmetric (\<le>\<^bsub>L\<^esub>)"
 proof -
   from assms have "(\<greaterapprox>\<^bsub>R1\<^esub>) = (\<^bsub>L1\<^esub>\<lessapprox>)" by (intro
-    t1.inv_flip_Galois_eq_Galois_if_symmetric_if_in_codom_eq_in_dom_if_galois_prop)
+    t1.ge_Galois_right_eq_left_Galois_if_symmetric_if_in_codom_eq_in_dom_if_galois_prop)
   moreover then have "(\<^bsub>R1\<^esub>\<lessapprox>) = (\<greaterapprox>\<^bsub>L1\<^esub>)"
     by (subst rel_inv_eq_iff_eq[symmetric]) simp
   ultimately show ?thesis using assms unfolding left_rel_eq_comp

@@ -34,8 +34,7 @@ declare
   typedef_fset.partial_equivalence_rel_equivalence[per_intro]
 
 
-lemma one_parametric [transport_parametric]: "typedef_pint.L 1 1"
-  by auto
+lemma one_parametric [transport_parametric]: "typedef_pint.L 1 1" by auto
 
 transport_term pint_one :: "pint" where x = "1 :: int"
   by transport_term_prover
@@ -193,7 +192,7 @@ transport_term fempty_param :: "'b fset"
     apply per_prover
     apply (fact compat)
   apply (rule transport_comp.left_relI[where ?y="{}" and ?y'="{}"])
-    apply (auto intro!: galois_rel.GaloisI in_codomI empty_transfer)
+    apply (auto intro!: galois_rel.left_GaloisI in_codomI empty_transfer)
   done
 
 end

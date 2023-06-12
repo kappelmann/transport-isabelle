@@ -52,8 +52,8 @@ sublocale transport? :
 
 interpretation galois L R Abs Rep .
 
-lemma Galois_Rep_self: "Rep y \<^bsub>L\<^esub>\<lessapprox> y"
-  using Rep by (intro GaloisI) auto
+lemma Rep_Left_Galois_self: "Rep y \<^bsub>L\<^esub>\<lessapprox> y"
+  using Rep by (intro left_GaloisI) auto
 
 end
 

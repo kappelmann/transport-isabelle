@@ -26,7 +26,14 @@ text \<open>Proof of equivalence is done for all set-extensions in
 @{theory Isabelle_Set.Set_Extensions_Transport}.\<close>
 declare Int.partial_equivalence_rel_equivalence[per_intro]
 
-text \<open>Transport first injection: from natural numbers into non-negative integers.\<close>
+definition "int_repZ ir i \<equiv> i \<in> \<int> \<and> ir = Int.r i"
+
+lemma int_rep_Galois_eq_int_repZ: "(\<^bsub>(=\<^bsub>int_rep\<^esub>)\<^esub>\<lessapprox>\<^bsub>(=\<^bsub>\<int>\<^esub>) Int.r\<^esub>) \<equiv> int_repZ"
+  unfolding galois_rel.Galois_def int_repZ_def by (intro eq_reflection ext) auto
+
+declare int_rep_Galois_eq_int_repZ[transport_relator_rewrite, unif_hint]
+
+text \<open>Transport from natural numbers into non-negative integers.\<close>
 
 lemma Int_Rep_nonneg_parametric [transport_parametric]:
   "((=\<^bsub>\<nat>\<^esub>) \<Rrightarrow> Int.L) Int_Rep_nonneg Int_Rep_nonneg"
@@ -38,7 +45,7 @@ transport_term int_nonneg :: "set \<Rightarrow> set" where
   x = Int_Rep_nonneg and L = "(=\<^bsub>\<nat>\<^esub>) \<Rrightarrow> Int.L" and R = "((=\<^bsub>\<nat>\<^esub>) :: set \<Rightarrow> _) \<Rrightarrow> Int.R"
   by transport_term_prover
 
-text \<open>Transport second injection: from natural numbers into negative integers.\<close>
+text \<open>Transport from natural numbers into negative integers.\<close>
 
 lemma Int_Rep_neg_parametric [transport_parametric]:
   "((=\<^bsub>\<nat> \<setminus> {0}\<^esub>) \<Rrightarrow> Int.L) Int_Rep_neg Int_Rep_neg"
@@ -51,11 +58,10 @@ transport_term int_neg
 
 text \<open>Transport 0.\<close>
 
-lemma Int_Rep_zero_parametric [transport_parametric]:
-  "Int_Rep_zero =\<^bsub>int_rep\<^esub> Int_Rep_zero"
+lemma Int_Rep_zero_parametric [transport_parametric]: "Int_Rep_zero =\<^bsub>int_rep\<^esub> Int_Rep_zero"
   by auto
 
- transport_term int_zero where x = Int_Rep_zero and L = Int.L and R = Int.R
+transport_term int_zero where x = Int_Rep_zero and L = Int.L and R = Int.R
   by transport_term_prover
 
 text \<open>There is some very limited white-box transport support in the prototype.\<close>
@@ -104,15 +110,13 @@ transport_term int_if :: "(set \<Rightarrow> bool) \<Rightarrow> set \<Rightarro
   and L = "(Int.L \<Rrightarrow> (\<longleftrightarrow>)) \<Rrightarrow> Int.L \<Rrightarrow> (=)"
   by transport_term_prover
 
-thm int_if_def
-
 lemma Galois_id_hint [unif_hint]:
   "(L :: 'a \<Rightarrow> 'a \<Rightarrow> bool) \<equiv> R \<Longrightarrow> r \<equiv> id \<Longrightarrow> E \<equiv> L \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> E"
-  by (simp only: eq_reflection[OF transport_id.Galois_eq_left])
+  by (simp only: eq_reflection[OF transport_id.left_Galois_eq_left])
 
 context
   fixes P P' :: "set \<Rightarrow> bool"
-  assumes Prel: "((\<^bsub>(=\<^bsub>int_rep\<^esub>)\<^esub>\<lessapprox>\<^bsub>(=\<^bsub>\<int>\<^esub>) Int.r\<^esub>) \<Rrightarrow> (=)) P P'"
+  assumes Prel: "(int_repZ \<Rrightarrow> (=)) P P'"
 begin
 
 (*whitebox transport*)
@@ -155,8 +159,8 @@ transport_term test_whitebox
   and L = "(\<longleftrightarrow>)" and R = "(\<longleftrightarrow>)"
   unfold app_eq_Int_Rep_zero_def !
   apply transport_related_prover
-  apply (tactic \<open>TRYALL (any_unify_hints_resolve_tac @{context}
-    (@{thm refl} :: @{thms transport_parametric}))\<close>)
+  apply (tactic \<open>TRYALL (any_unify_hints_resolve_tac
+    (@{thm refl} :: @{thms transport_parametric}) @{context})\<close>)
   oops
 
 lemma lambda_related:

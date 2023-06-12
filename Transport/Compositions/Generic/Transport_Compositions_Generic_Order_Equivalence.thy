@@ -36,11 +36,11 @@ proof (rule inflationary_onI)
     with refl_R1 have "l1 x \<le>\<^bsub>R1\<^esub> l1 x" by blast
     moreover from \<open>in_dom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_dom (\<le>\<^bsub>L1\<^esub>) x" by blast
     moreover note inflationary_unit1
-    ultimately show "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by (intro t1.GaloisI) auto
+    ultimately show "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by (intro t1.left_GaloisI) auto
     from \<open>in_dom (\<le>\<^bsub>L\<^esub>) x\<close> mono_in_dom_l1 have "in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
     with inflationary_unit2 show "l1 x \<le>\<^bsub>L2\<^esub> r2 (l x)" by auto
     show "r2 (l x) \<^bsub>R1\<^esub>\<lessapprox> \<eta> x"
-    proof (rule flip.t2.GaloisI)
+    proof (rule flip.t2.left_GaloisI)
       from refl_L2 \<open>in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)\<close> have "l1 x \<le>\<^bsub>L2\<^esub> l1 x" by blast
       with in_codom_rel_comp_le \<open>l1 x \<le>\<^bsub>R1\<^esub> l1 x\<close> \<open>l1 x \<le>\<^bsub>L2\<^esub> r2 (l x)\<close>
         have "in_codom (\<le>\<^bsub>R1\<^esub>) (r2 (l x))" by blast
@@ -67,11 +67,11 @@ proof (rule inflationary_onI)
   show "x \<le>\<^bsub>L\<^esub> \<eta> x"
   proof (rule left_relI)
     from \<open>in_codom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_codom (\<le>\<^bsub>L1\<^esub>) x" "in_codom (\<le>\<^bsub>R1\<^esub>) (l1 x)" by blast+
-    with inflationary_unit1 show "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by (intro t1.GaloisI) auto
+    with inflationary_unit1 show "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by (intro t1.left_GaloisI) auto
     from mono_in_codom_l1 \<open>in_codom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_codom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
     with inflationary_unit2 show "l1 x \<le>\<^bsub>L2\<^esub> r2 (l x)" by auto
     show "r2 (l x) \<^bsub>R1\<^esub>\<lessapprox> \<eta> x"
-    proof (rule flip.t2.GaloisI)
+    proof (rule flip.t2.left_GaloisI)
       from refl_L2 \<open>in_codom (\<le>\<^bsub>L2\<^esub>) (l1 x)\<close> have "l1 x \<le>\<^bsub>L2\<^esub> l1 x" by blast
       moreover from refl_R1 \<open>in_codom (\<le>\<^bsub>R1\<^esub>) (l1 x)\<close> have "l1 x \<le>\<^bsub>R1\<^esub> l1 x" by blast
       moreover note in_codom_rel_comp_le \<open>l1 x \<le>\<^bsub>L2\<^esub> r2 (l x)\<close>
@@ -130,7 +130,7 @@ proof (rule deflationary_onI)
     from mono_in_dom_l1 \<open>in_dom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
     with deflationary_L2 show "r2 (l x) \<le>\<^bsub>L2\<^esub> l1 x" by auto
     show "\<eta> x \<^bsub>L1\<^esub>\<lessapprox> r2 (l x)"
-    proof (rule t1.GaloisI)
+    proof (rule t1.left_GaloisI)
       from refl_L2 \<open>in_dom (\<le>\<^bsub>L2\<^esub>) (l1 x)\<close> have "l1 x \<le>\<^bsub>L2\<^esub> l1 x" by blast
       with in_dom_rel_comp_le \<open>r2 (l x) \<le>\<^bsub>L2\<^esub> l1 x\<close> \<open>l1 x \<le>\<^bsub>R1\<^esub> l1 x\<close>
         have "in_dom (\<le>\<^bsub>R1\<^esub>) (r2 (l x))" by blast
@@ -163,7 +163,7 @@ proof (rule deflationary_onI)
     from mono_in_codom_l1 \<open>in_codom (\<le>\<^bsub>L\<^esub>) x\<close> have "in_codom (\<le>\<^bsub>L2\<^esub>) (l1 x)" by blast
     with deflationary_L2 show "r2 (l x) \<le>\<^bsub>L2\<^esub> l1 x" by auto
     show "\<eta> x \<^bsub>L1\<^esub>\<lessapprox> r2 (l x)"
-    proof (rule t1.GaloisI)
+    proof (rule t1.left_GaloisI)
       from refl_L2 \<open>in_codom (\<le>\<^bsub>L2\<^esub>) (l1 x)\<close> have "l1 x \<le>\<^bsub>L2\<^esub> l1 x" by blast
       with in_dom_rel_comp_le \<open>r2 (l x) \<le>\<^bsub>L2\<^esub> l1 x\<close> \<open>l1 x \<le>\<^bsub>R1\<^esub> l1 x\<close>
         have "in_dom (\<le>\<^bsub>R1\<^esub>) (r2 (l x))" by blast

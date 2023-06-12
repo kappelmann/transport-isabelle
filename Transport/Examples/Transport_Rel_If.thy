@@ -77,12 +77,13 @@ context galois_prop
 begin
 
 interpretation rel_if : galois_prop "rel_if B (\<le>\<^bsub>L\<^esub>)" "rel_if B' (\<le>\<^bsub>R\<^esub>)" l r .
+interpretation flip_inv : galois_prop "(\<ge>\<^bsub>R\<^esub>)" "(\<ge>\<^bsub>L\<^esub>)" r l .
 
 lemma rel_if_half_galois_prop_left_if_iff_if_half_galois_prop_leftI:
   assumes "B \<Longrightarrow> B' \<Longrightarrow> ((\<le>\<^bsub>L\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R\<^esub>)) l r"
   and "B \<longleftrightarrow> B'"
   shows "((rel_if B (\<le>\<^bsub>L\<^esub>)) \<^sub>h\<unlhd> (rel_if B' (\<le>\<^bsub>R\<^esub>))) l r"
-  using assms by (intro rel_if.half_galois_prop_leftI) fastforce
+  using assms by (intro rel_if.half_galois_prop_leftI) auto
 
 lemma rel_if_half_galois_prop_right_if_iff_if_half_galois_prop_rightI:
   assumes "B \<Longrightarrow> B' \<Longrightarrow> ((\<le>\<^bsub>L\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R\<^esub>)) l r"
@@ -193,19 +194,20 @@ proof -
     if hyps: "x1 \<le>\<^bsub>L1\<^esub> x2" "x2 \<^bsub>L1\<^esub>\<lessapprox> x1'" "x1' \<le>\<^bsub>R1\<^esub> x2'" for x1 x2 x1' x2'
   proof -
     from hyps have "x1 \<^bsub>L1\<^esub>\<lessapprox> x2'"
-      using per_equiv1 t1.Galois_if_Galois_if_left_relI t1.Galois_if_right_rel_if_GaloisI
+      using per_equiv1 t1.left_Galois_if_left_Galois_if_left_relI
+        t1.left_Galois_if_right_rel_if_left_GaloisI
       by fast
     with per_equiv2 show ?thesis by blast
   qed
   have "([x1' x2' \<Colon> (\<le>\<^bsub>R1\<^esub>)] \<Rrightarrow>\<^sub>m [x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x2 \<^bsub>L1\<^esub>\<lessapprox> x1'] \<Rrightarrow>
     [in_field (\<le>\<^bsub>L2 x1 (r1 x2')\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 (l1 x1) x2'\<^esub>)) (\<lambda>_ _. l2)"
     by (intro dep_mono_wrt_relI Dep_Fun_Rel_relI Dep_Fun_Rel_predI rel_if_if_impI)
-    (fast dest!: per2I)
+    (auto 8 0 dest!: per2I)
   moreover have
     "([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x1' x2' \<Colon> (\<le>\<^bsub>R1\<^esub>) | x2 \<^bsub>L1\<^esub>\<lessapprox> x1'] \<Rrightarrow>
     [in_field (\<le>\<^bsub>R2 (l1 x1) x2'\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 x1 (r1 x2')\<^esub>)) (\<lambda>_ _. r2)"
     by (intro dep_mono_wrt_relI Dep_Fun_Rel_relI Dep_Fun_Rel_predI rel_if_if_impI)
-    (fast dest!: per2I)
+    (auto 8 0 dest!: per2I)
   ultimately show ?thesis
     using assms by (intro tdfr.partial_equivalence_rel_equivalenceI) auto
 qed

@@ -13,7 +13,7 @@ begin
 
 subparagraph \<open>Lemmas for Monotone Function Relator\<close>
 
-lemma flip_half_galois_prop_left2_if_half_galois_prop_left2_if_GaloisI:
+lemma flip_half_galois_prop_left2_if_half_galois_prop_left2_if_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and half_galois_prop_left2: "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow>
@@ -23,7 +23,7 @@ lemma flip_half_galois_prop_left2_if_half_galois_prop_left2_if_GaloisI:
   and "x \<le>\<^bsub>L1\<^esub> x"
   shows "((\<le>\<^bsub>R2 (l1 x) (l1 x)\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>L2 (\<eta>\<^sub>1 x) x\<^esub>)) (r2\<^bsub>x (l1 x)\<^esub>) (l2\<^bsub>(l1 x) x\<^esub>)"
 proof -
-  from assms have "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by (intro t1.Galois_left_if_left_relI) auto
+  from assms have "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by (intro t1.left_Galois_left_if_left_relI) auto
   with half_galois_prop_left2
     have "((\<le>\<^bsub>R2 (l1 x) (l1 x)\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>L2 x (\<eta>\<^sub>1 x)\<^esub>)) (r2\<^bsub>x (l1 x)\<^esub>) (l2\<^bsub>(l1 x) x\<^esub>)" by auto
   with assms show ?thesis by simp
@@ -38,7 +38,7 @@ lemma flip_half_galois_prop_right2_if_half_galois_prop_right2_if_GaloisI:
   and "x' \<le>\<^bsub>R1\<^esub> x'"
   shows "((\<le>\<^bsub>R2 x' (\<epsilon>\<^sub>1 x')\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>L2 (r1 x') (r1 x')\<^esub>)) (r2\<^bsub>(r1 x') x'\<^esub>) (l2\<^bsub>x' (r1 x')\<^esub>)"
 proof -
-  from assms have "r1 x' \<^bsub>L1\<^esub>\<lessapprox> x'" by (intro t1.right_Galois_if_right_relI) auto
+  from assms have "r1 x' \<^bsub>L1\<^esub>\<lessapprox> x'" by (intro t1.right_left_Galois_if_right_relI) auto
   with half_galois_prop_right2
     have "((\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x') x'\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>L2 (r1 x') (r1 x')\<^esub>)) (r2\<^bsub>(r1 x') x'\<^esub>) (l2\<^bsub>x' (r1 x')\<^esub>)" by auto
   with assms show ?thesis by simp
@@ -95,7 +95,7 @@ proof (intro Dep_Fun_Rel_predI)
   ultimately have "in_codom (\<le>\<^bsub>L2 (\<eta>\<^sub>1 x) (\<eta>\<^sub>1 x)\<^esub>) y" using mono_L2 by blast
   moreover from \<open>x \<le>\<^bsub>L1\<^esub> x\<close> galois_equiv1
     have "l1 x \<le>\<^bsub>R1\<^esub> l1 x" "\<eta>\<^sub>1 x \<le>\<^bsub>L1\<^esub> x" "x \<^bsub>L1\<^esub>\<lessapprox> l1 x"
-    by (blast intro: t1.Galois_left_if_left_relI
+    by (blast intro: t1.left_Galois_left_if_left_relI
       flip.t1.counit_rel_if_right_rel_if_galois_connection)+
   moreover note
     Dep_Fun_Rel_relD[OF dep_mono_wrt_relD[OF mono_l2 \<open>l1 x \<le>\<^bsub>R1\<^esub> l1 x\<close>] \<open>\<eta>\<^sub>1 x \<le>\<^bsub>L1\<^esub> x\<close>]
@@ -126,7 +126,7 @@ proof (intro Dep_Fun_Rel_predI)
   ultimately have "in_dom (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x') (\<epsilon>\<^sub>1 x')\<^esub>) y" using mono_R2 by blast
   moreover from \<open>x' \<le>\<^bsub>R1\<^esub> x'\<close> galois_equiv1
     have "r1 x' \<le>\<^bsub>L1\<^esub> r1 x'" "x' \<le>\<^bsub>R1\<^esub> \<epsilon>\<^sub>1 x'" "r1 x' \<^bsub>L1\<^esub>\<lessapprox> x'"
-    by (blast intro: t1.right_Galois_if_right_relI
+    by (blast intro: t1.right_left_Galois_if_right_relI
       flip.t1.rel_unit_if_left_rel_if_galois_connection)+
   moreover note
     Dep_Fun_Rel_relD[OF dep_mono_wrt_relD[OF mono_r2 \<open>r1 x' \<le>\<^bsub>L1\<^esub> r1 x'\<close>] \<open>x' \<le>\<^bsub>R1\<^esub> \<epsilon>\<^sub>1 x'\<close>]
@@ -197,10 +197,10 @@ proof -
   moreover from galois_equiv1 galois_equiv2 have
     "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
       ((\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x1') x2'\<^esub>)) (l2\<^bsub>x2' (r1 x1')\<^esub>)"
-    by (intro tdfr.mono_wrt_rel_left2_if_mono_wrt_rel_left2_if_GaloisI) auto
+    by (intro tdfr.mono_wrt_rel_left2_if_mono_wrt_rel_left2_if_left_GaloisI) auto
   moreover from galois_equiv1 galois_equiv2 have
     "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x1) (l1 x2)\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)) (r2\<^bsub>x1 (l1 x2)\<^esub>)"
-    by (intro tdfr.mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_GaloisI)
+    by (intro tdfr.mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_left_GaloisI)
     (auto elim!: t1.galois_equivalenceE)
   moreover from galois_equiv1 refl_L1 have
     "\<And>x. x \<le>\<^bsub>L1\<^esub> x \<Longrightarrow> x \<equiv>\<^bsub>L1\<^esub> \<eta>\<^sub>1 x"
@@ -211,7 +211,7 @@ proof -
   ultimately show ?thesis using assms
     by (intro galois_equivalenceI
       galois_connection_left_right_if_galois_connectionI flip.galois_prop_left_rightI
-      tdfr.flip_half_galois_prop_left2_if_half_galois_prop_left2_if_GaloisI
+      tdfr.flip_half_galois_prop_left2_if_half_galois_prop_left2_if_left_GaloisI
       tdfr.flip_half_galois_prop_right2_if_half_galois_prop_right2_if_GaloisI
       tdfr.mono_wrt_rel_left_if_transitiveI tdfr.mono_wrt_rel_right_if_transitiveI
       flip.tdfr.left_rel_right_if_left_right_rel_le_right2_assmI

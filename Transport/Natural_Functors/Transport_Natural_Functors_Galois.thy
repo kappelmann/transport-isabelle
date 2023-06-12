@@ -14,16 +14,17 @@ lemma half_galois_prop_leftI:
   and "((\<le>\<^bsub>L3\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R3\<^esub>)) l3 r3"
   shows "((\<le>\<^bsub>L\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R\<^esub>)) l r"
   apply (rule half_galois_prop_leftI)
+  apply (erule left_GaloisE)
   apply (unfold left_rel_eq_Frel right_rel_eq_Frel left_eq_Fmap right_eq_Fmap)
   apply (subst (asm) in_codom_Frel_eq_Fpred_in_codom)
   apply (erule FpredE)
   apply (unfold Frel_Fmap_eqs)
   apply (rule Frel_mono_strong,
     assumption;
-    rule t1.half_galois_prop_leftD t2.half_galois_prop_leftD
-      t3.half_galois_prop_leftD,
+    rule t1.half_galois_prop_leftD t2.half_galois_prop_leftD t3.half_galois_prop_leftD,
     rule assms,
-    assumption+)
+    rule t1.left_GaloisI t2.left_GaloisI t3.left_GaloisI;
+    assumption)
   done
 
 interpretation flip_inv : transport_natural_functor "(\<ge>\<^bsub>R1\<^esub>)" "(\<ge>\<^bsub>L1\<^esub>)" r1 l1

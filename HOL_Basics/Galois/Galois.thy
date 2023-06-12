@@ -8,7 +8,8 @@ begin
 
 paragraph \<open>Summary\<close>
 text \<open>We define the concept of (partial) Galois connections, Galois equivalences,
-and the Galois relator. For details see also the Transport paper.\<close>
+and the Galois relator. For details refer to the paper
+"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann.\<close>
 
 
 

@@ -147,13 +147,18 @@ bundle rel_if_syntax begin notation (output) rel_if (infixl "\<longrightarrow>" 
 bundle no_rel_if_syntax begin no_notation (output) rel_if (infixl "\<longrightarrow>" 50) end
 unbundle rel_if_syntax
 
-lemma rel_if_if_impI [intro]:
-  assumes "B \<Longrightarrow> R x y"
-  shows "(rel_if B R) x y"
+lemma rel_if_eq_rel_if_pred [simp]:
+  assumes "B"
+  shows "(rel_if B R) = R"
   unfolding rel_if_def using assms by blast
 
-lemma rel_if_if_notI [simp]:
+lemma rel_if_eq_top_if_not_pred [simp]:
   assumes "\<not>B"
+  shows "(rel_if B R) = (\<lambda>_ _. True)"
+  unfolding rel_if_def using assms by blast
+
+lemma rel_if_if_impI [intro]:
+  assumes "B \<Longrightarrow> R x y"
   shows "(rel_if B R) x y"
   unfolding rel_if_def using assms by blast
 
@@ -166,11 +171,6 @@ lemma rel_ifD:
   assumes "(rel_if B R) x y"
   and "B"
   shows "R x y"
-  using assms by blast
-
-lemma rel_if_eq_if_pred [simp]:
-  assumes "B"
-  shows "(rel_if B R) x y = R x y"
   using assms by blast
 
 consts restrict_left :: "('a \<Rightarrow> 'b \<Rightarrow> bool) \<Rightarrow> 'c \<Rightarrow> 'a \<Rightarrow> 'b \<Rightarrow> bool"

@@ -70,7 +70,7 @@ lemma mono_wrt_rel_left_if_transitiveI:
     mono_wrt_rel_left_in_codom_mono_left_assm)
   auto
 
-lemma mono_wrt_rel_left2_if_mono_wrt_rel_left2_if_GaloisI:
+lemma mono_wrt_rel_left2_if_mono_wrt_rel_left2_if_left_GaloisI:
   assumes "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>L2 x (r1 x')\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)) (l2\<^bsub>x' x\<^esub>)"
   shows "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow>
@@ -121,7 +121,7 @@ lemma mono_wrt_rel_right_if_transitiveI:
   using assms by (intro flip_inv.mono_wrt_rel_left_if_transitiveI
     [simplified rel_inv_iff_rel])
 
-lemma mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_GaloisI:
+lemma mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_left_GaloisI:
   assumes assms1: "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1" "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and mono_r2: "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x) x'\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x (r1 x')\<^esub>)) (r2\<^bsub>x x'\<^esub>)"
   shows "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x1) (l1 x2)\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)) (r2\<^bsub>x1 (l1 x2)\<^esub>)"
@@ -129,7 +129,7 @@ proof -
   show "((\<le>\<^bsub>R2 (l1 x1) (l1 x2)\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)) (r2\<^bsub>x1 (l1 x2)\<^esub>)" if "x1 \<le>\<^bsub>L1\<^esub> x2" for x1 x2
   proof -
     from \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close> have "x1 \<^bsub>L1\<^esub>\<lessapprox> l1 x2"
-      using assms1 by (intro t1.Galois_left_if_left_relI) blast
+      using assms1 by (intro t1.left_Galois_left_if_left_relI) blast
     with mono_r2 show ?thesis by auto
   qed
 qed

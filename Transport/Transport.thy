@@ -13,7 +13,8 @@ text \<open>We formalise the theory for the Transport framework.
 The Transport framework allows us to transport terms along (partial) Galois
 connections (@{term "galois.galois_connection"}) and equivalences
 (@{term "galois.galois_equivalence"}).
-For details, refer to the Transport paper.\<close>
+For details, refer to the paper
+"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann.\<close>
 
 
 end

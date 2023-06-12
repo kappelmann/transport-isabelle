@@ -90,22 +90,18 @@ corollary partial_equivalence_rel_galois_connection_rel_inv_iff_partial_equivale
   by (simp flip:
     rel_inv_partial_equivalence_rel_galois_connection_eq_partial_equivalence_rel_galois_connection_rel_inv)
 
-lemma Galois_comp_rel_inv_Galois_eq_left_if_partial_equivalence_rel_galois_connection:
+lemma left_Galois_comp_ge_Galois_left_eq_left_if_partial_equivalence_rel_galois_connection:
   assumes "((\<le>\<^bsub>L\<^esub>) \<stileturn>\<^bsub>PER\<^esub> (\<le>\<^bsub>R\<^esub>)) l r"
   shows "((\<^bsub>L\<^esub>\<lessapprox>) \<circ>\<circ> (\<greaterapprox>\<^bsub>L\<^esub>)) = (\<le>\<^bsub>L\<^esub>)"
 proof (intro ext iffI)
   fix x x' assume "((\<^bsub>L\<^esub>\<lessapprox>) \<circ>\<circ> (\<greaterapprox>\<^bsub>L\<^esub>)) x x'"
   then obtain y where "x \<le>\<^bsub>L\<^esub> r y" "r y \<ge>\<^bsub>L\<^esub> x'" by blast
-  moreover with assms have "r y \<le>\<^bsub>L\<^esub> x'" by (blast dest: symmetricD)
-  ultimately show "x \<le>\<^bsub>L\<^esub> x'" using assms by blast
+  with assms show "x \<le>\<^bsub>L\<^esub> x'" by (blast dest: symmetricD)
 next
   fix x x' assume "x \<le>\<^bsub>L\<^esub> x'"
   with assms have "x \<^bsub>L\<^esub>\<lessapprox> l x'" "x' \<^bsub>L\<^esub>\<lessapprox> l x'"
-    by (blast intro: Galois_left_if_left_relI)+
-  moreover with assms have "l x' \<lessapprox>\<^bsub>L\<^esub> x'"
-    by (subst Galois_rel_inv_eq_Galois_if_in_codom_eq_in_dom_if_symmetric)
-    (blast intro: in_codom_eq_in_dom_if_partial_equivalence_rel)+
-  ultimately show "((\<^bsub>L\<^esub>\<lessapprox>) \<circ>\<circ> (\<greaterapprox>\<^bsub>L\<^esub>)) x x'" by blast
+    by (blast intro: left_Galois_left_if_left_relI)+
+  with assms show "((\<^bsub>L\<^esub>\<lessapprox>) \<circ>\<circ> (\<greaterapprox>\<^bsub>L\<^esub>)) x x'" by auto
 qed
 
 

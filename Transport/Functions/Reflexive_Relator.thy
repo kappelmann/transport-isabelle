@@ -142,15 +142,15 @@ lemma Galois_Refl_RelI:
   and "in_field (\<le>\<^bsub>R\<^esub>)\<^sup>\<oplus> y"
   and "in_codom (\<le>\<^bsub>R\<^esub>) y \<Longrightarrow> x \<^bsub>L\<^esub>\<lessapprox> y"
   shows "(galois_rel.Galois ((\<le>\<^bsub>L\<^esub>)\<^sup>\<oplus>) ((\<le>\<^bsub>R\<^esub>)\<^sup>\<oplus>) r) x y"
-  using assms by (intro gR.GaloisI in_codomI Refl_Rel_app_rightI[where ?f=r])
+  using assms by (intro gR.left_GaloisI in_codomI Refl_Rel_app_rightI[where ?f=r])
   auto
 
 lemma half_galois_prop_left_Refl_Rel_left_rightI:
   assumes "((\<le>\<^bsub>L\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R\<^esub>)) l"
   and "((\<le>\<^bsub>L\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R\<^esub>)) l r"
   shows "((\<le>\<^bsub>L\<^esub>)\<^sup>\<oplus> \<^sub>h\<unlhd> (\<le>\<^bsub>R\<^esub>)\<^sup>\<oplus>) l r"
-  using assms
-  by (intro gR.half_galois_prop_leftI Refl_RelI) (auto elim!: in_codomE)
+  using assms by (intro gR.half_galois_prop_leftI Refl_RelI)
+  (auto elim!: in_codomE gR.left_GaloisE Refl_RelE)
 
 interpretation flip_inv : galois "(\<ge>\<^bsub>R\<^esub>)" "(\<ge>\<^bsub>L\<^esub>)" r l
   rewrites "((\<ge>\<^bsub>R\<^esub>) \<Rrightarrow>\<^sub>m (\<ge>\<^bsub>L\<^esub>)) \<equiv> ((\<le>\<^bsub>R\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L\<^esub>))"

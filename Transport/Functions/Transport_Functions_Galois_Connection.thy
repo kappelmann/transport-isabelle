@@ -28,14 +28,14 @@ proof -
     if "x1' \<le>\<^bsub>R1\<^esub> x2'" for x1' x2'
   proof -
     from galois_conn1 \<open>x1' \<le>\<^bsub>R1\<^esub> x2'\<close> have "r1 x1' \<le>\<^bsub>L1\<^esub> r1 x2'" "r1 x2' \<^bsub>L1\<^esub>\<lessapprox> x2'"
-      using refl_R1 by (auto intro: t1.right_Galois_if_reflexive_onI)
+      using refl_R1 by (auto intro: t1.right_left_Galois_if_reflexive_onI)
     with mono_l2_2 show ?thesis using R2_le1 \<open>x1' \<le>\<^bsub>R1\<^esub> x2'\<close> by fastforce
   qed
   show "([in_dom (\<le>\<^bsub>L2 x (\<eta>\<^sub>1 x)\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>R2 (l1 x) (l1 x)\<^esub>)) (l2\<^bsub>(l1 x) x\<^esub>) (l2\<^bsub>(l1 x) (\<eta>\<^sub>1 x)\<^esub>)"
     if "x \<le>\<^bsub>L1\<^esub> x" for x
   proof -
     from galois_conn1 \<open>x \<le>\<^bsub>L1\<^esub> x\<close> have "x \<le>\<^bsub>L1\<^esub> \<eta>\<^sub>1 x" "\<eta>\<^sub>1 x \<^bsub>L1\<^esub>\<lessapprox> l1 x"
-      by (auto intro!: t1.right_Galois_if_right_relI
+      by (auto intro!: t1.right_left_Galois_if_right_relI
         t1.rel_unit_if_left_rel_if_half_galois_prop_right_if_mono_wrt_rel
           [unfolded t1.unit_eq])
     with mono_l2_2 show ?thesis by fastforce
@@ -83,14 +83,14 @@ proof -
     if "x1 \<le>\<^bsub>L1\<^esub> x2" for x1 x2
   proof -
     from galois_conn1 \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close> have "x1 \<^bsub>L1\<^esub>\<lessapprox> l1 x1" "l1 x1 \<le>\<^bsub>R1\<^esub> l1 x2"
-      using refl_L1 by (auto intro!: t1.Galois_left_if_reflexive_on_if_half_galois_prop_rightI)
+      using refl_L1 by (auto intro!: t1.left_Galois_left_if_reflexive_on_if_half_galois_prop_rightI)
     with mono_r2_2 show ?thesis using L2_le2 \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close> by (auto 9 0)
   qed
   show "([in_codom (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x') x'\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 (r1 x') (r1 x')\<^esub>)) (r2\<^bsub>(r1 x') (\<epsilon>\<^sub>1 x')\<^esub>) (r2\<^bsub>(r1 x') x'\<^esub>)"
     if "x' \<le>\<^bsub>R1\<^esub> x'" for x'
   proof -
     from galois_conn1 \<open>x' \<le>\<^bsub>R1\<^esub> x'\<close> have "r1 x' \<^bsub>L1\<^esub>\<lessapprox> \<epsilon>\<^sub>1 x'" "\<epsilon>\<^sub>1 x' \<le>\<^bsub>R1\<^esub> x'"
-      by (auto intro!: t1.Galois_left_if_left_relI
+      by (auto intro!: t1.left_Galois_left_if_left_relI
         t1.counit_rel_if_right_rel_if_half_galois_prop_left_if_mono_wrt_rel
           [unfolded t1.counit_eq])
     with mono_r2_2 show ?thesis by fastforce
@@ -112,7 +112,7 @@ proof -
     if "x1 \<le>\<^bsub>L1\<^esub> x2" for x1 x2
   proof -
     from galois_conn1 \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close> have "x2 \<^bsub>L1\<^esub>\<lessapprox> l1 x2" "l1 x2 \<le>\<^bsub>R1\<^esub> l1 x2"
-      using refl_L1 by (blast intro: t1.Galois_left_if_reflexive_on_if_half_galois_prop_rightI)+
+      using refl_L1 by (blast intro: t1.left_Galois_left_if_reflexive_on_if_half_galois_prop_rightI)+
     with mono_r2 show ?thesis using \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close> L2_le2 by fastforce
   qed
   from mono_r2 show "([x \<Colon> in_dom (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x1' x2' \<Colon> (\<le>\<^bsub>R1\<^esub>) | x \<^bsub>L1\<^esub>\<lessapprox> x1'] \<Rrightarrow>\<^sub>m
@@ -209,8 +209,8 @@ lemma galois_connection_left_right_if_galois_connectionI:
   shows "((\<le>\<^bsub>L\<^esub>) \<stileturn> (\<le>\<^bsub>R\<^esub>)) l r"
   using assms
   by (intro galois_connection_left_rightI'
-    tdfr.mono_wrt_rel_left2_if_mono_wrt_rel_left2_if_GaloisI
-    tdfr.mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_GaloisI)
+    tdfr.mono_wrt_rel_left2_if_mono_wrt_rel_left2_if_left_GaloisI
+    tdfr.mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_left_GaloisI)
   (auto 7 0)
 
 corollary galois_connection_left_right_if_galois_connectionI':
@@ -237,8 +237,7 @@ corollary galois_connection_left_right_if_galois_connectionI':
   using assms by (intro galois_connection_left_right_if_galois_connectionI
     tdfr.galois_connection_left_right_if_galois_connection_mono_2_assms_leftI
     tdfr.galois_connection_left_right_if_galois_connection_mono_2_assms_rightI)
-  (auto intro: reflexive_on_if_le_pred_if_reflexive_on
-    in_field_if_in_dom in_field_if_in_codom)
+  (auto intro: reflexive_on_if_le_pred_if_reflexive_on in_field_if_in_dom in_field_if_in_codom)
 
 corollary galois_connection_left_right_if_mono_if_galois_connectionI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<stileturn> (\<le>\<^bsub>R1\<^esub>)) l1 r1"

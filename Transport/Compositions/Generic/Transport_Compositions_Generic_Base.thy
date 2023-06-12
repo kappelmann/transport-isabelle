@@ -23,8 +23,8 @@ components under some generic compatibility conditions on @{term "R1"} and
 @{term "L2"} (cf. below). The composition is rather subtle, but in return can
 cover quite general cases.
 
-Explanations and intuition about the construction can be found in the Transport
-paper.\<close>
+Explanations and intuition about the construction can be found in the paper
+"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann.\<close>
 
 notation L1 (infix "\<le>\<^bsub>L1\<^esub>" 50)
 notation R1 (infix "\<le>\<^bsub>R1\<^esub>" 50)
@@ -36,25 +36,25 @@ notation t1.ge_right (infix "\<ge>\<^bsub>R1\<^esub>" 50)
 notation t2.ge_left (infix "\<ge>\<^bsub>L2\<^esub>" 50)
 notation t2.ge_right (infix "\<ge>\<^bsub>R2\<^esub>" 50)
 
-notation t1.Galois (infix "\<^bsub>L1\<^esub>\<lessapprox>" 50)
-notation t1.flip_Galois (infix "\<^bsub>R1\<^esub>\<lessapprox>" 50)
-notation t2.Galois (infix "\<^bsub>L2\<^esub>\<lessapprox>" 50)
-notation t2.flip_Galois (infix "\<^bsub>R2\<^esub>\<lessapprox>" 50)
+notation t1.left_Galois (infix "\<^bsub>L1\<^esub>\<lessapprox>" 50)
+notation t1.right_Galois (infix "\<^bsub>R1\<^esub>\<lessapprox>" 50)
+notation t2.left_Galois (infix "\<^bsub>L2\<^esub>\<lessapprox>" 50)
+notation t2.right_Galois (infix "\<^bsub>R2\<^esub>\<lessapprox>" 50)
 
-notation t1.ge_Galois (infix "\<greaterapprox>\<^bsub>L1\<^esub>" 50)
-notation t1.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R1\<^esub>" 50)
-notation t2.ge_Galois (infix "\<greaterapprox>\<^bsub>L2\<^esub>" 50)
-notation t2.flip_ge_Galois (infix "\<greaterapprox>\<^bsub>R2\<^esub>" 50)
+notation t1.ge_Galois_left (infix "\<greaterapprox>\<^bsub>L1\<^esub>" 50)
+notation t1.ge_Galois_right (infix "\<greaterapprox>\<^bsub>R1\<^esub>" 50)
+notation t2.ge_Galois_left (infix "\<greaterapprox>\<^bsub>L2\<^esub>" 50)
+notation t2.ge_Galois_right (infix "\<greaterapprox>\<^bsub>R2\<^esub>" 50)
 
-notation t1.flip_inv_Galois (infix "\<^bsub>R1\<^esub>\<greaterapprox>" 50)
-notation t1.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R1\<^esub>" 50)
-notation t2.flip_inv_Galois (infix "\<^bsub>R2\<^esub>\<greaterapprox>" 50)
-notation t2.flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>R2\<^esub>" 50)
+notation t1.right_ge_Galois (infix "\<^bsub>R1\<^esub>\<greaterapprox>" 50)
+notation t1.Galois_right (infix "\<lessapprox>\<^bsub>R1\<^esub>" 50)
+notation t2.right_ge_Galois (infix "\<^bsub>R2\<^esub>\<greaterapprox>" 50)
+notation t2.Galois_right (infix "\<lessapprox>\<^bsub>R2\<^esub>" 50)
 
-notation t1.flip_flip_inv_Galois (infix "\<^bsub>L1\<^esub>\<greaterapprox>" 50)
-notation t1.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L1\<^esub>" 50)
-notation t2.flip_flip_inv_Galois (infix "\<^bsub>L2\<^esub>\<greaterapprox>" 50)
-notation t2.flip_flip_inv_ge_Galois (infix "\<lessapprox>\<^bsub>L2\<^esub>" 50)
+notation t1.left_ge_Galois (infix "\<^bsub>L1\<^esub>\<greaterapprox>" 50)
+notation t1.Galois_left (infix "\<lessapprox>\<^bsub>L1\<^esub>" 50)
+notation t2.left_ge_Galois (infix "\<^bsub>L2\<^esub>\<greaterapprox>" 50)
+notation t2.Galois_left (infix "\<lessapprox>\<^bsub>L2\<^esub>" 50)
 
 notation t1.unit ("\<eta>\<^sub>1")
 notation t1.counit ("\<epsilon>\<^sub>1")
@@ -206,7 +206,8 @@ end
 subparagraph \<open>Generic Left to Right Introduction Rules\<close>
 
 text \<open>The following lemmas generalise the proof outline used, for example,
-when proving monotonicity and the Galois property (cf. the Transport paper).\<close>
+when proving monotonicity and the Galois property (cf. the paper
+"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann).\<close>
 
 interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1 .
 
@@ -238,7 +239,7 @@ proof -
     from \<open>yl' \<le>\<^bsub>R1\<^esub> l1 x'\<close> \<open>y \<le>\<^bsub>R1\<^esub> l1 x'\<close> show "y \<le>\<^bsub>R1\<^esub> b yl'"
       by (rule R1_b_if_R1_l1_if_R1_l1)
     show "b yl' \<^bsub>L2\<^esub>\<lessapprox> z'"
-    proof (rule t2.GaloisI)
+    proof (rule t2.left_GaloisI)
       from \<open>yl' \<le>\<^bsub>R1\<^esub> l1 x'\<close> have "yl' \<le>\<^bsub>R1\<^esub> b yl'"
         by (intro R1_b_if_R1_l1_if_R1_l1)
       with \<open>l1 x \<le>\<^bsub>R1\<^esub> yl\<close> \<open>yl \<le>\<^bsub>L2\<^esub> yl'\<close> in_codom_rel_comp_le
@@ -281,7 +282,7 @@ proof -
     then show "y \<^bsub>L2\<^esub>\<lessapprox> z'" by blast
     from \<open>l1 x \<le>\<^bsub>R1\<^esub> yl\<close> \<open>l1 x \<le>\<^bsub>R1\<^esub> y\<close> show "t yl \<le>\<^bsub>R1\<^esub> y" by (rule t_R1_if_R1_l1_if_l1_R1)
     show "z \<^bsub>R2\<^esub>\<lessapprox> t yl"
-    proof (rule flip.t1.GaloisI)
+    proof (rule flip.t1.left_GaloisI)
       from \<open>l1 x \<le>\<^bsub>R1\<^esub> yl\<close> have "t yl \<le>\<^bsub>R1\<^esub> yl" by (intro t_R1_if_R1_l1_if_l1_R1)
       with \<open>yl \<le>\<^bsub>L2\<^esub> yl'\<close> \<open>yl' \<le>\<^bsub>R1\<^esub> l1 x'\<close> in_dom_rel_comp_le have "in_dom (\<le>\<^bsub>L2\<^esub>) (t yl)"
         by blast

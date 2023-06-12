@@ -138,20 +138,20 @@ lemma left_rel_right_iff_left_right_relI:
   using assms by (intro iffI left_right_rel_if_left_rel_rightI)
   (auto intro!: left_rel_right_if_left_right_relI)
 
-lemma half_galois_prop_left2_if_half_galois_prop_left2_if_GaloisI:
+lemma half_galois_prop_left2_if_half_galois_prop_left2_if_left_GaloisI:
   assumes "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>L2 x (r1 x')\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)) (l2\<^bsub>x' x\<^esub>) (r2\<^bsub>x x'\<^esub>)"
   and "x' \<le>\<^bsub>R1\<^esub> x'"
   shows "((\<le>\<^bsub>L2 (r1 x') (r1 x')\<^esub>) \<^sub>h\<unlhd> (\<le>\<^bsub>R2 (\<epsilon>\<^sub>1 x') x'\<^esub>)) (l2\<^bsub> x' (r1 x')\<^esub>) (r2\<^bsub>(r1 x') x'\<^esub>)"
-  using assms by (auto intro: t1.right_Galois_if_right_relI)
+  using assms by (auto intro: t1.right_left_Galois_if_right_relI)
 
-lemma half_galois_prop_right2_if_half_galois_prop_right2_if_GaloisI:
+lemma half_galois_prop_right2_if_half_galois_prop_right2_if_left_GaloisI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R1\<^esub>)) l1"
   and "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>L2 x (r1 x')\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)) (l2\<^bsub>x' x\<^esub>) (r2\<^bsub>x x'\<^esub>)"
   and "x \<le>\<^bsub>L1\<^esub> x"
   shows "((\<le>\<^bsub>L2 x (\<eta>\<^sub>1 x)\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R2 (l1 x) (l1 x)\<^esub>)) (l2\<^bsub>(l1 x) x\<^esub>) (r2\<^bsub>x (l1 x)\<^esub>)"
-  by (auto intro!: assms t1.Galois_left_if_left_relI)
+  by (auto intro!: assms t1.left_Galois_left_if_left_relI)
 
 lemma left_rel_right_iff_left_right_relI':
   assumes "((\<le>\<^bsub>L1\<^esub>) \<stileturn> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -182,8 +182,8 @@ proof -
     by (intro left_rel_right_iff_left_right_relI
       left_right_rel_if_left_rel_right_ge_left2_assmI
       left_rel_right_if_left_right_rel_le_right2_assmI
-      half_galois_prop_left2_if_half_galois_prop_left2_if_GaloisI
-      half_galois_prop_right2_if_half_galois_prop_right2_if_GaloisI)
+      half_galois_prop_left2_if_half_galois_prop_left2_if_left_GaloisI
+      half_galois_prop_right2_if_half_galois_prop_right2_if_left_GaloisI)
     auto
 qed
 
@@ -315,7 +315,7 @@ lemma half_galois_prop_left_left_rightI:
     half_galois_prop_leftI[unfolded left_rel_eq_tdfr_left_Refl_Rel right_rel_eq_tdfr_right_Refl_Rel]
     Refl_Rel_app_leftI[where ?f=l]
     tdfr.left_right_rel_if_left_rel_rightI)
-  auto
+  (auto elim!: galois_rel.left_GaloisE)
 
 lemma half_galois_prop_right_left_rightI:
   assumes "(tdfr.R \<Rrightarrow>\<^sub>m tdfr.L) r"
@@ -334,7 +334,7 @@ lemma half_galois_prop_right_left_rightI:
     half_galois_prop_rightI[unfolded left_rel_eq_tdfr_left_Refl_Rel right_rel_eq_tdfr_right_Refl_Rel]
     Refl_Rel_app_rightI[where ?f=r]
     tdfr.left_rel_right_if_left_right_relI)
-  auto
+  (auto elim!: galois_rel.left_GaloisE in_codomE Refl_RelE intro!: in_fieldI)
 
 corollary galois_prop_left_rightI:
   assumes "(tdfr.L \<Rrightarrow>\<^sub>m tdfr.R) l" and "(tdfr.R \<Rrightarrow>\<^sub>m tdfr.L) r"
@@ -386,8 +386,8 @@ proof -
   with assms show ?thesis by (intro galois_prop_left_rightI
     tdfr.left_right_rel_if_left_rel_right_ge_left2_assmI
     tdfr.left_rel_right_if_left_right_rel_le_right2_assmI
-    tdfr.half_galois_prop_left2_if_half_galois_prop_left2_if_GaloisI
-    tdfr.half_galois_prop_right2_if_half_galois_prop_right2_if_GaloisI)
+    tdfr.half_galois_prop_left2_if_half_galois_prop_left2_if_left_GaloisI
+    tdfr.half_galois_prop_right2_if_half_galois_prop_right2_if_left_GaloisI)
     auto
 qed
 

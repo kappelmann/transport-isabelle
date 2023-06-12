@@ -201,7 +201,7 @@ proof -
   moreover with order_equiv1
     have "l1 x1 \<le>\<^bsub>R1\<^esub> l1 x2" "l1 x1 \<le>\<^bsub>R1\<^esub> l1 x1" "l1 x2 \<le>\<^bsub>R1\<^esub> l1 x2" by auto
   ultimately have "x1 \<^bsub>L1\<^esub>\<lessapprox> l1 x1" "x2 \<^bsub>L1\<^esub>\<lessapprox> l1 x2" using order_equiv1
-    by (auto intro!: t1.Galois_left_if_in_codom_if_inflationary_onI)
+    by (auto intro!: t1.left_Galois_left_if_in_codom_if_inflationary_onI)
   note Dep_Fun_Rel_relD[OF dep_mono_wrt_relD[OF mono_r2 \<open>x1 \<le>\<^bsub>L1\<^esub> x2\<close>]
     \<open>l1 x2 \<le>\<^bsub>R1\<^esub> l1 x2\<close>]
   with \<open>x2 \<^bsub>L1\<^esub>\<lessapprox> l1 x2\<close> L2_unit_le2
@@ -226,9 +226,9 @@ lemma l2_unit_bi_rel_selfI:
   and "in_field (\<le>\<^bsub>L2 x x\<^esub>) y"
   shows "l2\<^bsub>(l1 x) (\<eta>\<^sub>1 x)\<^esub> y \<equiv>\<^bsub>R2 (l1 x) (l1 x)\<^esub> l2\<^bsub>(l1 x) x\<^esub> y"
 proof (rule bi_relatedI)
-  from \<open>x \<le>\<^bsub>L1\<^esub> x\<close> pre_equiv1 have "l1 x \<le>\<^bsub>R1\<^esub> l1 x" "x \<le>\<^bsub>L1\<^esub> \<eta>\<^sub>1 x" "\<eta>\<^sub>1 x \<le>\<^bsub>L1\<^esub> x"
-    by fastforce+
-  with pre_equiv1 have "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" "\<eta>\<^sub>1 x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by fastforce+
+  note t1.preorder_equivalence_order_equivalenceE[elim!]
+  from \<open>x \<le>\<^bsub>L1\<^esub> x\<close> pre_equiv1 have "l1 x \<le>\<^bsub>R1\<^esub> l1 x" "x \<le>\<^bsub>L1\<^esub> \<eta>\<^sub>1 x" "\<eta>\<^sub>1 x \<le>\<^bsub>L1\<^esub> x" by blast+
+  with pre_equiv1 have "x \<^bsub>L1\<^esub>\<lessapprox> l1 x" "\<eta>\<^sub>1 x \<^bsub>L1\<^esub>\<lessapprox> l1 x" by (auto 4 3)
   from pre_equiv1 \<open>x \<le>\<^bsub>L1\<^esub> \<eta>\<^sub>1 x\<close> have "x \<le>\<^bsub>L1\<^esub> \<eta>\<^sub>1 (\<eta>\<^sub>1 x)" by fastforce
   moreover note \<open>in_field (\<le>\<^bsub>L2 x x\<^esub>) y\<close>
     Dep_Fun_Rel_relD[OF dep_mono_wrt_relD[OF mono_L2 \<open>\<eta>\<^sub>1 x \<le>\<^bsub>L1\<^esub> x\<close>] \<open>\<eta>\<^sub>1 x \<le>\<^bsub>L1\<^esub> x\<close>]
@@ -260,9 +260,9 @@ lemma r2_counit_bi_rel_selfI:
   and "in_field (\<le>\<^bsub>R2 x' x'\<^esub>) y'"
   shows "r2\<^bsub>(r1 x') (\<epsilon>\<^sub>1 x')\<^esub> y' \<equiv>\<^bsub>L2 (r1 x') (r1 x')\<^esub> r2\<^bsub>(r1 x') x'\<^esub> y'"
 proof (rule bi_relatedI)
-  from \<open>x' \<le>\<^bsub>R1\<^esub> x'\<close> pre_equiv1 have "r1 x' \<le>\<^bsub>L1\<^esub> r1 x'" "x' \<le>\<^bsub>R1\<^esub> \<epsilon>\<^sub>1 x'" "\<epsilon>\<^sub>1 x' \<le>\<^bsub>R1\<^esub> x'"
-    by fastforce+
-  with pre_equiv1 have "r1 x' \<^bsub>L1\<^esub>\<lessapprox> x'" "r1 x' \<^bsub>L1\<^esub>\<lessapprox> \<epsilon>\<^sub>1 x'" by fastforce+
+  note t1.preorder_equivalence_order_equivalenceE[elim!]
+  from \<open>x' \<le>\<^bsub>R1\<^esub> x'\<close> pre_equiv1 have "r1 x' \<le>\<^bsub>L1\<^esub> r1 x'" "x' \<le>\<^bsub>R1\<^esub> \<epsilon>\<^sub>1 x'" "\<epsilon>\<^sub>1 x' \<le>\<^bsub>R1\<^esub> x'" by blast+
+  with pre_equiv1 have "r1 x' \<^bsub>L1\<^esub>\<lessapprox> x'" "r1 x' \<^bsub>L1\<^esub>\<lessapprox> \<epsilon>\<^sub>1 x'" by auto
   from pre_equiv1 \<open>x' \<le>\<^bsub>R1\<^esub> \<epsilon>\<^sub>1 x'\<close> have "x' \<le>\<^bsub>R1\<^esub> \<epsilon>\<^sub>1 (\<epsilon>\<^sub>1 x')" by fastforce
   moreover note \<open>in_field (\<le>\<^bsub>R2 x' x'\<^esub>) y'\<close>
     Dep_Fun_Rel_relD[OF dep_mono_wrt_relD[OF mono_R2 \<open>\<epsilon>\<^sub>1 x' \<le>\<^bsub>R1\<^esub> x'\<close>] \<open>\<epsilon>\<^sub>1 x' \<le>\<^bsub>R1\<^esub> x'\<close>]
@@ -515,7 +515,7 @@ proof -
     if [iff]: "x \<le>\<^bsub>L1\<^esub> x" for x
   proof -
     from pre_equiv1 have "x \<^bsub>L1\<^esub>\<lessapprox> l1 x"
-      by (auto intro!: t1.GaloisI
+      by (auto intro!: t1.left_GaloisI
         elim!: t1.preorder_equivalence_order_equivalenceE t1.order_equivalenceE)
     with order_equiv2 have "((\<le>\<^bsub>L2 x x\<^esub>) \<equiv>\<^sub>o (\<le>\<^bsub>R2 (l1 x) (l1 x)\<^esub>)) (l2\<^bsub>(l1 x) x\<^esub>) (r2\<^bsub>x (l1 x)\<^esub>)"
       by (auto simp flip: L2_unit_eq2)
@@ -531,13 +531,13 @@ proof -
       by (auto simp flip: R2_counit_eq1)
     then show ?goal1 ?goal2 by (auto elim: order_functors.order_equivalenceE)
   qed
-  moreover from mono_l2 tdfr.mono_wrt_rel_left2_if_mono_wrt_rel_left2_if_GaloisI
+  moreover from mono_l2 tdfr.mono_wrt_rel_left2_if_mono_wrt_rel_left2_if_left_GaloisI
     have "\<And>x1' x2'. x1' \<le>\<^bsub>R1\<^esub> x2' \<Longrightarrow> ((\<le>\<^bsub>L2 (r1 x1') (r1 x2')\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>R2 x1' x2'\<^esub>)) (l2\<^bsub>x2' (r1 x1')\<^esub>)"
     using pre_equiv1 R2_les(2) by blast
   moreover from pre_equiv1 have "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
     by (intro t1.half_galois_prop_right_left_right_if_transitive_if_order_equivalence)
     (auto elim!: t1.preorder_equivalence_order_equivalenceE)
-  moreover with mono_r2 tdfr.mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_GaloisI
+  moreover with mono_r2 tdfr.mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_left_GaloisI
     have "\<And>x1 x2. x1 \<le>\<^bsub>L1\<^esub> x2 \<Longrightarrow> ((\<le>\<^bsub>R2 (l1 x1) (l1 x2)\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L2 x1 (\<eta>\<^sub>1 x2)\<^esub>)) (r2\<^bsub>x1 (l1 x2)\<^esub>)"
     using pre_equiv1 by blast
   moreover with L2_les
@@ -575,9 +575,9 @@ proof -
   ultimately show ?thesis using assms
     by (intro order_equivalenceI
       tdfr.mono_wrt_rel_left_if_transitiveI
-      tdfr.mono_wrt_rel_left2_if_mono_wrt_rel_left2_if_GaloisI
+      tdfr.mono_wrt_rel_left2_if_mono_wrt_rel_left2_if_left_GaloisI
       tdfr.mono_wrt_rel_right_if_transitiveI
-      tdfr.mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_GaloisI)
+      tdfr.mono_wrt_rel_right2_if_mono_wrt_rel_right2_if_left_GaloisI)
     (auto elim!: t1.preorder_equivalence_order_equivalenceE)
 qed
 

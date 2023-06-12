@@ -36,7 +36,7 @@ lemma Quotient_if_preorder_equivalence:
   assumes "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>pre\<^esub> (=)) l r"
   shows "Quotient (\<le>\<^bsub>L\<^esub>) l r t.Galois"
 proof (rule QuotientI)
-  from assms show "l (r y) = y" for y by fast
+  from assms show "l (r y) = y" for y by fastforce
   from assms show "r y \<le>\<^bsub>L\<^esub> r y" for y by blast
   show "x \<le>\<^bsub>L\<^esub> x' \<longleftrightarrow> x \<le>\<^bsub>L\<^esub> x \<and> x' \<le>\<^bsub>L\<^esub> x' \<and> l x = l x'"
     (is "?lhs \<longleftrightarrow> ?rhs") for x x'
@@ -53,8 +53,8 @@ proof (rule QuotientI)
   qed
   from assms show "t.Galois = (\<lambda>x y. x \<le>\<^bsub>L\<^esub> x \<and> l x = y)"
     by (intro ext iffI)
-    (blast elim!: t.GaloisE,
-    auto intro!: t.Galois_left_if_left_rel_if_inflationary_on_in_fieldI
+    (blast elim!: t.left_GaloisE,
+    auto intro!: t.left_Galois_left_if_left_rel_if_inflationary_on_in_fieldI
       elim!: t.preorder_equivalence_order_equivalenceE)
 qed
 
@@ -84,11 +84,11 @@ corollary Quotient_iff_partial_equivalence_rel_equivalence:
   using Quotient_if_preorder_equivalence partial_equivalence_rel_equivalence_if_Quotient
   by blast
 
-corollary Quotient_T_eq_flip_Galois:
+corollary Quotient_T_eq_ge_Galois_right:
   assumes "Quotient (\<le>\<^bsub>L\<^esub>) l r T"
-  shows "T = t.flip_Galois\<inverse>"
+  shows "T = t.ge_Galois_right"
   using assms
-  by (subst t.inv_flip_Galois_eq_Galois_if_symmetric_if_in_codom_eq_in_dom_if_galois_prop)
+  by (subst t.ge_Galois_right_eq_left_Galois_if_symmetric_if_in_codom_eq_in_dom_if_galois_prop)
   (blast dest: partial_equivalence_rel_equivalence_if_Quotient
   intro: in_codom_eq_in_dom_if_reflexive_on_in_field Quotient_T_eq_Galois)+
 
