@@ -26,7 +26,8 @@ session Transport_Examples in Examples = "Transport" +
     Isabelle_Set
     ML_Unification
   directories
-    "Typedef"
+    Typedef
+    Transport_Setup
   theories
     Transport_Dep_Fun_Rel
     Transport_List_Sets

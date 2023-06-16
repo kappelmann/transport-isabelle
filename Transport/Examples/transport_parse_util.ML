@@ -1,14 +1,24 @@
+(*  Title:      Transport/transport_parse_util.ML
+    Author:     Kevin Kappelmann
+
+Parse Utilities used by Transport.
+*)
 signature TRANSPORT_PARSE_UTIL =
 sig
 
   val check_scan : ('a -> message) -> ('a -> bool) -> 'a -> 'a
+
   val eq_parser : Token.T list -> string * Token.T list
+
   val entry_parser : ('a -> 'b * 'c) -> ('c -> 'd * 'e) -> ('e -> 'f * 'g) ->
     'a -> ('b * 'f) * 'g
+
   val pretty_names : string list -> Pretty.T
   val name_parser : string list -> (string -> 'a) -> Token.T list ->
     'a * Token.T list
+
   val eq_name_entry : ''a * (''a * 'b) -> bool
+
   val check_required_entries : ''a list -> (''a * 'b) list -> bool
   val required_entries_parser : (''a * 'b) parser -> (''a -> string) -> ''a list
     -> Token.T list -> (''a * 'b) list * Token.T list

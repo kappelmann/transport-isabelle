@@ -12,10 +12,12 @@ begin
 
 typedef pint = "{i :: int. 0 \<le> i}" by auto
 
-interpretation typedef_pint :
-  type_definition Rep_pint Abs_pint "{i :: int. 0 \<le> i}"
+interpretation typedef_pint : type_definition Rep_pint Abs_pint "{i :: int. 0 \<le> i}"
   by (fact type_definition_pint)
 
+lemma [transport_relator_rewrite, unif_hint]:
+  "(\<^bsub>(=\<^bsub>Collect ((\<le>) (0 :: int))\<^esub>)\<^esub>\<lessapprox>\<^bsub>(=) Rep_pint\<^esub>) \<equiv> typedef_pint.AR"
+  using typedef_pint.left_Galois_eq_AR by (intro eq_reflection) simp
 
 typedef 'a fset = "{s :: 'a set. finite s}" by auto
 
@@ -23,6 +25,9 @@ interpretation typedef_fset :
   type_definition Rep_fset Abs_fset "{s :: 'a set. finite s}"
   by (fact type_definition_fset)
 
+lemma [transport_relator_rewrite, unif_hint]:
+  "(\<^bsub>(=\<^bsub>{s :: 'a set. finite s}\<^esub>) :: 'a set \<Rightarrow> _\<^esub>\<lessapprox>\<^bsub>(=) Rep_fset\<^esub>) \<equiv> typedef_fset.AR"
+  using typedef_fset.left_Galois_eq_AR by (intro eq_reflection) simp
 
 lemma eq_restrict_set_eq_eq_unif_hint [unif_hint]:
   "P \<equiv> \<lambda>x. x \<in> A \<Longrightarrow> ((=\<^bsub>A :: 'a set\<^esub>) :: 'a \<Rightarrow> _) \<equiv> (=\<^bsub>P\<^esub>)"
@@ -34,37 +39,34 @@ declare
   typedef_fset.partial_equivalence_rel_equivalence[per_intro]
 
 
-lemma one_parametric [transport_parametric]: "typedef_pint.L 1 1" by auto
+lemma one_parametric [transport_in_dom]: "typedef_pint.L 1 1" by auto
 
 transport_term pint_one :: "pint" where x = "1 :: int"
-  by transport_term_prover
+  by transport_prover
 
-
-lemma add_parametric [transport_parametric]:
+lemma add_parametric [transport_in_dom]:
   "(typedef_pint.L \<Rrightarrow> typedef_pint.L \<Rrightarrow> typedef_pint.L) (+) (+)"
   by (intro Dep_Fun_Rel_relI) (auto intro!: eq_restrictI elim!: eq_restrictE)
 
 transport_term pint_add :: "pint \<Rightarrow> pint \<Rightarrow> pint"
   where x = "(+) :: int \<Rightarrow> _"
-  by transport_term_prover
+  by transport_prover
 
-
-lemma empty_parametric [transport_parametric]: "typedef_fset.L {} {}"
+lemma empty_parametric [transport_in_dom]: "typedef_fset.L {} {}"
   by auto
 
 transport_term fempty :: "'a fset" where x = "{} :: 'a set"
-  by transport_term_prover
+  by transport_prover
 
 
-lemma insert_parametric [transport_parametric]:
+lemma insert_parametric [transport_in_dom]:
   "((=) \<Rrightarrow> typedef_fset.L \<Rrightarrow> typedef_fset.L) insert insert"
   by auto
 
-transport_term finsert :: "'a \<Rightarrow> 'a fset \<Rightarrow> 'a fset"
-  where x = insert
+transport_term finsert :: "'a \<Rightarrow> 'a fset \<Rightarrow> 'a fset" where x = insert
   and L = "((=) \<Rrightarrow> typedef_fset.L \<Rrightarrow> typedef_fset.L)"
   and R = "((=) \<Rrightarrow> typedef_fset.R \<Rrightarrow> typedef_fset.R)"
-  by transport_term_prover
+  by transport_prover
 
 context
   notes refl[transport_related_intro]
@@ -72,7 +74,7 @@ begin
 
 transport_term insert_add_int_fset_whitebox :: "int fset"
   where x = "insert (1 + (1 :: int)) {}" !
-  by transport_related_prover
+  by transport_whitebox_prover
 
 lemma empty_parametric' [transport_related_intro]: "(rel_set R) {} {}"
   by (intro Dep_Fun_Rel_relI rel_setI) (auto dest: rel_setD1 rel_setD2)
@@ -83,82 +85,33 @@ lemma insert_parametric' [transport_related_intro]:
 
 (*proven for all natural functors*)
 lemma Galois_set_hint [unif_hint]:
-  "L \<equiv> rel_set (L1 :: 'a \<Rightarrow> 'a \<Rightarrow> bool)
-  \<Longrightarrow> R \<equiv> rel_set (R1 :: 'b \<Rightarrow> 'b \<Rightarrow> bool) \<Longrightarrow> r \<equiv> image r1 \<Longrightarrow> S \<equiv> (\<^bsub>L1\<^esub>\<lessapprox>\<^bsub>R1 r1\<^esub>)
-  \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> rel_set S"
+  "L \<equiv> rel_set (L1 :: 'a \<Rightarrow> 'a \<Rightarrow> bool) \<Longrightarrow> R \<equiv> rel_set (R1 :: 'b \<Rightarrow> 'b \<Rightarrow> bool)
+  \<Longrightarrow> r \<equiv> image r1 \<Longrightarrow> S \<equiv> (\<^bsub>L1\<^esub>\<lessapprox>\<^bsub>R1 r1\<^esub>) \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> rel_set S"
   sorry
 
 transport_term insert_add_pint_set_whitebox :: "pint set"
   where x = "insert (1 + (1 :: int)) {}" !
-  by transport_related_prover
+  by transport_whitebox_prover
 
 print_statement insert_add_int_fset_whitebox_def insert_add_pint_set_whitebox_def
 
-lemma rel_fun_eq_Fun_Rel_rel: "rel_fun = Fun_Rel_rel"
-  by (intro ext iffI Dep_Fun_Rel_relI) (auto elim: rel_funE)
-
-transport_term insert_add_pint_fset_whitebox :: "pint fset"
-  where x = "insert (1 + (1 :: int)) {}" !
-  apply (tactic \<open>any_unify_hints_resolve_tac @{context} [@{thm Fun_Rel_relD}] 1\<close>)+
-  defer
-  apply (tactic \<open>any_unify_hints_resolve_tac @{context} [@{thm Fun_Rel_relD}] 1\<close>)+
-  apply (tactic \<open>any_unify_hints_resolve_tac @{context} [@{thm pint_add_related'}] 1\<close>)
-  apply (tactic \<open>any_unify_hints_resolve_tac @{context} [@{thm pint_one_related'}] 1\<close>)
-  apply (tactic \<open>any_unify_hints_resolve_tac @{context} [@{thm pint_one_related'}] 1\<close>)
-  oops
-
 end
 
-lemma image_parametric [transport_parametric]:
+lemma image_parametric [transport_in_dom]:
   "(((=) \<Rrightarrow> (=)) \<Rrightarrow> typedef_fset.L \<Rrightarrow> typedef_fset.L) image image"
   by (intro Dep_Fun_Rel_relI) auto
 
 transport_term fimage :: "('a \<Rightarrow> 'b) \<Rightarrow> 'a fset \<Rightarrow> 'b fset"
   where x = image
-  by transport_term_prover
+  by transport_prover
+
+lemma rel_fun_eq_Fun_Rel_rel: "rel_fun = Fun_Rel_rel"
+  by (intro ext iffI Dep_Fun_Rel_relI) (auto elim: rel_funE)
 
 lemma image_parametric' [transport_related_intro]:
   "((R \<Rrightarrow> S) \<Rrightarrow> rel_set R \<Rrightarrow> rel_set S) image image"
   using transfer_raw[simplified rel_fun_eq_Fun_Rel_rel Transfer.Rel_def]
   by simp
-
-(* lemma insert_union: "(insert a B) \<union> C = insert a (B \<union> C)"
-  by auto *)
-
-(* lemma eq_rel: "((\<^bsub>L\<^esub>\<lessapprox>) \<Rrightarrow> (\<^bsub>L\<^esub>\<lessapprox>) \<Rrightarrow> (\<longleftrightarrow>)) (=) (=)"
-  using Rep_fset_inject
-  by (intro Dep_Fun_Rel_relI) (auto elim!: galois_rel.GaloisE eq_restrictE) *)
-
-(* lemma finsert_funion: "funion (finsert a B) C = finsert a (funion B C)"
-proof -
-  "(\<longleftrightarrow>) ?target ?goal"
-  have "a = a" by auto
-  have "Rep_fset B \<^bsub>L\<^esub>\<lessapprox> B"
-    by (fact typedef_fset.Galois_Rep_self)
-  have "insert a (Rep_fset B) \<^bsub>L\<^esub>\<lessapprox> finsert a B"
-   by (fact Dep_Fun_Rel_relD[OF
-        Dep_Fun_Rel_relD[OF finsert_related' \<open>a = a\<close>]
-        \<open>Rep_fset B \<^bsub>L\<^esub>\<lessapprox> B\<close>
-    ])
-  have "Rep_fset C \<^bsub>L\<^esub>\<lessapprox> C"
-    by (fact typedef_fset.Galois_Rep_self)
-  have "union (Rep_fset B) (Rep_fset C) \<^bsub>L\<^esub>\<lessapprox> funion B C"
-    by (fact Dep_Fun_Rel_relD[OF
-        Dep_Fun_Rel_relD[OF funion_related' \<open>Rep_fset B \<^bsub>L\<^esub>\<lessapprox> B\<close>]
-        \<open>Rep_fset C \<^bsub>L\<^esub>\<lessapprox> C\<close>
-    ])
-  have "funion (finsert a B) C = finsert a (funion B C)
-    \<longleftrightarrow>
-    union (insert a (Rep_fset B)) (Rep_fset C)
-      = insert a (union (Rep_fset B) (Rep_fset C))"
-    sorry
-  have "union (insert a (Rep_fset B)) (Rep_fset C)
-    = insert a (union (Rep_fset B) (Rep_fset C))"
-    using insert_union by simp
-  show ?thesis sorry
-qed *)
-
-
 
 (*experiment with compositions*)
 
@@ -199,7 +152,7 @@ end
 
 definition "set_succ \<equiv> image ((+) (1 :: int))"
 
-lemma set_succ_parametric [transport_parametric]:
+lemma set_succ_parametric [transport_in_dom]:
   "(typedef_fset.L \<Rrightarrow> typedef_fset.L) set_succ set_succ"
   unfolding set_succ_def by auto
 
@@ -207,31 +160,27 @@ transport_term fset_succ :: "int fset \<Rightarrow> int fset"
   where x = set_succ
   and L = "typedef_fset.L \<Rrightarrow> typedef_fset.L"
   and R = "typedef_fset.R \<Rrightarrow> typedef_fset.R"
-  by transport_term_prover
+  by transport_prover
 
-(* lemma Galois_id_hint [unif_hint]:
+lemma Galois_id_hint [unif_hint]:
   "(L :: 'a \<Rightarrow> 'a \<Rightarrow> bool) \<equiv> R \<Longrightarrow> r \<equiv> id \<Longrightarrow> E \<equiv> L \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> E"
-  by (simp only: eq_reflection[OF transport_id.Galois_eq_left]) *)
-
-lemma Fun_Rel_relD_delay:
-  assumes "\<And>x y. R x y \<Longrightarrow> S (f x) (g y)"
-  and "T = (R \<Rrightarrow> S)"
-  shows "T f g"
-  using assms by blast
+  by (simp only: eq_reflection[OF transport_id.left_Galois_eq_left])
 
 transport_term fset_succ' :: "int fset \<Rightarrow> int fset"
   where x = set_succ
   and L = "typedef_fset.L \<Rrightarrow> typedef_fset.L"
   and R = "typedef_fset.R \<Rrightarrow> typedef_fset.R"
   unfold set_succ_def !
-  apply (tactic \<open>any_unify_hints_resolve_tac @{context} [@{thm Fun_Rel_relD_delay}] 1\<close>)
-  (* apply transport_related_prover *)
-  apply (tactic \<open>any_unify_hints_resolve_tac @{context} [@{thm Fun_Rel_relD}] 1\<close>)
-  apply (tactic \<open>any_unify_hints_resolve_tac @{context} [@{thm Fun_Rel_relD}] 1\<close>)
-  apply (tactic \<open>any_unify_hints_resolve_tac @{context} [@{thm fimage_related'}] 1\<close>)
-  apply (tactic \<open>any_unify_hints_resolve_tac @{context} [@{thm Fun_Rel_relD}] 1\<close>)
+  apply (tactic \<open>instantiate_skeleton_tac @{context} 1\<close>)
+  apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
+  apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
+  apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
+  apply (rule fimage_related')
+  apply (assumption)
   defer
-  apply (tactic \<open>any_unify_hints_resolve_tac @{context} [@{thm refl}] 1\<close>)
+  apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
+  apply (rule add_parametric)
+  apply auto
   oops
 
 lemma pint_middle_compat:

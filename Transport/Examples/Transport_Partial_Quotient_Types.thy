@@ -36,9 +36,9 @@ lemma Quotient_if_preorder_equivalence:
   assumes "((\<le>\<^bsub>L\<^esub>) \<equiv>\<^bsub>pre\<^esub> (=)) l r"
   shows "Quotient (\<le>\<^bsub>L\<^esub>) l r t.Galois"
 proof (rule QuotientI)
-  from assms show "l (r y) = y" for y by fastforce
+  from assms show g2: "l (r y) = y" for y by fastforce
   from assms show "r y \<le>\<^bsub>L\<^esub> r y" for y by blast
-  show "x \<le>\<^bsub>L\<^esub> x' \<longleftrightarrow> x \<le>\<^bsub>L\<^esub> x \<and> x' \<le>\<^bsub>L\<^esub> x' \<and> l x = l x'"
+  show g1: "x \<le>\<^bsub>L\<^esub> x' \<longleftrightarrow> x \<le>\<^bsub>L\<^esub> x \<and> x' \<le>\<^bsub>L\<^esub> x' \<and> l x = l x'"
     (is "?lhs \<longleftrightarrow> ?rhs") for x x'
   proof (rule iffI)
     assume ?rhs
@@ -53,8 +53,8 @@ proof (rule QuotientI)
   qed
   from assms show "t.Galois = (\<lambda>x y. x \<le>\<^bsub>L\<^esub> x \<and> l x = y)"
     by (intro ext iffI)
-    (blast elim!: t.left_GaloisE,
-    auto intro!: t.left_Galois_left_if_left_rel_if_inflationary_on_in_fieldI
+    (metis g1 g2 t.left_GaloisE,
+      auto intro!: t.left_Galois_left_if_left_rel_if_inflationary_on_in_fieldI
       elim!: t.preorder_equivalence_order_equivalenceE)
 qed
 

@@ -1,9 +1,8 @@
-(*  Title:      Transport/util.ML
+(*  Title:      Transport/transport_util.ML
     Author:     Kevin Kappelmann
 
 Utilities used by Transport.
 *)
-
 signature TRANSPORT_UTIL =
 sig
 
@@ -19,7 +18,8 @@ sig
   val real_thm_cconcl : thm -> cterm
   val boolT : typ
 
-  val mk_rel_type : typ -> typ
+  val mk_hom_rel_type : typ -> typ
+
   (* conversions *)
   val judgement_conv : conv -> conv
 
@@ -29,6 +29,7 @@ sig
 
   (* contexts *)
   val set_proof_mode_schematic : Proof.context -> Proof.context
+  val set_proof_mode_pattern : Proof.context -> Proof.context
 
   (* definitions *)
   val create_local_theory_def : binding * mixfix -> Token.src list -> term ->
@@ -56,7 +57,7 @@ val cdest_judgement = Thm.dest_comb #> snd
 val real_thm_cconcl = cdest_judgement o Thm.cconcl_of
 val boolT = HOLogic.boolT
 
-fun mk_rel_type T = [T, T] ---> boolT
+fun mk_hom_rel_type T = [T, T] ---> boolT
 
 val judgement_conv = HOLogic.Trueprop_conv
 
@@ -68,14 +69,13 @@ fun equality_eta_expand ctxt name eq =
     val argTs = Thm.lhs_of eq |> Thm.typ_of_cterm |> binder_types
     val fresh_args = Unification_Util.fresh_vars name argTs (Thm.maxidx_of eq)
       |> map (Thm.cterm_of ctxt) o fst
-  in
-    fold (fn arg => fn funThm => Drule.fun_cong_rule funThm arg) fresh_args eq
-  end
+  in fold (General_Util.flip Drule.fun_cong_rule) fresh_args eq end
 
 val concat_bindings = Binding.conglomerate
 fun add_suffix binding suffix = concat_bindings [binding, suffix]
 
 val set_proof_mode_schematic = Proof_Context.set_mode Proof_Context.mode_schematic
+val set_proof_mode_pattern = Proof_Context.set_mode Proof_Context.mode_pattern
 
 fun create_local_theory_def (binding, mixfix) attribs t =
   Local_Theory.define ((binding, mixfix), ((Thm.def_binding binding, attribs), t))
