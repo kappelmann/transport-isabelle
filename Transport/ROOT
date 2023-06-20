@@ -28,7 +28,6 @@ session Transport_Examples in Examples = "Transport" +
     "HOL-Library"
   directories
     Typedef
-    Transport_Setup
   theories
     Transport_Dep_Fun_Rel
     Transport_List_Sets
