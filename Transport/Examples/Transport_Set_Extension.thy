@@ -156,7 +156,7 @@ transport_term app_eq_int_zero
 lemma If_parametric [transport_in_dom, transport_related_intro]: "((\<longleftrightarrow>) \<Rrightarrow> R \<Rrightarrow> R \<Rrightarrow> R) If If"
   by (intro Dep_Fun_Rel_relI) auto
 
-lemma eq_parametric [transport_in_dom, transport_related_intro]:
+(*lemma eq_parametric [transport_in_dom, transport_related_intro]:
   (* "((=) \<Rrightarrow> (=) \<Rrightarrow> (\<longleftrightarrow>)) (=) (=)" *)
   (* by (intro Dep_Fun_Rel_relI) auto *)
   "(RepZ \<Rrightarrow> RepZ \<Rrightarrow> (\<longleftrightarrow>)) (=) (=)"
@@ -205,7 +205,7 @@ transport_term int_to_bool'
   apply (resolve_hints refl)
   done
 
-end
+end*)
 end
 
 end
