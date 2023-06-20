@@ -36,7 +36,7 @@ lemma sub_parametric [transport_in_dom]:
 
 transport_term nat_sub :: "nat \<Rightarrow> nat \<Rightarrow> nat" where x = "(-) :: int \<Rightarrow> _"
   and L = "[i _ \<Colon> Zpos] \<Rrightarrow> [j _ \<Colon> Zpos | j \<le> i] \<Rrightarrow> Zpos"
-  and R = "[n _ \<Colon> (=)] \<Rrightarrow> [m _ \<Colon> (=) | m \<le> n] \<Rrightarrow> (=)"
+  and R = "[n _ \<Colon> (=)] \<Rrightarrow> [m _ \<Colon> (=)| m \<le> n] \<Rrightarrow> (=)"
   (*fastforce discharges the remaining side-conditions*)
   by (transport_prover) fastforce+
 

@@ -25,6 +25,7 @@ session Transport_Examples in Examples = "Transport" +
   sessions
     Isabelle_Set
     ML_Unification
+    "HOL-Library"
   directories
     Typedef
     Transport_Setup

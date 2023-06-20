@@ -166,22 +166,34 @@ lemma Galois_id_hint [unif_hint]:
   "(L :: 'a \<Rightarrow> 'a \<Rightarrow> bool) \<equiv> R \<Longrightarrow> r \<equiv> id \<Longrightarrow> E \<equiv> L \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> E"
   by (simp only: eq_reflection[OF transport_id.left_Galois_eq_left])
 
+lemma Freq [unif_hint]: "L \<equiv> (=) \<Rrightarrow> (=) \<Longrightarrow> L \<equiv> (=)"
+  by auto
+
 transport_term fset_succ' :: "int fset \<Rightarrow> int fset"
   where x = set_succ
   and L = "typedef_fset.L \<Rrightarrow> typedef_fset.L"
   and R = "typedef_fset.R \<Rrightarrow> typedef_fset.R"
   unfold set_succ_def !
+  using refl[transport_related_intro]
   apply (tactic \<open>instantiate_skeleton_tac @{context} 1\<close>)
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
+  thm fimage_related'
+  thm unif_hint
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
-  apply (rule fimage_related')
-  apply (assumption)
-  defer
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
-  apply (rule add_parametric)
-  apply auto
-  oops
+  apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
+  apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
+  apply assumption
+  apply assumption
+  prefer 3
+  apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
+  apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
+  apply (fold transport_def)
+  apply (transport_relator_rewrite)+
+  apply (unfold transport_def)
+  apply (resolve_hints refl)
+  done
 
 lemma pint_middle_compat:
   "transport_comp.middle_compatible_codom (rel_set ((=) :: pint \<Rightarrow> _))

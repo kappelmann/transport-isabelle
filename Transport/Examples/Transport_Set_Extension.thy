@@ -60,25 +60,26 @@ text \<open>Transport 0.\<close>
 lemma Int_Rep_zero_parametric [transport_in_dom]: "Int_Rep_zero =\<^bsub>int_rep\<^esub> Int_Rep_zero"
   by auto
 
+lemma zero_related_self [transport_related_intro]: "0 =\<^bsub>\<nat>\<^esub> 0"
+  by auto
+
 transport_term int_zero where x = Int_Rep_zero and L = Int.L and R = Int.R
   by transport_prover
 
 text \<open>There is some very limited white-box transport support in the prototype.\<close>
 transport_term int_zero' where x = Int_Rep_zero and L = Int.L and R = Int.R
   unfold Int_Rep_zero_def ! (*invoking "!" opens the whitebox goal*)
-  (*the whitebox transport prover*)
-  by transport_whitebox_prover auto
+  by transport_whitebox_prover
 
 text \<open>Note the difference in definition between the blackbox and whitebox term\<close>
 print_statement int_zero_def int_zero'_def
 
 transport_term lambdatest :: "'a \<Rightarrow> set" where x = "\<lambda>(_ :: 'a). Int_Rep_zero"
   ! (*invoking "!" opens the whitebox goal*)
-  (*the whitebox transport prover*)
   by transport_whitebox_prover
 
 transport_term apptest :: "set" where x = "Int_Rep_nonneg 0" !
-  by transport_whitebox_prover auto
+  by transport_whitebox_prover
 
 text \<open>Transport addition\<close>
 
@@ -100,12 +101,6 @@ transport_term int_sub where x = Int_Rep_sub
   and L = "Int.L \<Rrightarrow> Int.L \<Rrightarrow> Int.L" and R = "Int.R \<Rrightarrow> Int.R \<Rrightarrow> Int.R"
   by transport_prover
 
-
-(* declare[[ML_dattr "fn _ => Logger.set_log_levels First_Order_Unification.logger Logger.ALL"]] *)
-(* declare[[show_types]] *)
-(* declare[[ML_dattr "fn _ => Logger.set_log_levels Higher_Order_Pattern_Unification.logger Logger.DEBUG"]] *)
-(* declare[[ML_dattr "fn _ => Logger.map_logger Higher_Order_Pattern_Unification.logger
-  (Logger.set_config_output (K writeln) |> Option.map)"]] *)
 transport_term abc :: "set \<Rightarrow> set \<Rightarrow> set" where x = "\<lambda>(_ :: set) y. Int_Rep_add y y" !
   by transport_whitebox_prover
 
@@ -126,7 +121,7 @@ transport_term int_if :: "(set \<Rightarrow> bool) \<Rightarrow> set \<Rightarro
   by transport_prover
 
 lemma Galois_id_hint [unif_hint]:
-  "(L :: 'a \<Rightarrow> 'a \<Rightarrow> bool) \<equiv> R \<Longrightarrow> r \<equiv> id \<Longrightarrow> E \<equiv> L \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> E"
+  "(L :: 'a \<Rightarrow> 'a \<Rightarrow> bool) \<equiv> R \<Longrightarrow> r \<equiv> id \<Longrightarrow> E \<equiv> L \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> L"
   by (simp only: eq_reflection[OF transport_id.left_Galois_eq_left])
 
 context
@@ -186,6 +181,7 @@ transport_term int_to_bool'
   and L = "(Int.L \<Rrightarrow> Int.L) \<Rrightarrow> Int.L \<Rrightarrow> (\<longleftrightarrow>)"
   and R = "(Int.R \<Rrightarrow> Int.R) \<Rrightarrow> Int.R \<Rrightarrow> (\<longleftrightarrow>)"
   unfold app_eq_Int_Rep_zero_def !
+  using refl[transport_related_intro]
   apply (tactic \<open>instantiate_skeleton_tac @{context} 1\<close>)
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
@@ -198,11 +194,11 @@ transport_term int_to_bool'
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
   apply assumption
+  apply assumption
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
-  apply (resolve_hints refl)
-  apply (resolve_hints refl)
-  apply (resolve_hints refl)
+  apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
+  apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
   apply (fold transport_def)
   apply (transport_relator_rewrite)+
   apply (unfold transport_def)

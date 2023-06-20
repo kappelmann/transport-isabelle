@@ -144,9 +144,7 @@ ML\<open>
     in unify binders ctxt end
 
   (*resoluton with above unifier*)
-  val any_unify_hints_resolve_tac =
-    (* Unify_Resolve.any_unify_resolve_tac *)
-    Unify_Resolve.no_lift_any_unify_resolve_tac
+  val any_unify_hints_resolve_tac = Unify_Resolve.any_unify_resolve_tac
     norm_thm_beta_eta unify_hints
 
   fun get_theorems_tac f get_theorems ctxt = f (get_theorems ctxt) ctxt
@@ -492,13 +490,50 @@ lemma related_Fun_Rel_lambdaI:
   using assms by blast
 
 ML\<open>
+  fun pattern_prefix p =
+    let fun bounds_prefix bounds [] = (rev bounds, [])
+          | bounds_prefix bounds (t :: ts) =
+              if is_Bound t andalso not (member (op =) bounds t)
+              then bounds_prefix (t :: bounds) ts
+              else (rev bounds, t :: ts)
+    in case strip_comb p of
+        (v as Var _, args) => let val (bounds, rem_args) = bounds_prefix [] args
+          in SOME (list_comb (v, bounds), rem_args) end
+      | _ => NONE
+    end
+  fun higher_order_pattern_match_first_order binders =
+    let
+      fun fallback binders ctxt (p, t) = case pattern_prefix p of
+        SOME (ph, ps) =>
+          let val (th, ts) = strip_comb t
+            ||> (fn ts => chop (length ts - length ps) ts)
+            |> (fn (th, (ts, ts')) => (list_comb (th, ts), ts'))
+          in
+            if length ts < length ps then K Seq.empty
+            else
+              UUtil.strip_comb_strip_comb (K o K I) higher_order_pattern_match_first_order
+              binders ctxt (ph, th) (ps, ts)
+          end
+      | NONE => K Seq.empty
+    in Higher_Order_Pattern_Unification.e_match UUtil.match_types fallback binders end
+  val any_match_hints_resolve_tac = Unify_Resolve.any_unify_resolve_tac
+    (Norm.beta_eta_norm_thm Norm.norm_type_match Norm.norm_term_match)
+    higher_order_pattern_match_first_order
+\<close>
+
+ML\<open>
+  val related_comb_tac = any_match_hints_resolve_tac @{thms related_Fun_Rel_combI}
+  val related_lambda_tac = any_match_hints_resolve_tac @{thms related_Fun_Rel_lambdaI}
+  val related_tac = any_unify_hints_resolve_tac
+  val related_assume_tac = assume_tac
+
   fun mk_transport_related_tac cc_comb cc_lambda ctxt =
     let
       val transport_related_intros = Transport_Related_Intros.get ctxt
-      val related_tac = any_unify_hints_resolve_tac transport_related_intros ctxt
-      val assume_tac = assume_tac ctxt
-      val comb_tac = any_unify_hints_resolve_tac @{thms related_Fun_Rel_combI} ctxt
-      val lambda_tac = any_unify_hints_resolve_tac @{thms related_Fun_Rel_lambdaI} ctxt
+      val related_tac = related_tac transport_related_intros ctxt
+      val comb_tac = related_comb_tac ctxt
+      val lambda_tac = related_lambda_tac ctxt
+      val assume_tac = related_assume_tac ctxt
     in
       Tactic_Util.CONCAT' [
         related_tac,
@@ -545,11 +580,14 @@ ML\<open>
     let fun tac ct =
       let
         val (x, y) = Util.cdest_judgement ct |> Thm.dest_binop
+        val default_sort = Proof_Context.default_sort ctxt
         val skeleton =
           mk_term_skeleton (Thm.maxidx_of_cterm ct) (Thm.term_of x)
           |> map_dummyT
           |> Type.constraint (Thm.typ_of_cterm y)
           |> Syntax.check_term (Util.set_proof_mode_pattern ctxt)
+          (*add sort constraints for type variables*)
+          |> Term.map_types (Term.map_atyps (map_type_tvar (fn (n, _) => TVar (n, default_sort n))))
           |> Thm.cterm_of ctxt
       in instantiate_tac (Thm.term_of y |> dest_Var |> fst) skeleton ctxt end
     in Tactic_Util.CSUBGOAL_DATA I (K o tac) end
