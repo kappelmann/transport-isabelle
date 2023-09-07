@@ -7,7 +7,7 @@ begin
 
 paragraph \<open>Summary\<close>
 text \<open>We introduce a special case of @{locale transport_Dep_Fun_Rel}.
-The derived theorem is easier to apply and supported by our current prototype.\<close>
+The derived theorem is easier to apply and supported by the current prototype.\<close>
 
 context
   fixes P :: "'a \<Rightarrow> bool" and R :: "'a \<Rightarrow> 'a \<Rightarrow> bool"

@@ -2,7 +2,7 @@
 subsubsection \<open>Transport Between Lists and Sets\<close>
 theory Transport_List_Sets
   imports
-    Transport_PER
+    Transport_Prototype
     Transport_Syntax
     "HOL-Library.FSet"
 begin
@@ -47,9 +47,9 @@ lemma LFSR_Galois_eq_inv_LFS: "(\<^bsub>LFSR\<^esub>\<lessapprox>\<^bsub>LFSL fs
 lemma LSL_Galois_eq_LS: "(\<^bsub>LSL\<^esub>\<lessapprox>\<^bsub>LSR sorted_list_of_set\<^esub>) \<equiv> LS"
   unfolding LS_def LSL_def by (intro eq_reflection ext) (auto)
 
-declare LFSL_Galois_eq_LFS[transport_relator_rewrite, unif_hint]
-  LFSR_Galois_eq_inv_LFS[transport_relator_rewrite, unif_hint]
-  LSL_Galois_eq_LS[transport_relator_rewrite, unif_hint]
+declare LFSL_Galois_eq_LFS[transport_relator_rewrite, trp_unif_hint]
+  LFSR_Galois_eq_inv_LFS[transport_relator_rewrite, trp_unif_hint]
+  LSL_Galois_eq_LS[transport_relator_rewrite, trp_unif_hint]
 
 definition "max_list xs \<equiv> foldr max xs (0 :: nat)"
 
@@ -87,21 +87,21 @@ lemma max_list_parametricfin [transport_in_dom]: "(LFSL \<Rrightarrow> (=)) max_
 
 text \<open>Transport from lists to finite sets.\<close>
 
-transport_term max_fset :: "nat fset \<Rightarrow> nat" where x = max_list
+trp_term max_fset :: "nat fset \<Rightarrow> nat" where x = max_list
   and L = "(LFSL \<Rrightarrow> (=))"
   by transport_prover
 
 text \<open>Use @{command print_theorems} to show all theorems. Here's the correctness theorem:\<close>
-lemma "(LFS \<Rrightarrow> (=)) max_list max_fset" by (resolve_hints max_fset_related')
+lemma "(LFS \<Rrightarrow> (=)) max_list max_fset" by (trp_hints_resolve max_fset_related')
 
 lemma [transport_in_dom]: "(LFSR \<Rrightarrow> (=)) max_fset max_fset" by simp
 
 text \<open>Transport from lists to sets.\<close>
 
-transport_term max_set :: "nat set \<Rightarrow> nat" where x = max_list
+trp_term max_set :: "nat set \<Rightarrow> nat" where x = max_list
   by transport_prover
 
-lemma "(LS \<Rrightarrow> (=)) max_list max_set" by (fact max_set_related')
+lemma "(LS \<Rrightarrow> (=)) max_list max_set" by (trp_hints_resolve max_set_related')
 
 text \<open>The registration of symmetric equivalence rules is not done by default as of now,
 but that would not be a problem in principle.\<close>
@@ -113,10 +113,10 @@ lemma list_fset_PER_sym [per_intro]:
 
 text \<open>Transport from finite sets to lists.\<close>
 
-transport_term max_list' :: "nat list \<Rightarrow> nat" where x = max_fset
+trp_term max_list' :: "nat list \<Rightarrow> nat" where x = max_fset
   by transport_prover
 
-lemma "(LFS\<inverse> \<Rrightarrow> (=)) max_fset max_list'" by (resolve_hints max_list'_related')
+lemma "(LFS\<inverse> \<Rrightarrow> (=)) max_fset max_list'" by (trp_hints_resolve max_list'_related')
 
 text \<open>Transporting higher-order functions.\<close>
 
@@ -124,38 +124,37 @@ lemma map_parametric [transport_in_dom]:
   "(((=) \<Rrightarrow> (=)) \<Rrightarrow> LSL \<Rrightarrow> LSL) map map"
   unfolding LSL_def by (intro Dep_Fun_Rel_relI) simp
 
-lemma [unif_hint]: "P \<equiv> (=) \<Longrightarrow> P \<equiv> (=) \<Rrightarrow> (=)" by simp
-
-lemma [unif_hint]: "P \<equiv> \<top> \<Longrightarrow> (=\<^bsub>P :: 'a \<Rightarrow> bool\<^esub>) \<equiv> ((=) :: 'a \<Rightarrow> _)" by simp
+lemma [trp_unif_hint]: "P \<equiv> (=) \<Longrightarrow> P \<equiv> (=) \<Rrightarrow> (=)" by simp
+lemma [trp_unif_hint]: "P \<equiv> \<top> \<Longrightarrow> (=\<^bsub>P :: 'a \<Rightarrow> bool\<^esub>) \<equiv> ((=) :: 'a \<Rightarrow> _)" by simp
 
 (*sorted_list_of_fset requires a linorder, but in theory,
 we could use a different transport function to avoid that constraint*)
-transport_term map_set :: "('a :: linorder \<Rightarrow> 'b) \<Rightarrow> 'a set \<Rightarrow> ('b :: linorder) set"
+trp_term map_set :: "('a :: linorder \<Rightarrow> 'b) \<Rightarrow> 'a set \<Rightarrow> ('b :: linorder) set"
   where x = "map :: ('a :: linorder \<Rightarrow> 'b) \<Rightarrow> 'a list \<Rightarrow> ('b :: linorder) list"
   by transport_prover
 
-lemma "(((=) \<Rrightarrow> (=)) \<Rrightarrow> LS \<Rrightarrow> LS) map map_set" by (resolve_hints map_set_related')
+lemma "(((=) \<Rrightarrow> (=)) \<Rrightarrow> LS \<Rrightarrow> LS) map map_set" by (trp_hints_resolve map_set_related')
 
 
 lemma filter_parametric [transport_in_dom]:
   "(((=) \<Rrightarrow> (\<longleftrightarrow>)) \<Rrightarrow> LSL \<Rrightarrow> LSL) filter filter"
   unfolding LSL_def by (intro Dep_Fun_Rel_relI) simp
 
-transport_term filter_set :: "('a :: linorder \<Rightarrow> bool) \<Rightarrow> 'a set \<Rightarrow> 'a set"
+trp_term filter_set :: "('a :: linorder \<Rightarrow> bool) \<Rightarrow> 'a set \<Rightarrow> 'a set"
   where x = "filter :: ('a :: linorder \<Rightarrow> bool) \<Rightarrow> 'a list \<Rightarrow> 'a list"
   by transport_prover
 
-lemma "(((=) \<Rrightarrow> (=)) \<Rrightarrow> LS \<Rrightarrow> LS) filter filter_set" by (resolve_hints filter_set_related')
+lemma "(((=) \<Rrightarrow> (=)) \<Rrightarrow> LS \<Rrightarrow> LS) filter filter_set" by (trp_hints_resolve filter_set_related')
 
 lemma append_parametric [transport_in_dom]:
   "(LSL \<Rrightarrow> LSL \<Rrightarrow> LSL) append append"
   unfolding LSL_def by (intro Dep_Fun_Rel_relI) simp
 
-transport_term append_set :: "('a :: linorder) set \<Rightarrow> 'a set \<Rightarrow> 'a set"
+trp_term append_set :: "('a :: linorder) set \<Rightarrow> 'a set \<Rightarrow> 'a set"
   where x = "append :: ('a :: linorder) list \<Rightarrow> 'a list \<Rightarrow> 'a list"
   by transport_prover
 
-lemma "(LS \<Rrightarrow> LS \<Rrightarrow> LS) append append_set" by (resolve_hints append_set_related')
+lemma "(LS \<Rrightarrow> LS \<Rrightarrow> LS) append append_set" by (trp_hints_resolve append_set_related')
 
 text \<open>The prototype also provides a simplified definition.\<close>
 lemma "append_set s s' \<equiv> set (sorted_list_of_set s) \<union> set (sorted_list_of_set s')"

@@ -1,13 +1,12 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Transport via Equivalences on PERs\<close>
-theory Transport_PER
+subsection \<open>Transport via Equivalences on PERs (Prototype)\<close>
+theory Transport_Prototype
   imports
     Transport.Transport
     Transport_Rel_If
-    ML_Unification.ML_Unification
-    ML_Unification.ML_Unification_Resolution
-    Logging.ML_Attributes
-  keywords "transport_term" :: thy_goal_defn
+    ML_Unification.ML_Unification_HOL_Setup
+    ML_Unification.Unify_Resolve_Tactics
+  keywords "trp_term" :: thy_goal_defn
 begin
 
 paragraph \<open>Summary\<close>
@@ -20,11 +19,13 @@ described in
 The relations can be dependent, but the functions must be simple.
 This is not production ready, but a proof of concept.
 
-The package provides a command @{command "transport_term"}, which sets up the
+The package provides a command @{command trp_term}, which sets up the
 required goals to prove a given term. See the examples in this directory for
 some use cases and refer to the paper
 "Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann
 for more details.\<close>
+
+paragraph \<open>Theorem Setups\<close>
 
 context transport
 begin
@@ -90,22 +91,21 @@ qed
 
 end
 
+paragraph \<open>General ML setups\<close>
+
 ML_file\<open>transport_util.ML\<close>
-ML_file\<open>transport_parse_util.ML\<close>
 
 ML\<open>
-  structure Norm = Normalisation
   structure Util = Transport_Util
-  structure CUtil = Conversion_Util
-  structure UUtil = Unification_Util
-  structure PUtil = Transport_Parse_Util
+  val transport_id = "trp"
 \<close>
 
-ML\<open>
-  (* val simp_rhs *)
-  val simp_rhs = Simplifier.rewrite #> CUtil.rhs_conv #> CUtil.thm_conv
+paragraph \<open>Simplifying Definitions\<close>
 
-  (*simplifies the generated definition of a transported term*)
+ML\<open>
+  val simp_rhs = Simplifier.rewrite #> Conversion_Util.rhs_conv #> Conversion_Util.thm_conv
+
+  \<comment> \<open>simplifies the generated definition of a transported term\<close>
   fun simp_transported_def ctxt simps y_def =
     let
       val ctxt = ctxt addsimps simps
@@ -113,8 +113,8 @@ ML\<open>
     in apply2 (simp_rhs ctxt) (y_def, y_def_eta_expanded) end
 \<close>
 
-text \<open>Definitions used by Transport that need to be folded before a PER proof
-and unfolded after success.\<close>
+text \<open>Definitions used by Transport that need to be folded before a PER proof and unfolded after
+success.\<close>
 ML\<open>
   structure Transport_Defs = Named_Thms(
     val name = @{binding "transport_def"}
@@ -127,35 +127,68 @@ declare
   transport_Dep_Fun_Rel.transport_defs[transport_def]
   transport_Fun_Rel.transport_defs[transport_def]
 
+paragraph \<open>Unification Setup\<close>
+
 ML\<open>
-  (*first-order unification with higher-order pattern unification with hints as a fallback*)
-  val norm_thm_beta_eta = Norm.beta_eta_norm_thm Norm.norm_type_unif Norm.norm_term_unif
-  fun unify_hints binders ctxt =
-    let
-      val unify_types = UUtil.unify_types
-      val hints = Unification_Hints.get_hints ctxt
-      val unif_hints = Higher_Order_Pattern_Unification.unify
-      val norm_term_unif = Norm.norm_term_unif
-      val norm_thm_unif = norm_thm_beta_eta
-      fun ho_unify ctxt = Higher_Order_Pattern_Unification.e_unify
-        unify_types (Unification_Hints.try_hints unif_hints norm_term_unif norm_thm_unif ho_unify hints)
-        ctxt
-      val unify = First_Order_Unification.e_unify unify_types ho_unify
-    in unify binders ctxt end
-
-  (*resoluton with above unifier*)
-  val any_unify_hints_resolve_tac = Unify_Resolve.any_unify_resolve_tac
-    norm_thm_beta_eta unify_hints
-
-  fun get_theorems_tac f get_theorems ctxt = f (get_theorems ctxt) ctxt
-  val get_theorems_resolve_tac = get_theorems_tac any_unify_hints_resolve_tac
+  @{functor_instance struct_name = Transport_Unification_Combine
+    and functor_name = Unification_Combine
+    and id = transport_id}
+\<close>
+local_setup \<open>Transport_Unification_Combine.setup_attribute NONE\<close>
+ML\<open>
+  @{functor_instance struct_name = Transport_Mixed_Unification
+    and functor_name = Mixed_Unification
+    and id = transport_id
+    and more_args = \<open>structure UC = Transport_Unification_Combine\<close>}
 \<close>
 
-method_setup resolve_hints =
-  \<open>Attrib.thms >> (SIMPLE_METHOD' oo any_unify_hints_resolve_tac)\<close>
-  "Resolution with unification hints"
+ML\<open>
+  @{functor_instance struct_name = Transport_Unification_Hints
+    and functor_name = Term_Index_Unification_Hints
+    and id = transport_id
+    and more_args = \<open>
+      structure TI = Discrimination_Tree
+      val init_args = {
+        concl_unifier = SOME Higher_Order_Pattern_Unification.unify,
+        normalisers = SOME (Transport_Mixed_Unification.norm_term_first_higherp_comb_higher_unify,
+          Transport_Mixed_Unification.norm_thm_first_higherp_comb_higher_unify),
+        prems_unifier = SOME (Transport_Mixed_Unification.first_higherp_comb_higher_unify
+          |> Unification_Combinator.norm_unifier Envir_Normalisation.beta_norm_term_unif),
+        retrieval = SOME (Term_Index_Unification_Hints_Args.mk_sym_retrieval
+          TI.norm_term TI.unifiables),
+        hint_preprocessor = SOME (K I)
+      }\<close>}
+\<close>
+local_setup \<open>Transport_Unification_Hints.setup_attribute NONE\<close>
+declare [[trp_unif_hint where hint_preprocessor = \<open>Unification_Hints_Base.obj_logic_hint_preprocessor
+  @{thm atomize_eq[symmetric]} (Conv.rewr_conv @{thm eq_eq_True})\<close>]]
+declare [[trp_ucombine add = \<open>Transport_Unification_Combine.eunif_data
+  (Transport_Unification_Hints.try_hints
+  |> Unification_Combinator.norm_unifier
+    Transport_Mixed_Unification.norm_term_first_higherp_comb_higher_unify
+  |> K)
+  (Transport_Unification_Combine.default_metadata Transport_Unification_Hints.binding)\<close>]]
 
-text \<open>Introduction rules for the PER equivalence prover.\<close>
+paragraph \<open>Resolution Setup\<close>
+
+ML\<open>
+  \<comment> \<open>resolution with above unifier\<close>
+  val any_unify_trp_hints_resolve_tac = Unify_Resolve_Base.unify_resolve_any_tac
+    Transport_Mixed_Unification.norm_thm_first_higherp_comb_higher_unify
+    Transport_Mixed_Unification.first_higherp_comb_higher_unify
+
+  fun get_theorems_tac f get_theorems ctxt = f (get_theorems ctxt) ctxt
+  val get_theorems_resolve_tac = get_theorems_tac any_unify_trp_hints_resolve_tac
+\<close>
+
+method_setup trp_hints_resolve =
+  \<open>Attrib.thms >> (SIMPLE_METHOD' oo any_unify_trp_hints_resolve_tac)\<close>
+  "Resolution with unification hints for Transport "
+
+paragraph \<open>PER equivalence prover\<close>
+
+text \<open>Introduction rules.\<close>
+
 ML\<open>
   structure PER_Intros = Named_Thms(
     val name = @{binding "per_intro"}
@@ -170,8 +203,8 @@ declare
   (* transport_Dep_Fun_Rel.partial_equivalence_rel_equivalenceI[per_intro] *)
   (* transport.rel_if_partial_equivalence_rel_equivalence_if_iff_if_partial_equivalence_rel_equivalenceI[rotated, per_intro]
   transport_Dep_Fun_Rel_no_dep_fun.partial_equivalence_rel_equivalenceI
-    [ML_rattr \<open>Conversion_Util.move_prems_to_front_conv [1] |> CUtil.thm_conv |> K\<close>,
-    ML_rattr \<open>Conversion_Util.move_prems_to_front_conv [2,3] |> CUtil.thm_conv |> K\<close>,
+    [ML_Krattr \<open>Conversion_Util.move_prems_to_front_conv [1] |> Conversion_Util.thm_conv\<close>,
+    ML_Krattr \<open>Conversion_Util.move_prems_to_front_conv [2,3] |> Conversion_Util.thm_conv\<close>,
     per_intro] *)
   transport_Fun_Rel.partial_equivalence_rel_equivalenceI[rotated, per_intro]
   transport_eq_id.partial_equivalence_rel_equivalenceI[per_intro]
@@ -184,6 +217,9 @@ ML\<open>
 method_setup per_prover =
   \<open>Scan.succeed (SIMPLE_METHOD' o per_prover_tac)\<close>
   "PER prover for Transport"
+
+
+paragraph \<open>Domain Prover\<close>
 
 ML\<open>
   structure Transport_in_dom = Named_Thms(
@@ -200,9 +236,12 @@ ML\<open>
 
 method_setup transport_in_dom_prover =
   \<open>Scan.succeed (SIMPLE_METHOD' o transport_in_dom_prover_tac)\<close>
-  "parametricity prover for Transport"
+  "in_dom prover for Transport"
 
-text \<open>Blackbox prover: first derive the PER equivalence, then look for registered domain lemmas.\<close>
+
+paragraph \<open>Blackbox Prover\<close>
+
+text \<open>First derives the PER equivalence, then looks for registered domain lemmas.\<close>
 ML\<open>
   fun unfold_tac thms ctxt = simp_tac (clear_simpset ctxt addsimps thms)
   val unfold_transport_defs_tac = get_theorems_tac unfold_tac Transport_Defs.get
@@ -220,6 +259,8 @@ method_setup transport_prover =
   "Blackbox prover for Transport"
 
 
+paragraph \<open>Whitebox Prover Intro Rules\<close>
+
 ML\<open>
   structure Transport_Related_Intros = Named_Thms(
     val name = @{binding "transport_related_intro"}
@@ -227,6 +268,9 @@ ML\<open>
   )
   val _ = Theory.setup Transport_Related_Intros.setup
 \<close>
+
+
+paragraph \<open>Relator Rewriter\<close>
 
 text \<open>Rewrite rules to simplify the derived Galois relator.\<close>
 ML\<open>
@@ -242,10 +286,6 @@ declare
   transport_Fun_Rel.left_Galois_eq_Fun_Rel_left_Galois[transport_relator_rewrite]
 
 ML\<open>
-  fun fold_tac thms =
-    Tactic_Util.FOCUS_PARAMS_CTXT
-      (fn ctxt => PRIMITIVE (Raw_Simplifier.fold_rule (clear_simpset ctxt) thms))
-
   (*simple rewrite tactic for Galois relators*)
   fun per_simp_prover ctxt thm =
     let
@@ -272,61 +312,31 @@ method_setup transport_relator_rewrite =
   "Rewrite Transport relator"
 
 
-text \<open>Parsing setup\<close>
+paragraph \<open>The trp_term command\<close>
+
+text \<open>Parsing\<close>
 
 ML\<open>
-  type cmd_params =
-    { L : string option, R : string option, x : string option, y : string option }
-  val empty_cmd_params = { L = NONE, R = NONE, x = NONE, y = NONE }
-local
-  datatype cmd_param_names = L | R | x | y
-  val cmd_param_names = [L, R, x, y]
-  val required_cmd_param_names = [x]
-  fun cmd_param_name_to_string L = "L"
-    | cmd_param_name_to_string R = "R"
-    | cmd_param_name_to_string x = "x"
-    | cmd_param_name_to_string y = "y"
-  val cmd_param_name_strings = map cmd_param_name_to_string cmd_param_names
-  fun cmd_param_name_from_string "L" = L
-    | cmd_param_name_from_string "R" = R
-    | cmd_param_name_from_string "x" = x
-    | cmd_param_name_from_string "y" = y
-    | cmd_param_name_from_string n = Scan.fail ("Parameter " ^ n ^ " not registered")
-in
-  fun set_cmd_param (L, s) ({R = optR, x = optx, y = opty,...} : cmd_params) =
-      {L = SOME s, R = optR, x = optx, y = opty}
-    | set_cmd_param (R, s) {L = optL, x = optx, y = opty,...} =
-      {L = optL, R = SOME s, x = optx, y = opty}
-    | set_cmd_param (x, s) {L = optL, R = optR, y = opty,...} =
-      {L = optL, R = optR, x = SOME s, y = opty}
-    | set_cmd_param (y, s) {L = optL, R = optR, x = optx,...} =
-      {L = optL, R = optR, x = optx, y = SOME s}
-  val cmd_params_parser =
+  @{parse_entries (struct) PA [L, R, x, y]}
+  val parse_cmd_entries =
     let
-      val name_parser =
-        PUtil.name_parser cmd_param_name_strings cmd_param_name_from_string
-      val entry_parser = PUtil.entry_parser name_parser PUtil.eq_parser Parse.term
-    in
-      PUtil.required_entries_parser entry_parser cmd_param_name_to_string
-        required_cmd_param_names
-    end
-end
+      val parse_value = PA.parse_entry Parse.term Parse.term Parse.term Parse.term
+      val parse_entry = Parse_Key_Value.parse_entry PA.parse_key Parse_Util.eq parse_value
+    in PA.parse_entries_required Parse.and_list1 [PA.key PA.x] parse_entry (PA.empty_entries ()) end
 \<close>
-
-text \<open>The transport_term command\<close>
 
 ML\<open>
   (*some utilities to destruct terms*)
   val transport_per_start_thm = @{thm "transport.transport_per_start"}
   val related_if_transport_per_thm = @{thm "transport.left_Galois_if_transport_per"}
-  fun dest_transport_per \<^Const_>\<open>transport.transport_per S T for L R l r x y\<close>
-    = ((S, T), (L, R, l, r, x, y))
+  fun dest_transport_per \<^Const_>\<open>transport.transport_per S T for L R l r x y\<close> =
+    ((S, T), (L, R, l, r, x, y))
   val dest_transport_per_y = dest_transport_per #> (fn (_, (_, _, _, _, _, y)) => y)
 
   fun mk_hom_Galois Ta Tb L R r x y =
     \<^Const>\<open>galois_rel.Galois Ta Ta Tb Tb for L R r x y\<close>
-  fun dest_hom_Galois \<^Const_>\<open>galois_rel.Galois Ta _ Tb _ for L R r x y\<close>
-    = ((Ta, Tb), (L, R, r, x, y))
+  fun dest_hom_Galois \<^Const_>\<open>galois_rel.Galois Ta _ Tb _ for L R r x y\<close> =
+    ((Ta, Tb), (L, R, r, x, y))
   val dest_hom_Galois_y = dest_hom_Galois #> (fn (_, (_, _, _, _, y)) => y)
 
   (*bindings for generated theorems and definitions*)
@@ -340,8 +350,7 @@ ML\<open>
 
   fun note_facts (binding, mixfix) ctxt related_thm y binding_thms_attribs =
     let
-      val ((_, (_, y_def)), ctxt) =
-        Util.create_local_theory_def (binding, mixfix) [] y ctxt
+      val ((_, (_, y_def)), ctxt) = Util.create_local_theory_def (binding, mixfix) [] y ctxt
       (*create simplified definition theorems*)
       val transport_defs = Transport_Defs.get ctxt
       val (y_def_simplified, y_def_eta_expanded_simplified) =
@@ -356,13 +365,13 @@ ML\<open>
             (*fold definition of transported term*)
             Local_Defs.fold ctxt [y_def] thm
             (*simplify other transport definitions in theorem*)
-            |> (Simplifier.rewrite ctxt |> CUtil.thm_conv)
+            |> (Simplifier.rewrite ctxt |> Conversion_Util.thm_conv)
           val thm_attribs = ([folded_thm], attribs)
         in (binding, [thm_attribs]) end
       val facts = map prepare_fact ([
           (binding_related, related_thm, []),
           (binding_related_rewritten, related_thm_rewritten,
-            [Util.attrib_to_src Transport_Related_Intros.add]),
+            [Util.attrib_to_src (Binding.pos_of binding) Transport_Related_Intros.add]),
           (binding_def_simplified, y_def_simplified, []),
           (binding_def_eta_expanded_simplified, y_def_eta_expanded_simplified, [])
         ] @ binding_thms_attribs)
@@ -381,7 +390,7 @@ ML\<open>
           (binding_transport_per, transport_per_thm, []),
           (binding_per, per_thm, []),
           (binding_in_dom, in_dom_thm,
-            [Util.attrib_to_src Transport_in_dom.add])
+            [Util.attrib_to_src (Binding.pos_of binding) Transport_in_dom.add])
         ]
     in note_facts (binding, mixfix) ctxt related_thm y binding_thms end
 
@@ -398,24 +407,20 @@ ML\<open>
       (*check*)
       val [cL, cR] = Syntax.check_terms ctxt [L, R] |> map (Thm.cterm_of ctxt)
       (*instantiate theorem*)
-      val transport_per_start_thm =
-        Thm.incr_indexes (maxidx + 1) transport_per_start_thm
+      val transport_per_start_thm = Thm.incr_indexes (maxidx + 1) transport_per_start_thm
       val args = [SOME cL, SOME cR, NONE, NONE, SOME cx]
-      val transport_per_start_thm =
-        Drule.infer_instantiate' ctxt args transport_per_start_thm
+      val transport_per_start_thm = Drule.infer_instantiate' ctxt args transport_per_start_thm
       val transport_defs = Transport_Defs.get ctxt
-      val goals =
-        Local_Defs.fold ctxt transport_defs transport_per_start_thm
+      val goals = Local_Defs.fold ctxt transport_defs transport_per_start_thm
         |> Thm.prems_of
         |> map (rpair [])
     in goals end
 
   fun setup_goals_whitebox ctxt (yT, L, R, cx, y) maxidx =
     let
-      val (r, _) = UUtil.fresh_var "r" dummyT maxidx
+      val (r, _) = Term_Util.fresh_var "r" dummyT maxidx
       (*check*)
-      val Galois =
-        mk_hom_Galois (Thm.typ_of_cterm cx) yT L R r (Thm.term_of cx) y
+      val Galois = mk_hom_Galois (Thm.typ_of_cterm cx) yT L R r (Thm.term_of cx) y
         |> Syntax.check_term ctxt
       val goal = Util.mk_judgement Galois |> rpair []
     in [goal] end
@@ -425,32 +430,29 @@ ML\<open>
       val ctxt = Util.set_proof_mode_schematic lthy
       (*type of transported term*)
       val yT = Option.map (Syntax.read_typ ctxt) opt_yT |> the_default dummyT
-      (*other parameters*)
-      val {L = optL, R = optR, x = SOME x, y = opty} =
-        fold set_cmd_param params empty_cmd_params
-      (**term to transport**)
+      (*theorems to unfold*)
       val unfolds = map (Proof_Context.get_fact ctxt o fst) unfolds |> flat
+      (*term to transport*)
       val cx =
-        (***read term***)
-        Syntax.read_term ctxt x |> Thm.cterm_of ctxt
-        (***unfold passed theorems***)
+        (**read term**)
+        Syntax.read_term ctxt (PA.get_x params) |> Thm.cterm_of ctxt
+        (**unfold passed theorems**)
         |> Drule.cterm_rule (Local_Defs.unfold ctxt unfolds)
-      (**transport relations and transport term goal**)
+      (*transport relations and transport term goal*)
       val ([L, R, y], maxidx) =
         let
-          (***configuration***)
-          val opts = [optL, optR, opty]
+          (**configuration**)
+          val opts = [PA.get_L_safe params, PA.get_R_safe params, PA.get_y_safe params]
           val opts_default_names = ["L", "R", "y"]
           val opts_constraints =
             [Util.mk_hom_rel_type (Thm.typ_of_cterm cx), Util.mk_hom_rel_type yT, yT]
             |> map Type.constraint
-          (***parse***)
+          (**parse**)
           val opts = map (Syntax.parse_term ctxt |> Option.map) opts
-          val params_maxidx = Util.list_max
-            (the_default ~1 o Option.map Term.maxidx_of_term)
+          val params_maxidx = Util.list_max (the_default ~1 o Option.map Term.maxidx_of_term)
             (Thm.maxidx_of_cterm cx) opts
           fun create_var (NONE, n) maxidx =
-                UUtil.fresh_var n dummyT params_maxidx ||> Integer.max maxidx
+                Term_Util.fresh_var n dummyT params_maxidx ||> Integer.max maxidx
             | create_var (SOME t, _) created = (t, created)
           val (ts, maxidx) =
             fold_map create_var (opts ~~ opts_default_names) params_maxidx
@@ -470,18 +472,19 @@ ML\<open>
     (*binding for transported term*)
     Parse_Spec.constdecl
     (*other params*)
-    -- cmd_params_parser
+    -- parse_cmd_entries
     (*optionally pass unfold theorems in case of white-box transports*)
     -- Scan.optional (Parse.reserved "unfold" |-- Parse.thms1) []
     (*use a bang "!" to start white-box transport mode (experimental)*)
     -- Parse.opt_bang
 
   val _ =
-    Outer_Syntax.local_theory_to_proof \<^command_keyword>\<open>transport_term\<close>
+    Outer_Syntax.local_theory_to_proof \<^command_keyword>\<open>trp_term\<close>
       "transport of definition" (parse_strings >> setup_proof)
 \<close>
 
-text \<open>The following sets up an experimental white-box prover.\<close>
+paragraph \<open>Experimental White-Box Prover\<close>
+
 lemmas related_Fun_Rel_combI = Dep_Fun_Rel_relD[where ?S="\<lambda>_ _. S" for S, rotated]
 lemma related_Fun_Rel_lambdaI:
   assumes "\<And>x y. R x y \<Longrightarrow> S (f x) (g y)"
@@ -511,20 +514,20 @@ ML\<open>
           in
             if length ts < length ps then K Seq.empty
             else
-              UUtil.strip_comb_strip_comb (K o K I) higher_order_pattern_match_first_order
+              Unification_Util.strip_comb_strip_comb (K o K I) higher_order_pattern_match_first_order
               binders ctxt (ph, th) (ps, ts)
           end
       | NONE => K Seq.empty
-    in Higher_Order_Pattern_Unification.e_match UUtil.match_types fallback binders end
-  val any_match_hints_resolve_tac = Unify_Resolve.any_unify_resolve_tac
-    (Norm.beta_eta_norm_thm Norm.norm_type_match Norm.norm_term_match)
+    in Higher_Order_Pattern_Unification.e_match Unification_Util.match_types fallback binders end
+  val any_match_hints_resolve_tac = Unify_Resolve_Base.unify_resolve_any_tac
+    Envir_Normalisation.beta_eta_short_norm_thm_match
     higher_order_pattern_match_first_order
 \<close>
 
 ML\<open>
   val related_comb_tac = any_match_hints_resolve_tac @{thms related_Fun_Rel_combI}
   val related_lambda_tac = any_match_hints_resolve_tac @{thms related_Fun_Rel_lambdaI}
-  val related_tac = any_unify_hints_resolve_tac
+  val related_tac = any_unify_trp_hints_resolve_tac
   val related_assume_tac = assume_tac
 
   fun mk_transport_related_tac cc_comb cc_lambda ctxt =
@@ -572,7 +575,7 @@ ML\<open>
   fun mk_term_skeleton maxidx t =
     let
       val consts = Term.add_consts t []
-      val (vars, _) = fold_map (uncurry UUtil.fresh_var o apfst Long_Name.base_name) consts maxidx
+      val (vars, _) = fold_map (uncurry Term_Util.fresh_var o apfst Long_Name.base_name) consts maxidx
       val t' = Term.subst_atomic (map2 (pair o Const) consts vars) t
     in t' end
 
@@ -599,7 +602,7 @@ ML\<open>
     THEN' transport_related_tac ctxt
     THEN_ALL_NEW (
       TRY o REPEAT1 o transport_relator_rewrite_tac ctxt
-      THEN' TRY o any_unify_hints_resolve_tac @{thms refl} ctxt
+      THEN' TRY o any_unify_trp_hints_resolve_tac @{thms refl} ctxt
     )
 \<close>
 

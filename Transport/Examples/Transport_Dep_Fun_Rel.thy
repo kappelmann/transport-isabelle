@@ -2,7 +2,7 @@
 subsubsection \<open>Transport for Dependent Function Relator\<close>
 theory Transport_Dep_Fun_Rel
   imports
-    Transport_PER
+    Transport_Prototype
     Transport_Syntax
     "HOL-Library.IArray"
 begin
@@ -16,10 +16,10 @@ context
   includes galois_rel_syntax transport_syntax
   notes
     transport.rel_if_partial_equivalence_rel_equivalence_if_iff_if_partial_equivalence_rel_equivalenceI
-    [rotated, per_intro]
+      [rotated, per_intro]
     transport_Dep_Fun_Rel_no_dep_fun.partial_equivalence_rel_equivalenceI
-    [ML_rattr \<open>Conversion_Util.move_prems_to_front_conv [1] |> CUtil.thm_conv |> K\<close>,
-      ML_rattr \<open>Conversion_Util.move_prems_to_front_conv [2,3] |> CUtil.thm_conv |> K\<close>,
+      [ML_Krattr \<open>Conversion_Util.move_prems_to_front_conv [1] |> Conversion_Util.thm_conv\<close>,
+      ML_Krattr \<open>Conversion_Util.move_prems_to_front_conv [2,3] |> Conversion_Util.thm_conv\<close>,
       per_intro]
 begin
 
@@ -34,14 +34,14 @@ lemma sub_parametric [transport_in_dom]:
   "([i _ \<Colon> Zpos] \<Rrightarrow> [j _ \<Colon> Zpos | j \<le> i] \<Rrightarrow> Zpos) (-) (-)"
   by fastforce
 
-transport_term nat_sub :: "nat \<Rightarrow> nat \<Rightarrow> nat" where x = "(-) :: int \<Rightarrow> _"
+trp_term nat_sub :: "nat \<Rightarrow> nat \<Rightarrow> nat" where x = "(-) :: int \<Rightarrow> _"
   and L = "[i _ \<Colon> Zpos] \<Rrightarrow> [j _ \<Colon> Zpos | j \<le> i] \<Rrightarrow> Zpos"
   and R = "[n _ \<Colon> (=)] \<Rrightarrow> [m _ \<Colon> (=)| m \<le> n] \<Rrightarrow> (=)"
   (*fastforce discharges the remaining side-conditions*)
   by (transport_prover) fastforce+
 
 thm nat_sub_app_eq
-text \<open>Note: as of now, @{command transport_term} does not rewrite the
+text \<open>Note: as of now, @{command trp_term} does not rewrite the
 Galois relator of dependent function relators.\<close>
 thm nat_sub_related'
 
@@ -73,7 +73,7 @@ interpretation Rper : transport_partial_equivalence_rel_id R
 
 declare Rper.partial_equivalence_rel_equivalence [per_intro]
 
-transport_term iarray_index where x = "(!) :: 'a list \<Rightarrow> _"
+trp_term iarray_index where x = "(!) :: 'a list \<Rightarrow> _"
   and L = "([xs _ \<Colon> LRel R] \<Rrightarrow> [i _ \<Colon> (=) | i < length xs] \<Rrightarrow> R)"
   and R = "([xs _ \<Colon> IARel R] \<Rrightarrow> [i _ \<Colon> (=) | i < IArray.length xs] \<Rrightarrow> R)"
   by (transport_prover)
@@ -82,6 +82,5 @@ transport_term iarray_index where x = "(!) :: 'a list \<Rightarrow> _"
 
 end
 end
-
 
 end

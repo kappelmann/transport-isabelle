@@ -5,7 +5,6 @@ Utilities used by Transport.
 *)
 signature TRANSPORT_UTIL =
 sig
-
   (* lists *)
   val list_aggregate : ('a * 'b -> 'b) -> ('c -> 'a) -> 'b -> 'c list -> 'b
   val list_max : ('a -> int) -> int -> 'a list -> int
@@ -40,7 +39,7 @@ sig
   val split_conjunctions : Method.text
 
   (* attributes *)
-  val attrib_to_src : attribute -> Token.src
+  val attrib_to_src : Position.T -> attribute -> Token.src
 
 end
 
@@ -64,10 +63,10 @@ val judgement_conv = HOLogic.Trueprop_conv
 val split_conjunctions =
   Method.Basic (fn _ => SIMPLE_METHOD (HEADGOAL Goal.conjunction_tac))
 
-fun equality_eta_expand ctxt name eq =
+fun equality_eta_expand ctxt var_name eq =
   let
     val argTs = Thm.lhs_of eq |> Thm.typ_of_cterm |> binder_types
-    val fresh_args = Unification_Util.fresh_vars name argTs (Thm.maxidx_of eq)
+    val fresh_args = Term_Util.fresh_vars var_name argTs (Thm.maxidx_of eq)
       |> map (Thm.cterm_of ctxt) o fst
   in fold (General_Util.flip Drule.fun_cong_rule) fresh_args eq end
 
@@ -80,6 +79,6 @@ val set_proof_mode_pattern = Proof_Context.set_mode Proof_Context.mode_pattern
 fun create_local_theory_def (binding, mixfix) attribs t =
   Local_Theory.define ((binding, mixfix), ((Thm.def_binding binding, attribs), t))
 
-val attrib_to_src = Attrib.internal o K
+fun attrib_to_src pos = Attrib.internal pos o K
 
 end

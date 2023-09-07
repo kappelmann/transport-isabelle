@@ -1,5 +1,3 @@
-chapter HOL
-
 session HOL_Basics = "HOL" +
   description
     "Basic library on top of HOL axioms."

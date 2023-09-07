@@ -1,8 +1,8 @@
 theory Transport_Typedef
   imports
-    Main
+    "HOL-Library.FSet"
     Transport_Typedef_Base
-    Transport_PER
+    Transport_Prototype
     Transport_Syntax
 begin
 
@@ -15,7 +15,7 @@ typedef pint = "{i :: int. 0 \<le> i}" by auto
 interpretation typedef_pint : type_definition Rep_pint Abs_pint "{i :: int. 0 \<le> i}"
   by (fact type_definition_pint)
 
-lemma [transport_relator_rewrite, unif_hint]:
+lemma [transport_relator_rewrite, trp_unif_hint]:
   "(\<^bsub>(=\<^bsub>Collect ((\<le>) (0 :: int))\<^esub>)\<^esub>\<lessapprox>\<^bsub>(=) Rep_pint\<^esub>) \<equiv> typedef_pint.AR"
   using typedef_pint.left_Galois_eq_AR by (intro eq_reflection) simp
 
@@ -25,11 +25,11 @@ interpretation typedef_fset :
   type_definition Rep_fset Abs_fset "{s :: 'a set. finite s}"
   by (fact type_definition_fset)
 
-lemma [transport_relator_rewrite, unif_hint]:
+lemma [transport_relator_rewrite, trp_unif_hint]:
   "(\<^bsub>(=\<^bsub>{s :: 'a set. finite s}\<^esub>) :: 'a set \<Rightarrow> _\<^esub>\<lessapprox>\<^bsub>(=) Rep_fset\<^esub>) \<equiv> typedef_fset.AR"
   using typedef_fset.left_Galois_eq_AR by (intro eq_reflection) simp
 
-lemma eq_restrict_set_eq_eq_unif_hint [unif_hint]:
+lemma eq_restrict_set_eq_eq_unif_hint [trp_unif_hint]:
   "P \<equiv> \<lambda>x. x \<in> A \<Longrightarrow> ((=\<^bsub>A :: 'a set\<^esub>) :: 'a \<Rightarrow> _) \<equiv> (=\<^bsub>P\<^esub>)"
   by simp
 
@@ -41,21 +41,21 @@ declare
 
 lemma one_parametric [transport_in_dom]: "typedef_pint.L 1 1" by auto
 
-transport_term pint_one :: "pint" where x = "1 :: int"
+trp_term pint_one :: "pint" where x = "1 :: int"
   by transport_prover
 
 lemma add_parametric [transport_in_dom]:
   "(typedef_pint.L \<Rrightarrow> typedef_pint.L \<Rrightarrow> typedef_pint.L) (+) (+)"
   by (intro Dep_Fun_Rel_relI) (auto intro!: eq_restrictI elim!: eq_restrictE)
 
-transport_term pint_add :: "pint \<Rightarrow> pint \<Rightarrow> pint"
+trp_term pint_add :: "pint \<Rightarrow> pint \<Rightarrow> pint"
   where x = "(+) :: int \<Rightarrow> _"
   by transport_prover
 
 lemma empty_parametric [transport_in_dom]: "typedef_fset.L {} {}"
   by auto
 
-transport_term fempty :: "'a fset" where x = "{} :: 'a set"
+trp_term fempty :: "'a fset" where x = "{} :: 'a set"
   by transport_prover
 
 
@@ -63,7 +63,7 @@ lemma insert_parametric [transport_in_dom]:
   "((=) \<Rrightarrow> typedef_fset.L \<Rrightarrow> typedef_fset.L) insert insert"
   by auto
 
-transport_term finsert :: "'a \<Rightarrow> 'a fset \<Rightarrow> 'a fset" where x = insert
+trp_term finsert :: "'a \<Rightarrow> 'a fset \<Rightarrow> 'a fset" where x = insert
   and L = "((=) \<Rrightarrow> typedef_fset.L \<Rrightarrow> typedef_fset.L)"
   and R = "((=) \<Rrightarrow> typedef_fset.R \<Rrightarrow> typedef_fset.R)"
   by transport_prover
@@ -72,7 +72,7 @@ context
   notes refl[transport_related_intro]
 begin
 
-transport_term insert_add_int_fset_whitebox :: "int fset"
+trp_term insert_add_int_fset_whitebox :: "int fset"
   where x = "insert (1 + (1 :: int)) {}" !
   by transport_whitebox_prover
 
@@ -84,12 +84,12 @@ lemma insert_parametric' [transport_related_intro]:
   by (intro Dep_Fun_Rel_relI rel_setI) (auto dest: rel_setD1 rel_setD2)
 
 (*proven for all natural functors*)
-lemma Galois_set_hint [unif_hint]:
+lemma Galois_set_hint [trp_unif_hint]:
   "L \<equiv> rel_set (L1 :: 'a \<Rightarrow> 'a \<Rightarrow> bool) \<Longrightarrow> R \<equiv> rel_set (R1 :: 'b \<Rightarrow> 'b \<Rightarrow> bool)
   \<Longrightarrow> r \<equiv> image r1 \<Longrightarrow> S \<equiv> (\<^bsub>L1\<^esub>\<lessapprox>\<^bsub>R1 r1\<^esub>) \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> rel_set S"
   sorry
 
-transport_term insert_add_pint_set_whitebox :: "pint set"
+trp_term insert_add_pint_set_whitebox :: "pint set"
   where x = "insert (1 + (1 :: int)) {}" !
   by transport_whitebox_prover
 
@@ -101,8 +101,7 @@ lemma image_parametric [transport_in_dom]:
   "(((=) \<Rrightarrow> (=)) \<Rrightarrow> typedef_fset.L \<Rrightarrow> typedef_fset.L) image image"
   by (intro Dep_Fun_Rel_relI) auto
 
-transport_term fimage :: "('a \<Rightarrow> 'b) \<Rightarrow> 'a fset \<Rightarrow> 'b fset"
-  where x = image
+trp_term fimage :: "('a \<Rightarrow> 'b) \<Rightarrow> 'a fset \<Rightarrow> 'b fset" where x = image
   by transport_prover
 
 lemma rel_fun_eq_Fun_Rel_rel: "rel_fun = Fun_Rel_rel"
@@ -136,7 +135,7 @@ context
     "transport_comp.middle_compatible_codom (rel_set R1) typedef_fset.L"
 begin
 
-transport_term fempty_param :: "'b fset"
+trp_term fempty_param :: "'b fset"
   where x = "{} :: 'a set"
   and L = "transport_comp.L ?L1 ?R1 (?l1 :: 'a set \<Rightarrow> 'b set) ?r1 typedef_fset.L"
   and R = "transport_comp.L typedef_fset.R typedef_fset.L ?r2 ?l2 ?R1"
@@ -156,20 +155,20 @@ lemma set_succ_parametric [transport_in_dom]:
   "(typedef_fset.L \<Rrightarrow> typedef_fset.L) set_succ set_succ"
   unfolding set_succ_def by auto
 
-transport_term fset_succ :: "int fset \<Rightarrow> int fset"
+trp_term fset_succ :: "int fset \<Rightarrow> int fset"
   where x = set_succ
   and L = "typedef_fset.L \<Rrightarrow> typedef_fset.L"
   and R = "typedef_fset.R \<Rrightarrow> typedef_fset.R"
   by transport_prover
 
-lemma Galois_id_hint [unif_hint]:
+lemma Galois_id_hint [trp_unif_hint]:
   "(L :: 'a \<Rightarrow> 'a \<Rightarrow> bool) \<equiv> R \<Longrightarrow> r \<equiv> id \<Longrightarrow> E \<equiv> L \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> E"
   by (simp only: eq_reflection[OF transport_id.left_Galois_eq_left])
 
-lemma Freq [unif_hint]: "L \<equiv> (=) \<Rrightarrow> (=) \<Longrightarrow> L \<equiv> (=)"
+lemma Freq [trp_unif_hint]: "L \<equiv> (=) \<Rrightarrow> (=) \<Longrightarrow> L \<equiv> (=)"
   by auto
 
-transport_term fset_succ' :: "int fset \<Rightarrow> int fset"
+trp_term fset_succ' :: "int fset \<Rightarrow> int fset"
   where x = set_succ
   and L = "typedef_fset.L \<Rrightarrow> typedef_fset.L"
   and R = "typedef_fset.R \<Rrightarrow> typedef_fset.R"
@@ -178,7 +177,6 @@ transport_term fset_succ' :: "int fset \<Rightarrow> int fset"
   apply (tactic \<open>instantiate_skeleton_tac @{context} 1\<close>)
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
   thm fimage_related'
-  thm unif_hint
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
   apply (tactic \<open>transport_related_step_tac @{context} 1\<close>)
@@ -192,7 +190,7 @@ transport_term fset_succ' :: "int fset \<Rightarrow> int fset"
   apply (fold transport_def)
   apply (transport_relator_rewrite)+
   apply (unfold transport_def)
-  apply (resolve_hints refl)
+  apply (trp_hints_resolve refl)
   done
 
 lemma pint_middle_compat:
@@ -201,7 +199,7 @@ lemma pint_middle_compat:
   by (intro transport_comp.middle_compatible_codom_if_right1_le_eqI)
   (auto simp: rel_set_eq intro!: transitiveI)
 
-transport_term pint_fset_succ :: "pint fset \<Rightarrow> pint fset"
+trp_term pint_fset_succ :: "pint fset \<Rightarrow> pint fset"
   where x = "set_succ :: int set \<Rightarrow> int set"
   apply (rule transport_Fun_Rel.partial_equivalence_rel_equivalenceI)
     apply (rule transport_comp.partial_equivalence_rel_equivalenceI)
