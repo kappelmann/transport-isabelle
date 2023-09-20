@@ -2,7 +2,7 @@
 subsection \<open>Transport for Dependent Function Relator with Non-Dependent Functions\<close>
 theory Transport_Rel_If
   imports
-    Transport.Transport
+    Transport
 begin
 
 paragraph \<open>Summary\<close>

@@ -2,7 +2,6 @@
 paragraph \<open>Basic Setup\<close>
 theory Transport_Compositions_Agree_Base
   imports
-    HOL_Basics.Galois_Relator
     Transport_Base
 begin
 

@@ -4,6 +4,7 @@ theory Binary_Relations_Injective
   imports
     Binary_Relation_Functions
     HOL_Syntax_Bundles_Lattices
+    ML_Unification.ML_Unification_HOL_Setup
 begin
 
 consts rel_injective_on :: "'a \<Rightarrow> ('b \<Rightarrow> 'c \<Rightarrow> bool) \<Rightarrow> bool"

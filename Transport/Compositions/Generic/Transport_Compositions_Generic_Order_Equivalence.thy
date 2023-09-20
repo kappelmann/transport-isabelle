@@ -2,7 +2,6 @@
 paragraph \<open>Order Equivalence\<close>
 theory Transport_Compositions_Generic_Order_Equivalence
   imports
-    HOL_Basics.Galois_Equivalences
     Transport_Compositions_Generic_Monotone
 begin
 

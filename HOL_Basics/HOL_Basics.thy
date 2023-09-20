@@ -10,10 +10,9 @@ theory HOL_Basics
 begin
 
 paragraph \<open>Summary\<close>
-text \<open>Library on top of HOL axioms. \<^emph>\<open>Only\<close> requires the HOL axioms.
-Includes
-
-
+text \<open>Library on top of HOL axioms, as required for Transport \<^cite>\<open>"transport"\<close>.
+Requires \<^emph>\<open>only\<close> the HOL axioms, nothing else.
+Includes:
 \<^enum> Basic concepts on binary relations, relativised properties,
   and restricted equalities e.g. @{term "left_total_on"} and @{term "eq_restrict"}.
 \<^enum> Basic concepts on functions, relativised properties, and generalised relators,
@@ -26,15 +25,6 @@ Includes
 \<^enum> Basic concepts on predicates.
 \<^enum> Syntax bundles for HOL @{dir "HOL_Syntax_Bundles"}.
 \<^enum> Alignments for concepts that have counterparts in the HOL library \<hyphen>
-  see @{dir "HOL_Alignments"}.
-
-\<^emph>\<open>Motivation\<close>: Many useful definitions in Isabelle/HOL are introduced only
-after the type of sets has been introduced.
-However, developments like Isabelle/Set
-(\<^url>\<open>https://github.com/kappelmann/Isabelle-Set\<close>)
-and Transport
-(\<^url>\<open>https://github.com/kappelmann/transport-isabelle\<close>)
-should only use the HOL axioms and may not import sets
-(or other complex concepts).\<close>
+  see @{dir "HOL_Alignments"}.\<close>
 
 end

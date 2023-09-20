@@ -2,7 +2,6 @@
 subsection \<open>Transport via Equivalences on PERs (Prototype)\<close>
 theory Transport_Prototype
   imports
-    Transport.Transport
     Transport_Rel_If
     ML_Unification.ML_Unification_HOL_Setup
     ML_Unification.Unify_Resolve_Tactics
@@ -21,9 +20,7 @@ This is not production ready, but a proof of concept.
 
 The package provides a command @{command trp_term}, which sets up the
 required goals to prove a given term. See the examples in this directory for
-some use cases and refer to the paper
-"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann
-for more details.\<close>
+some use cases and refer to \<^cite>\<open>"transport"\<close> for more details.\<close>
 
 paragraph \<open>Theorem Setups\<close>
 
@@ -150,9 +147,8 @@ ML\<open>
       structure TI = Discrimination_Tree
       val init_args = {
         concl_unifier = SOME Higher_Order_Pattern_Unification.unify,
-        normalisers = SOME (Transport_Mixed_Unification.norm_term_first_higherp_comb_higher_unify,
-          Transport_Mixed_Unification.norm_thm_first_higherp_comb_higher_unify),
-        prems_unifier = SOME (Transport_Mixed_Unification.first_higherp_comb_higher_unify
+        normalisers = SOME Transport_Mixed_Unification.norms_first_higherp_first_comb_higher_unify,
+        prems_unifier = SOME (Transport_Mixed_Unification.first_higherp_first_comb_higher_unify
           |> Unification_Combinator.norm_unifier Envir_Normalisation.beta_norm_term_unif),
         retrieval = SOME (Term_Index_Unification_Hints_Args.mk_sym_retrieval
           TI.norm_term TI.unifiables),
@@ -160,12 +156,12 @@ ML\<open>
       }\<close>}
 \<close>
 local_setup \<open>Transport_Unification_Hints.setup_attribute NONE\<close>
-declare [[trp_unif_hint where hint_preprocessor = \<open>Unification_Hints_Base.obj_logic_hint_preprocessor
+declare [[trp_uhint where hint_preprocessor = \<open>Unification_Hints_Base.obj_logic_hint_preprocessor
   @{thm atomize_eq[symmetric]} (Conv.rewr_conv @{thm eq_eq_True})\<close>]]
 declare [[trp_ucombine add = \<open>Transport_Unification_Combine.eunif_data
   (Transport_Unification_Hints.try_hints
   |> Unification_Combinator.norm_unifier
-    Transport_Mixed_Unification.norm_term_first_higherp_comb_higher_unify
+    (#norm_term Transport_Mixed_Unification.norms_first_higherp_first_comb_higher_unify)
   |> K)
   (Transport_Unification_Combine.default_metadata Transport_Unification_Hints.binding)\<close>]]
 
@@ -174,8 +170,8 @@ paragraph \<open>Resolution Setup\<close>
 ML\<open>
   \<comment> \<open>resolution with above unifier\<close>
   val any_unify_trp_hints_resolve_tac = Unify_Resolve_Base.unify_resolve_any_tac
-    Transport_Mixed_Unification.norm_thm_first_higherp_comb_higher_unify
-    Transport_Mixed_Unification.first_higherp_comb_higher_unify
+    Transport_Mixed_Unification.norms_first_higherp_first_comb_higher_unify
+    Transport_Mixed_Unification.first_higherp_first_comb_higher_unify
 
   fun get_theorems_tac f get_theorems ctxt = f (get_theorems ctxt) ctxt
   val get_theorems_resolve_tac = get_theorems_tac any_unify_trp_hints_resolve_tac
@@ -493,40 +489,16 @@ lemma related_Fun_Rel_lambdaI:
   using assms by blast
 
 ML\<open>
-  fun pattern_prefix p =
-    let fun bounds_prefix bounds [] = (rev bounds, [])
-          | bounds_prefix bounds (t :: ts) =
-              if is_Bound t andalso not (member (op =) bounds t)
-              then bounds_prefix (t :: bounds) ts
-              else (rev bounds, t :: ts)
-    in case strip_comb p of
-        (v as Var _, args) => let val (bounds, rem_args) = bounds_prefix [] args
-          in SOME (list_comb (v, bounds), rem_args) end
-      | _ => NONE
+  val any_match_resolve_related_tac =
+    let fun unif binders = Higher_Ordern_Pattern_First_Decomp_Unification.e_match
+      Unification_Util.match_types unif Unification_Combinator.fail_unify binders
+    in
+      Unify_Resolve_Base.unify_resolve_any_tac
+        Higher_Ordern_Pattern_First_Decomp_Unification.norms_match unif
     end
-  fun higher_order_pattern_match_first_order binders =
-    let
-      fun fallback binders ctxt (p, t) = case pattern_prefix p of
-        SOME (ph, ps) =>
-          let val (th, ts) = strip_comb t
-            ||> (fn ts => chop (length ts - length ps) ts)
-            |> (fn (th, (ts, ts')) => (list_comb (th, ts), ts'))
-          in
-            if length ts < length ps then K Seq.empty
-            else
-              Unification_Util.strip_comb_strip_comb (K o K I) higher_order_pattern_match_first_order
-              binders ctxt (ph, th) (ps, ts)
-          end
-      | NONE => K Seq.empty
-    in Higher_Order_Pattern_Unification.e_match Unification_Util.match_types fallback binders end
-  val any_match_hints_resolve_tac = Unify_Resolve_Base.unify_resolve_any_tac
-    Envir_Normalisation.beta_eta_short_norm_thm_match
-    higher_order_pattern_match_first_order
-\<close>
 
-ML\<open>
-  val related_comb_tac = any_match_hints_resolve_tac @{thms related_Fun_Rel_combI}
-  val related_lambda_tac = any_match_hints_resolve_tac @{thms related_Fun_Rel_lambdaI}
+  val related_comb_tac = any_match_resolve_related_tac @{thms related_Fun_Rel_combI}
+  val related_lambda_tac = any_match_resolve_related_tac @{thms related_Fun_Rel_lambdaI}
   val related_tac = any_unify_trp_hints_resolve_tac
   val related_assume_tac = assume_tac
 

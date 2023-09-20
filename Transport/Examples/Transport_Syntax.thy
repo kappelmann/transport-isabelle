@@ -2,7 +2,7 @@
 subsubsection \<open>Syntax Bundles for Transport\<close>
 theory Transport_Syntax
   imports
-    Transport.Transport
+    Transport
 begin
 
 abbreviation "Galois_infix x L R r y \<equiv> galois_rel.Galois L R r x y"

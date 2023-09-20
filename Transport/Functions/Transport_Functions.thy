@@ -11,9 +11,7 @@ begin
 
 paragraph \<open>Summary\<close>
 text \<open>Composition under (dependent) (monotone) function relators.
-Refer to the paper
-"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann
-for more details.\<close>
+Refer to \<^cite>\<open>"transport"\<close> for more details.\<close>
 
 subsubsection \<open>Summary of Main Results\<close>
 
@@ -106,6 +104,7 @@ subparagraph \<open>Simplification of Galois relator\<close>
 text \<open>See
 @{thm "left_Galois_eq_Dep_Fun_Rel_left_Galois_restrict_if_mono_if_galois_connectionI"
 "left_Galois_eq_Dep_Fun_Rel_left_Galois_restrict_if_preorder_equivalenceI"
+"left_Galois_eq_Dep_Fun_Rel_left_Galois_restrict_if_preorder_equivalenceI'"
 "Dep_Fun_Rel_left_Galois_restrict_left_right_eq_Dep_Fun_Rel_left_GaloisI"
 "Dep_Fun_Rel_left_Galois_restrict_left_right_restrict_left_right_eq"}\<close>
 

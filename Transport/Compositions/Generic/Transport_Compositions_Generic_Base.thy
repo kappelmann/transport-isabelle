@@ -2,7 +2,6 @@
 paragraph \<open>Basic Setup\<close>
 theory Transport_Compositions_Generic_Base
   imports
-    HOL_Basics.Galois_Relator
     Transport_Base
 begin
 
@@ -23,8 +22,7 @@ components under some generic compatibility conditions on @{term "R1"} and
 @{term "L2"} (cf. below). The composition is rather subtle, but in return can
 cover quite general cases.
 
-Explanations and intuition about the construction can be found in the paper
-"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann.\<close>
+Explanations and intuition about the construction can be found in \<^cite>\<open>"transport"\<close>.\<close>
 
 notation L1 (infix "\<le>\<^bsub>L1\<^esub>" 50)
 notation R1 (infix "\<le>\<^bsub>R1\<^esub>" 50)
@@ -206,8 +204,7 @@ end
 subparagraph \<open>Generic Left to Right Introduction Rules\<close>
 
 text \<open>The following lemmas generalise the proof outline used, for example,
-when proving monotonicity and the Galois property (cf. the paper
-"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann).\<close>
+when proving monotonicity and the Galois property (cf. the paper \<^cite>\<open>"transport"\<close>).\<close>
 
 interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1 .
 

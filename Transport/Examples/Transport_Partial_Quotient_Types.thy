@@ -3,7 +3,7 @@ subsubsection \<open>Transport for Partial Quotient Types\<close>
 theory Transport_Partial_Quotient_Types
   imports
     HOL.Lifting
-    Transport.Transport
+    Transport
 begin
 
 paragraph \<open>Summary\<close>

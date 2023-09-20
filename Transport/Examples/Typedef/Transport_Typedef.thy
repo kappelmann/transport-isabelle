@@ -15,7 +15,7 @@ typedef pint = "{i :: int. 0 \<le> i}" by auto
 interpretation typedef_pint : type_definition Rep_pint Abs_pint "{i :: int. 0 \<le> i}"
   by (fact type_definition_pint)
 
-lemma [transport_relator_rewrite, trp_unif_hint]:
+lemma [transport_relator_rewrite, trp_uhint]:
   "(\<^bsub>(=\<^bsub>Collect ((\<le>) (0 :: int))\<^esub>)\<^esub>\<lessapprox>\<^bsub>(=) Rep_pint\<^esub>) \<equiv> typedef_pint.AR"
   using typedef_pint.left_Galois_eq_AR by (intro eq_reflection) simp
 
@@ -25,11 +25,11 @@ interpretation typedef_fset :
   type_definition Rep_fset Abs_fset "{s :: 'a set. finite s}"
   by (fact type_definition_fset)
 
-lemma [transport_relator_rewrite, trp_unif_hint]:
+lemma [transport_relator_rewrite, trp_uhint]:
   "(\<^bsub>(=\<^bsub>{s :: 'a set. finite s}\<^esub>) :: 'a set \<Rightarrow> _\<^esub>\<lessapprox>\<^bsub>(=) Rep_fset\<^esub>) \<equiv> typedef_fset.AR"
   using typedef_fset.left_Galois_eq_AR by (intro eq_reflection) simp
 
-lemma eq_restrict_set_eq_eq_unif_hint [trp_unif_hint]:
+lemma eq_restrict_set_eq_eq_uhint [trp_uhint]:
   "P \<equiv> \<lambda>x. x \<in> A \<Longrightarrow> ((=\<^bsub>A :: 'a set\<^esub>) :: 'a \<Rightarrow> _) \<equiv> (=\<^bsub>P\<^esub>)"
   by simp
 
@@ -84,7 +84,7 @@ lemma insert_parametric' [transport_related_intro]:
   by (intro Dep_Fun_Rel_relI rel_setI) (auto dest: rel_setD1 rel_setD2)
 
 (*proven for all natural functors*)
-lemma Galois_set_hint [trp_unif_hint]:
+lemma Galois_set_hint [trp_uhint]:
   "L \<equiv> rel_set (L1 :: 'a \<Rightarrow> 'a \<Rightarrow> bool) \<Longrightarrow> R \<equiv> rel_set (R1 :: 'b \<Rightarrow> 'b \<Rightarrow> bool)
   \<Longrightarrow> r \<equiv> image r1 \<Longrightarrow> S \<equiv> (\<^bsub>L1\<^esub>\<lessapprox>\<^bsub>R1 r1\<^esub>) \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> rel_set S"
   sorry
@@ -104,6 +104,9 @@ lemma image_parametric [transport_in_dom]:
 trp_term fimage :: "('a \<Rightarrow> 'b) \<Rightarrow> 'a fset \<Rightarrow> 'b fset" where x = image
   by transport_prover
 
+(*further experiments*)
+(*experiment with compositions*)
+
 lemma rel_fun_eq_Fun_Rel_rel: "rel_fun = Fun_Rel_rel"
   by (intro ext iffI Dep_Fun_Rel_relI) (auto elim: rel_funE)
 
@@ -111,8 +114,6 @@ lemma image_parametric' [transport_related_intro]:
   "((R \<Rrightarrow> S) \<Rrightarrow> rel_set R \<Rrightarrow> rel_set S) image image"
   using transfer_raw[simplified rel_fun_eq_Fun_Rel_rel Transfer.Rel_def]
   by simp
-
-(*experiment with compositions*)
 
 context
   fixes L1 R1 l1 r1 L R l r
@@ -161,11 +162,11 @@ trp_term fset_succ :: "int fset \<Rightarrow> int fset"
   and R = "typedef_fset.R \<Rrightarrow> typedef_fset.R"
   by transport_prover
 
-lemma Galois_id_hint [trp_unif_hint]:
+lemma Galois_id_hint [trp_uhint]:
   "(L :: 'a \<Rightarrow> 'a \<Rightarrow> bool) \<equiv> R \<Longrightarrow> r \<equiv> id \<Longrightarrow> E \<equiv> L \<Longrightarrow> (\<^bsub>L\<^esub>\<lessapprox>\<^bsub>R r\<^esub>) \<equiv> E"
   by (simp only: eq_reflection[OF transport_id.left_Galois_eq_left])
 
-lemma Freq [trp_unif_hint]: "L \<equiv> (=) \<Rrightarrow> (=) \<Longrightarrow> L \<equiv> (=)"
+lemma Freq [trp_uhint]: "L \<equiv> (=) \<Rrightarrow> (=) \<Longrightarrow> L \<equiv> (=)"
   by auto
 
 trp_term fset_succ' :: "int fset \<Rightarrow> int fset"

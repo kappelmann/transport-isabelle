@@ -13,8 +13,6 @@ another straightforward but less general one in @{locale "transport_comp_agree"}
 As a special case from the latter, we obtain @{locale "transport_comp_same"},
 which includes the cases most prominently covered in the literature.
 
-Refer to the paper
-"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann.
-for more details.\<close>
+Refer to \<^cite>\<open>"transport"\<close> for more details.\<close>
 
 end

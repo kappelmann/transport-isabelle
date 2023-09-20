@@ -2,7 +2,6 @@
 paragraph \<open>Galois Connection\<close>
 theory Transport_Compositions_Agree_Galois_Connection
   imports
-    HOL_Basics.Galois_Connections
     Transport_Compositions_Agree_Monotone
     Transport_Compositions_Agree_Galois_Property
 begin

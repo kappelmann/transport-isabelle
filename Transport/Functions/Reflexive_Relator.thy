@@ -2,8 +2,8 @@
 subsubsection \<open>Reflexive Relator\<close>
 theory Reflexive_Relator
   imports
-    HOL_Basics.Galois_Equivalences
-    HOL_Basics.Galois_Relator
+    Galois_Equivalences
+    Galois_Relator
 begin
 
 definition "Refl_Rel R x y \<equiv> R x x \<and> R y y \<and> R x y"

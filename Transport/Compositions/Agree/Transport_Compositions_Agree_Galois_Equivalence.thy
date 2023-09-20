@@ -2,7 +2,6 @@
 paragraph \<open>Galois Equivalence\<close>
 theory Transport_Compositions_Agree_Galois_Equivalence
   imports
-    HOL_Basics.Galois_Equivalences
     Transport_Compositions_Agree_Galois_Connection
 begin
 

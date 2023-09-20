@@ -3,7 +3,7 @@ subsubsection \<open>Basic Setup\<close>
 theory Transport_Natural_Functors_Base
   imports
     HOL.BNF_Def
-    HOL_Basics.HOL_Alignment_Functions
+    HOL_Alignment_Functions
     Transport_Base
 begin
 

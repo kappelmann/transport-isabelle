@@ -1,6 +1,6 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Transport Between Lists and Sets\<close>
-theory Transport_List_Sets
+subsubsection \<open>Example Transports Between Lists and Sets\<close>
+theory Transport_Lists_Sets_Examples
   imports
     Transport_Prototype
     Transport_Syntax
@@ -8,8 +8,7 @@ theory Transport_List_Sets
 begin
 
 paragraph \<open>Summary\<close>
-text \<open>Introductory examples from the paper
-"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann.
+text \<open>Introductory examples from \<^cite>\<open>"transport"\<close>.
 Transports between lists and (finite) sets. Refer to the paper for more details.\<close>
 
 context
@@ -47,9 +46,9 @@ lemma LFSR_Galois_eq_inv_LFS: "(\<^bsub>LFSR\<^esub>\<lessapprox>\<^bsub>LFSL fs
 lemma LSL_Galois_eq_LS: "(\<^bsub>LSL\<^esub>\<lessapprox>\<^bsub>LSR sorted_list_of_set\<^esub>) \<equiv> LS"
   unfolding LS_def LSL_def by (intro eq_reflection ext) (auto)
 
-declare LFSL_Galois_eq_LFS[transport_relator_rewrite, trp_unif_hint]
-  LFSR_Galois_eq_inv_LFS[transport_relator_rewrite, trp_unif_hint]
-  LSL_Galois_eq_LS[transport_relator_rewrite, trp_unif_hint]
+declare LFSL_Galois_eq_LFS[transport_relator_rewrite, trp_uhint]
+  LFSR_Galois_eq_inv_LFS[transport_relator_rewrite, trp_uhint]
+  LSL_Galois_eq_LS[transport_relator_rewrite, trp_uhint]
 
 definition "max_list xs \<equiv> foldr max xs (0 :: nat)"
 
@@ -124,8 +123,8 @@ lemma map_parametric [transport_in_dom]:
   "(((=) \<Rrightarrow> (=)) \<Rrightarrow> LSL \<Rrightarrow> LSL) map map"
   unfolding LSL_def by (intro Dep_Fun_Rel_relI) simp
 
-lemma [trp_unif_hint]: "P \<equiv> (=) \<Longrightarrow> P \<equiv> (=) \<Rrightarrow> (=)" by simp
-lemma [trp_unif_hint]: "P \<equiv> \<top> \<Longrightarrow> (=\<^bsub>P :: 'a \<Rightarrow> bool\<^esub>) \<equiv> ((=) :: 'a \<Rightarrow> _)" by simp
+lemma [trp_uhint]: "P \<equiv> (=) \<Longrightarrow> P \<equiv> (=) \<Rrightarrow> (=)" by simp
+lemma [trp_uhint]: "P \<equiv> \<top> \<Longrightarrow> (=\<^bsub>P :: 'a \<Rightarrow> bool\<^esub>) \<equiv> ((=) :: 'a \<Rightarrow> _)" by simp
 
 (*sorted_list_of_fset requires a linorder, but in theory,
 we could use a different transport function to avoid that constraint*)

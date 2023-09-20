@@ -2,7 +2,6 @@
 paragraph \<open>Galois Relator\<close>
 theory Transport_Compositions_Generic_Galois_Relator
   imports
-    HOL_Basics.Galois_Equivalences
     Transport_Compositions_Generic_Base
 begin
 

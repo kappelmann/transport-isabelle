@@ -2,7 +2,7 @@
 subsection \<open>Transport using Bijections\<close>
 theory Transport_Bijections
   imports
-    HOL_Basics.Functions_Bijection
+    Functions_Bijection
     Transport_Base
 begin
 

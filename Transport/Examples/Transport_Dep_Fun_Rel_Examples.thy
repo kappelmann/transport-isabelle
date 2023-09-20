@@ -1,6 +1,6 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Transport for Dependent Function Relator\<close>
-theory Transport_Dep_Fun_Rel
+subsubsection \<open>Example Transports for Dependent Function Relator\<close>
+theory Transport_Dep_Fun_Rel_Examples
   imports
     Transport_Prototype
     Transport_Syntax
@@ -8,8 +8,7 @@ theory Transport_Dep_Fun_Rel
 begin
 
 paragraph \<open>Summary\<close>
-text \<open>Dependent function relator examples from the paper
-"Transport via Partial Galois Connections and Equivalences" by Kevin Kappelmann.
+text \<open>Dependent function relator examples from \<^cite>\<open>"transport"\<close>.
 Refer to the paper for more details.\<close>
 
 context

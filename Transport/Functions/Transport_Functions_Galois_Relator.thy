@@ -326,6 +326,19 @@ corollary left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI:
   using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI')
   auto
 
+  
+corollary left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI':
+  assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
+  and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>L2 x (r1 x')\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)) (l2\<^bsub>x' x\<^esub>) (r2\<^bsub>x x'\<^esub>)"
+  and "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
+  and "([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x1' x2' \<Colon> (\<le>\<^bsub>R1\<^esub>) | x2 \<^bsub>L1\<^esub>\<lessapprox> x1'] \<Rrightarrow>
+    [in_field (\<le>\<^bsub>R2 (l1 x1) x2'\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 x1 (r1 x2')\<^esub>)) r2"
+  and "g \<le>\<^bsub>R\<^esub> g"
+  shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
+  using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI
+    transitive_left2_if_preorder_equivalenceI)
+  (auto 5 0)
+
 
 subparagraph \<open>Simplification of Restricted Function Relator\<close>
 
@@ -625,8 +638,7 @@ theorem left_Galois_eq_Dep_Fun_Rel_left_Galois_restrict_if_galois_equivalenceI:
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>"
   using assms by (intro ext iffI restrict_leftI restrict_rightI
     iffD1[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI])
-  (auto elim!: left_GaloisE intro!:
-    iffD2[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI])
+  (auto intro!: iffD2[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI])
 
 corollary left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -651,8 +663,31 @@ corollary left_Galois_eq_Dep_Fun_Rel_left_Galois_restrict_if_preorder_equivalenc
   shows "(\<^bsub>L\<^esub>\<lessapprox>) = ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>"
   using assms by (intro ext iffI restrict_leftI restrict_rightI
     iffD1[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI])
-  (auto elim!: left_GaloisE intro!:
-    iffD2[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI])
+  (auto intro!: iffD2[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI])
+
+corollary left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI':
+  assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
+  and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>L2 x (r1 x')\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)) (l2\<^bsub>x' x\<^esub>) (r2\<^bsub>x x'\<^esub>)"
+  and "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
+  and "([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x1' x2' \<Colon> (\<le>\<^bsub>R1\<^esub>) | x2 \<^bsub>L1\<^esub>\<lessapprox> x1'] \<Rrightarrow>
+    [in_field (\<le>\<^bsub>R2 (l1 x1) x2'\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 x1 (r1 x2')\<^esub>)) r2"
+  and "in_dom (\<le>\<^bsub>L\<^esub>) f"
+  and "in_codom (\<le>\<^bsub>R\<^esub>) g"
+  shows "f \<^bsub>L\<^esub>\<lessapprox> g \<longleftrightarrow> ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>)) f g"
+  using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI
+    tdfr.transitive_left2_if_preorder_equivalenceI)
+  (auto 5 0)
+
+corollary left_Galois_eq_Dep_Fun_Rel_left_Galois_restrict_if_preorder_equivalenceI':
+  assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
+  and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>L2 x (r1 x')\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)) (l2\<^bsub>x' x\<^esub>) (r2\<^bsub>x x'\<^esub>)"
+  and "([x1 x2 \<Colon> (\<ge>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x3 x4 \<Colon> (\<le>\<^bsub>L1\<^esub>) | x1 \<le>\<^bsub>L1\<^esub> x3] \<Rrightarrow> (\<le>)) L2"
+  and "([x1 x2 \<Colon> (\<le>\<^bsub>L1\<^esub>)] \<Rrightarrow>\<^sub>m [x1' x2' \<Colon> (\<le>\<^bsub>R1\<^esub>) | x2 \<^bsub>L1\<^esub>\<lessapprox> x1'] \<Rrightarrow>
+    [in_field (\<le>\<^bsub>R2 (l1 x1) x2'\<^esub>)] \<Rrightarrow> (\<le>\<^bsub>L2 x1 (r1 x2')\<^esub>)) r2"
+  shows "(\<^bsub>L\<^esub>\<lessapprox>) = ([x x' \<Colon> (\<^bsub>L1\<^esub>\<lessapprox>)] \<Rrightarrow> (\<^bsub>L2 x x'\<^esub>\<lessapprox>))\<restriction>\<^bsub>in_dom (\<le>\<^bsub>L\<^esub>)\<^esub>\<upharpoonleft>\<^bsub>in_codom (\<le>\<^bsub>R\<^esub>)\<^esub>"
+  using assms by (intro ext iffI restrict_leftI restrict_rightI
+    iffD1[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI'])
+  (auto intro!: iffD2[OF left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI'])
 
 
 subparagraph \<open>Simplification of Restricted Function Relator\<close>

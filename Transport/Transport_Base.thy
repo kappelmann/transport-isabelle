@@ -2,8 +2,8 @@
 subsection \<open>Basic Setup\<close>
 theory Transport_Base
   imports
-    HOL_Basics.Galois_Equivalences
-    HOL_Basics.Galois_Relator
+    Galois_Equivalences
+    Galois_Relator
 begin
 
 paragraph \<open>Summary\<close>
