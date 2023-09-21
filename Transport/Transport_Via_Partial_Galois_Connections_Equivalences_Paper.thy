@@ -107,7 +107,7 @@ Theorem
 
   \<^item> Example 2: @{theory "Transport.Transport_Dep_Fun_Rel_Examples"}
 
-  \<^item> TODO Example 3: theory "Transport.Transport\_Set\_Extension"
+  \<^item> TODO Example 3: \<^url>\<open>https://github.com/kappelmann/Isabelle-Set/blob/fdf59444d9a53b5279080fb4d24893c9efa31160/Isabelle_Set/Integers/Integers_Transport.thy\<close>
 
 \<^item> Proof: Partial Quotient Types are a special case:
   @{theory "Transport.Transport_Partial_Quotient_Types"}
@@ -115,8 +115,7 @@ Theorem
 \<^item> Proof: Typedefs are a special case:
   @{theory "Transport.Transport_Typedef_Base"}
 
-\<^item> Proof: Set-Extensions are a special case:
-  TODO theory "Transport.Set\_Extensions\_Transport"
+\<^item> Proof: Set-Extensions are a special case: \<^url>\<open>https://github.com/kappelmann/Isabelle-Set/blob/fdf59444d9a53b5279080fb4d24893c9efa31160/Isabelle_Set/Set_Extensions/Set_Extensions_Transport.thy\<close>
 
 \<^item> Proof: Bijections as special case:
   @{theory "Transport.Transport_Bijections"}
