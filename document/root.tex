@@ -1,5 +1,6 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[11pt,a4paper]{report}
 \usepackage[T1]{fontenc}
+\usepackage{amssymb}
 \usepackage{isabelle,isabellesym}
 
 % this should be the last package used
@@ -16,7 +17,15 @@
 \maketitle
 
 \begin{abstract}
-TODO
+This entry contains the accompanying formalisation of the paper
+``Transport via Partial Galois Connections and Equivalences'' (APLAS 2023)~\cite{transport}.
+It contains a theoretical framework to transport programs via equivalences,
+subsuming the theory of Isabelle's Lifting package~\cite{lifting}.
+It also contains a prototype to automate transports in Isabelle/HOL,
+but the prototype is not yet meant for production.
+Finally, it contains a library on top of Isabelle/HOL's axioms,
+including various relativised concepts on orders, functions, binary relations,
+and Galois connections and equivalences.
 \end{abstract}
 
 \tableofcontents

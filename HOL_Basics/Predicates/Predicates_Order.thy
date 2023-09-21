@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Orders\<close>
+subsection \<open>Orders\<close>
 theory Predicates_Order
   imports
     HOL.Orderings

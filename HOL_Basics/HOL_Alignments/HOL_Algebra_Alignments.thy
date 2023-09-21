@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>HOL-Algebra Alignments\<close>
+section \<open>HOL-Algebra Alignments\<close>
 theory HOL_Algebra_Alignments
   imports
     HOL_Algebra_Alignment_Galois

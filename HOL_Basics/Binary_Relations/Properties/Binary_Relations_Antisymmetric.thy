@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Antisymmetric\<close>
+subsubsection \<open>Antisymmetric\<close>
 theory Binary_Relations_Antisymmetric
   imports
     Binary_Relation_Functions

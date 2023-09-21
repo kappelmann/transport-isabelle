@@ -1,4 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
+subsection \<open>Group Syntax\<close>
 theory HOL_Syntax_Bundles_Groups
   imports HOL.Groups
 begin

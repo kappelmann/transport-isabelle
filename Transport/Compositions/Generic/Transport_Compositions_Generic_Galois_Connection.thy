@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Galois Connection\<close>
+subsection \<open>Galois Connection\<close>
 theory Transport_Compositions_Generic_Galois_Connection
   imports
     Transport_Compositions_Generic_Galois_Property

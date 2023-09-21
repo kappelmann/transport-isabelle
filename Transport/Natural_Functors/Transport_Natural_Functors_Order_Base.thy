@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Basic Order Properties\<close>
+subsection \<open>Basic Order Properties\<close>
 theory Transport_Natural_Functors_Order_Base
   imports
     Transport_Natural_Functors_Base

@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Half Galois Property\<close>
+subsection \<open>Half Galois Property\<close>
 theory Half_Galois_Property
   imports
     Galois_Relator_Base

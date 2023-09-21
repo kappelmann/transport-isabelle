@@ -1,5 +1,4 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Compositions With Agreeing Relations\<close>
 theory Transport_Compositions_Agree
   imports
     Transport_Compositions_Agree_Galois_Equivalence

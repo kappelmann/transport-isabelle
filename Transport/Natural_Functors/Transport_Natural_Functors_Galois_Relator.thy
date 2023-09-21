@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Galois Relator\<close>
+subsection \<open>Galois Relator\<close>
 theory Transport_Natural_Functors_Galois_Relator
   imports
     Transport_Natural_Functors_Base

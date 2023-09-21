@@ -1,7 +1,8 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Basic Functions\<close>
+section \<open>Functions\<close>
+subsection \<open>Basic Functions\<close>
 theory Functions_Base
-  imports HOL.HOL
+  imports HOL_Basics_Base
 begin
 
 definition "id x \<equiv> x"

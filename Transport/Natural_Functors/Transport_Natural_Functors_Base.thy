@@ -1,5 +1,6 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Basic Setup\<close>
+section \<open>Transport for Natural Functors\<close>
+subsection \<open>Basic Setup\<close>
 theory Transport_Natural_Functors_Base
   imports
     HOL.BNF_Def

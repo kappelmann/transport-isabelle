@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Restricted_Equality\<close>
+subsection \<open>Restricted Equality\<close>
 theory Restricted_Equality
   imports
     Binary_Relations_Order_Base

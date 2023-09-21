@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Lattice\<close>
+subsection \<open>Lattice\<close>
 theory Predicates_Lattice
   imports
     HOL_Syntax_Bundles_Lattices

@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Equivalences\<close>
+subsubsection \<open>Equivalences\<close>
 theory Order_Equivalences
   imports
     Order_Functors_Base

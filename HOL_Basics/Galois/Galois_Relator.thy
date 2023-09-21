@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Relator For Galois Connections\<close>
+subsection \<open>Relator For Galois Connections\<close>
 theory Galois_Relator
   imports
     Galois_Relator_Base

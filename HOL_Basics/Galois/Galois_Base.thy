@@ -1,5 +1,6 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Basic Abbreviations\<close>
+section \<open>Galois\<close>
+subsection \<open>Basic Abbreviations\<close>
 theory Galois_Base
   imports
     Order_Functors_Base

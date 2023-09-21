@@ -1,5 +1,4 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Binary Relations\<close>
 theory LBinary_Relations
   imports
     Binary_Relation_Functions

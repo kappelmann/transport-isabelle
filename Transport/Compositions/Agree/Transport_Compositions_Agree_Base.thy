@@ -1,5 +1,6 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Basic Setup\<close>
+section \<open>Compositions With Agreeing Relations\<close>
+subsection \<open>Basic Setup\<close>
 theory Transport_Compositions_Agree_Base
   imports
     Transport_Base

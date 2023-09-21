@@ -1,4 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
+subsection \<open>Lattice Syntax\<close>
 theory HOL_Syntax_Bundles_Lattices
   imports
     HOL.Lattices

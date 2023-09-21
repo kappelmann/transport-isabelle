@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Order Equivalence\<close>
+subsection \<open>Order Equivalence\<close>
 theory Transport_Compositions_Generic_Order_Equivalence
   imports
     Transport_Compositions_Generic_Monotone
@@ -13,8 +13,8 @@ begin
 
 interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1  .
 
-subparagraph \<open>Unit\<close>
-text \<open>Inflationary\<close>
+subsubsection \<open>Unit\<close>
+paragraph \<open>Inflationary\<close>
 
 lemma inflationary_on_in_dom_unitI:
   assumes "((\<le>\<^bsub>R1\<^esub>) \<Rrightarrow>\<^sub>m (\<le>\<^bsub>L1\<^esub>)) r1"
@@ -218,7 +218,7 @@ corollary rel_equivalence_on_in_field_unitI:
   (auto simp only: in_codom_eq_in_dom_if_reflexive_on_in_field)
 
 
-subparagraph \<open>Counit\<close>
+subsubsection \<open>Counit\<close>
 
 text \<open>Corresponding lemmas for the counit can be obtained by flipping the
 interpretation of the locale, i.e.
@@ -235,7 +235,7 @@ interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1
 end
 
 
-text \<open>Order Equivalence\<close>
+subsubsection \<open>Order Equivalence\<close>
 
 interpretation flip : transport_comp R2 L2 r2 l2 R1 L1 r1 l1
   rewrites "flip.t2.unit \<equiv> \<epsilon>\<^sub>1" and "flip.t2.counit \<equiv> \<eta>\<^sub>1"

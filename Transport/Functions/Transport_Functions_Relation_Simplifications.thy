@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Simplification of Left and Right Relations\<close>
+subsection \<open>Simplification of Left and Right Relations\<close>
 theory Transport_Functions_Relation_Simplifications
   imports
     Transport_Functions_Order_Base

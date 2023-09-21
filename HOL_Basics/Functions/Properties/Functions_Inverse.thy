@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Inverse\<close>
+subsubsection \<open>Inverse\<close>
 theory Functions_Inverse
   imports
     Functions_Injective

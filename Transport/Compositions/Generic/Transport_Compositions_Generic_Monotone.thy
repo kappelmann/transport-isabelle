@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Monotonicity\<close>
+subsection \<open>Monotonicity\<close>
 theory Transport_Compositions_Generic_Monotone
   imports
     Transport_Compositions_Generic_Base

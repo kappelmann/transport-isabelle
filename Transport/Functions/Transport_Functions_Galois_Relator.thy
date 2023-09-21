@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Galois Relator\<close>
+subsection \<open>Galois Relator\<close>
 theory Transport_Functions_Galois_Relator
   imports
     Transport_Functions_Relation_Simplifications
@@ -326,7 +326,7 @@ corollary left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI:
   using assms by (intro left_Galois_iff_Dep_Fun_Rel_left_Galois_if_galois_equivalenceI')
   auto
 
-  
+
 corollary left_Galois_iff_Dep_Fun_Rel_left_Galois_if_preorder_equivalenceI':
   assumes "((\<le>\<^bsub>L1\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
   and "\<And>x x'. x \<^bsub>L1\<^esub>\<lessapprox> x' \<Longrightarrow> ((\<le>\<^bsub>L2 x (r1 x')\<^esub>) \<equiv>\<^bsub>pre\<^esub> (\<le>\<^bsub>R2 (l1 x) x'\<^esub>)) (l2\<^bsub>x' x\<^esub>) (r2\<^bsub>x x'\<^esub>)"

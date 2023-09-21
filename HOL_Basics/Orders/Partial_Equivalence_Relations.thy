@@ -103,7 +103,7 @@ corollary partial_equivalence_rel_on_in_field_iff_partial_equivalence_rel [iff]:
   by blast
 
 
-subsubsection \<open>Instantiations\<close>
+paragraph \<open>Instantiations\<close>
 
 lemma partial_equivalence_rel_eq: "partial_equivalence_rel (=)"
   using transitive_eq symmetric_eq by (rule partial_equivalence_relI)

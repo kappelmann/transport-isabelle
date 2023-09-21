@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Basic Order Properties\<close>
+subsection \<open>Basic Order Properties\<close>
 theory Transport_Functions_Order_Base
   imports
     Transport_Functions_Base

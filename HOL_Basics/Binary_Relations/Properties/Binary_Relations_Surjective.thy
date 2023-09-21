@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Surjective\<close>
+subsubsection \<open>Surjective\<close>
 theory Binary_Relations_Surjective
   imports
     Binary_Relations_Left_Total

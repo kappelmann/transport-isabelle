@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Example Transports for Dependent Function Relator\<close>
+section \<open>Example Transports for Dependent Function Relator\<close>
 theory Transport_Dep_Fun_Rel_Examples
   imports
     Transport_Prototype

@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Transport for Dependent Function Relator with Non-Dependent Functions\<close>
+section \<open>Transport for Dependent Function Relator with Non-Dependent Functions\<close>
 theory Transport_Rel_If
   imports
     Transport

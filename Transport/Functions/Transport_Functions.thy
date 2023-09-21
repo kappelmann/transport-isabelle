@@ -1,5 +1,4 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Transport For Functions\<close>
 theory Transport_Functions
   imports
     Transport_Functions_Galois_Equivalence
@@ -13,7 +12,7 @@ paragraph \<open>Summary\<close>
 text \<open>Composition under (dependent) (monotone) function relators.
 Refer to \<^cite>\<open>"transport"\<close> for more details.\<close>
 
-subsubsection \<open>Summary of Main Results\<close>
+subsection \<open>Summary of Main Results\<close>
 
 text \<open>More precise results can be found in the corresponding subtheories.\<close>
 

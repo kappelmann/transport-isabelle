@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Reflexive Relator\<close>
+section \<open>Reflexive Relator\<close>
 theory Reflexive_Relator
   imports
     Galois_Equivalences

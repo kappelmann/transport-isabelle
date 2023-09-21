@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Right Unique\<close>
+subsubsection \<open>Right Unique\<close>
 theory Binary_Relations_Right_Unique
   imports
     Binary_Relations_Injective

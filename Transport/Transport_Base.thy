@@ -1,5 +1,6 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Basic Setup\<close>
+chapter \<open>Transport\<close>
+section \<open>Basic Setup\<close>
 theory Transport_Base
   imports
     Galois_Equivalences
@@ -17,7 +18,7 @@ locale transport = galois L R l r
   and r :: "'b \<Rightarrow> 'a"
 begin
 
-subsubsection \<open>Ordered Galois Connections\<close>
+subsection \<open>Ordered Galois Connections\<close>
 
 definition "preorder_galois_connection \<equiv>
   ((\<le>\<^bsub>L\<^esub>) \<stileturn> (\<le>\<^bsub>R\<^esub>)) l r
@@ -105,7 +106,7 @@ next
 qed
 
 
-subsubsection \<open>Ordered Equivalences\<close>
+subsection \<open>Ordered Equivalences\<close>
 
 definition "preorder_equivalence \<equiv>
   ((\<le>\<^bsub>L\<^esub>) \<equiv>\<^sub>G (\<le>\<^bsub>R\<^esub>)) l r

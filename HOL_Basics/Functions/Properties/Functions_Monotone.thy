@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Monotonicity\<close>
+subsubsection \<open>Monotonicity\<close>
 theory Functions_Monotone
   imports
     Binary_Relations_Order_Base
@@ -9,7 +9,7 @@ begin
 
 paragraph \<open>Summary\<close>
 text \<open>Introduces the concept of monotone functions. A function is monotone
-if it is related to itself \<hyphen> see \<^term>\<open>Dep_Fun_Rel_rel\<close>.\<close>
+if it is related to itself - see \<^term>\<open>Dep_Fun_Rel_rel\<close>.\<close>
 
 declare le_funI[intro]
 declare le_funE[elim]

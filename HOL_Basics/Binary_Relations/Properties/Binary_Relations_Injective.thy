@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Injective\<close>
+subsubsection \<open>Injective\<close>
 theory Binary_Relations_Injective
   imports
     Binary_Relation_Functions

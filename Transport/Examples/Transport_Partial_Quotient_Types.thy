@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Transport for Partial Quotient Types\<close>
+section \<open>Transport for Partial Quotient Types\<close>
 theory Transport_Partial_Quotient_Types
   imports
     HOL.Lifting

@@ -1,4 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
+subsection \<open>Function Syntax\<close>
 theory HOL_Syntax_Bundles_Functions
   imports HOL.Fun
 begin

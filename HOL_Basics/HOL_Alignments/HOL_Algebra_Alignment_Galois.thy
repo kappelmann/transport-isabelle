@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Alignment With Definitions from HOL-Algebra\<close>
+subsection \<open>Alignment With Definitions from HOL-Algebra\<close>
 theory HOL_Algebra_Alignment_Galois
   imports
     "HOL-Algebra.Galois_Connection"
@@ -46,7 +46,7 @@ end
 context galois_bijection
 begin
 
-context             
+context
   fixes L R l r
   defines "L \<equiv> (\<sqsubseteq>\<^bsub>\<X>\<^esub>)\<restriction>\<^bsub>carrier \<X>\<^esub>\<upharpoonleft>\<^bsub>carrier \<X>\<^esub>" and "R \<equiv> (\<sqsubseteq>\<^bsub>\<Y>\<^esub>)\<restriction>\<^bsub>carrier \<Y>\<^esub>\<upharpoonleft>\<^bsub>carrier \<Y>\<^esub>"
     and "l \<equiv> \<pi>\<^sup>*" and "r \<equiv> \<pi>\<^sub>*"
@@ -62,18 +62,18 @@ lemma half_galois_prop_left_right_left [HOL_Algebra_galois_alignment]:
   by (intro half_galois_prop_leftI; elim left_GaloisE) (auto; metis)
 
 lemma half_galois_prop_right_right_left [HOL_Algebra_galois_alignment]:
-  "(R \<unlhd>\<^sub>h L) r l"  
+  "(R \<unlhd>\<^sub>h L) r l"
   using gal_bij_conn.left lower_closed lower_inv_eq upper_inv_eq
   by (intro half_galois_prop_rightI; elim Galois_rightE) (auto; metis)
-  
+
 lemma prop_right_right_left [HOL_Algebra_galois_alignment]: "(R \<unlhd> L) r l"
   using half_galois_prop_left_right_left half_galois_prop_right_right_left by blast
 
 lemma galois_equivalence [HOL_Algebra_galois_alignment]: "(L \<equiv>\<^sub>G R) l r"
   using gal_bij_conn.galois_connection prop_right_right_left
-  by (intro galois.galois_equivalenceI) auto                                   
+  by (intro galois.galois_equivalenceI) auto
 
-end                                                     
+end
 end
 
 

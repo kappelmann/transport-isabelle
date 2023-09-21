@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Galois Concepts\<close>
+subsection \<open>Galois Concepts\<close>
 theory Transport_Natural_Functors_Galois
   imports
     Transport_Natural_Functors_Base

@@ -1,5 +1,4 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Galois\<close>
 theory Galois
   imports
     Galois_Equivalences

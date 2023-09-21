@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Order Equivalence\<close>
+subsection \<open>Order Equivalence\<close>
 theory Transport_Functions_Order_Equivalence
   imports
     Transport_Functions_Monotone

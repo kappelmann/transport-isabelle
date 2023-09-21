@@ -1,5 +1,4 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Generic Compositions\<close>
 theory Transport_Compositions_Generic
   imports
     Transport_Compositions_Generic_Galois_Equivalence

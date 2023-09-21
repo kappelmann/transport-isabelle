@@ -1,5 +1,4 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-section \<open>Transport\<close>
 theory Transport
   imports
     Transport_Bijections

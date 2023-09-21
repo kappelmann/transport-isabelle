@@ -1,5 +1,4 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Functions\<close>
 theory LFunctions
   imports
     Functions_Base

@@ -1,5 +1,4 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Transport for Natural Functors\<close>
 theory Transport_Natural_Functors
   imports
     Transport_Natural_Functors_Galois

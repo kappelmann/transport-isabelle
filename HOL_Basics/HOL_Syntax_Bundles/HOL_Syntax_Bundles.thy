@@ -1,5 +1,4 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>HOL Syntax Bundles\<close>
 theory HOL_Syntax_Bundles
   imports
     HOL_Syntax_Bundles_Base

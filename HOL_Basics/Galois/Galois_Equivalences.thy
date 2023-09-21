@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Galois Equivalences\<close>
+subsection \<open>Galois Equivalences\<close>
 theory Galois_Equivalences
   imports
     Galois_Connections
@@ -117,7 +117,7 @@ proof -
 qed
 
 
-subsubsection \<open>Equivalence of Order Equivalences and Galois Equivalences\<close>
+subsection \<open>Equivalence of Order Equivalences and Galois Equivalences\<close>
 
 text \<open>In general categories, every adjoint equivalence is an equivalence
 but not vice versa.

@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Surjective\<close>
+subsubsection \<open>Surjective\<close>
 theory Functions_Surjective
   imports
     HOL_Syntax_Bundles_Lattices

@@ -1,5 +1,6 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Basic Setup\<close>
+section \<open>Transport For Functions\<close>
+subsection \<open>Basic Setup\<close>
 theory Transport_Functions_Base
   imports
     Monotone_Function_Relator

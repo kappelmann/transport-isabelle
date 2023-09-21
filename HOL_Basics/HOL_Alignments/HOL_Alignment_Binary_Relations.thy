@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Alignment With Definitions from HOL.Main\<close>
+subsection \<open>Alignment With Definitions from HOL.Main\<close>
 theory HOL_Alignment_Binary_Relations
   imports
     Main

@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Syntax Bundles for Transport\<close>
+section \<open>Syntax Bundles for Transport\<close>
 theory Transport_Syntax
   imports
     Transport

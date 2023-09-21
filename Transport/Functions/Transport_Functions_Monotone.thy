@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Monotonicity\<close>
+subsection \<open>Monotonicity\<close>
 theory Transport_Functions_Monotone
   imports
     Transport_Functions_Base

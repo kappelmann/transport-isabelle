@@ -1,5 +1,6 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Basic Setup and Results\<close>
+subsection \<open>Order Functors\<close>
+subsubsection \<open>Basic Setup and Results\<close>
 theory Order_Functors_Base
   imports
     Functions_Inverse
@@ -85,7 +86,7 @@ begin
 
 text \<open>We call the composition \<^term>\<open>r \<circ> l\<close> the \<^emph>\<open>unit\<close>
 and the term \<^term>\<open>l \<circ> r\<close> the \<^emph>\<open>counit\<close> of the order functors pair.
-This is terminology is borrowed from category theory \<hyphen> the functors
+This is terminology is borrowed from category theory - the functors
 are an \<^emph>\<open>adjoint\<close>.\<close>
 
 definition "unit \<equiv> r \<circ> l"

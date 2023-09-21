@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Transport using Identity\<close>
+section \<open>Transport using Identity\<close>
 theory Transport_Identity
   imports
     Transport_Bijections

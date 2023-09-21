@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Alignment With Definitions from HOL\<close>
+subsection \<open>Alignment With Definitions from HOL\<close>
 theory HOL_Alignment_Orders
   imports
     "HOL-Library.Preorder"

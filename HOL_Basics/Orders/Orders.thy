@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Orders\<close>
+section \<open>Orders\<close>
 theory Orders
   imports
     Equivalence_Relations

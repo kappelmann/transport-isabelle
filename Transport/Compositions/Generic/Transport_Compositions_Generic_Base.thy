@@ -1,5 +1,6 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Basic Setup\<close>
+section \<open>Generic Compositions\<close>
+subsection \<open>Basic Setup\<close>
 theory Transport_Compositions_Generic_Base
   imports
     Transport_Base
@@ -130,7 +131,7 @@ corollary left_rel_inv_iff_left_rel_if_galois_prop [iff]:
   using assms by (simp flip: ge_left_rel_eq_left_rel_inv_if_galois_prop)
 
 
-subparagraph \<open>Simplification of Relations\<close>
+subsubsection \<open>Simplification of Relations\<close>
 
 lemma left_rel_le_left_rel1I:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<unlhd>\<^sub>h (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -201,7 +202,7 @@ qed
 end
 
 
-subparagraph \<open>Generic Left to Right Introduction Rules\<close>
+subsubsection \<open>Generic Left to Right Introduction Rules\<close>
 
 text \<open>The following lemmas generalise the proof outline used, for example,
 when proving monotonicity and the Galois property (cf. the paper \<^cite>\<open>"transport"\<close>).\<close>
@@ -291,7 +292,7 @@ proof -
 qed
 
 
-subparagraph \<open>Simplification of Monotonicity Assumptions\<close>
+subsubsection \<open>Simplification of Monotonicity Assumptions\<close>
 
 text \<open>Some sufficient conditions for monotonicity assumptions that repeatedly
 arise in various places.\<close>
@@ -309,7 +310,7 @@ lemma mono_in_codom_left_rel_left1_if_in_codom_rel_comp_le:
   using assms by (intro dep_mono_wrt_predI) blast
 
 
-subparagraph \<open>Simplification of Compatibility Conditions\<close>
+subsubsection \<open>Simplification of Compatibility Conditions\<close>
 
 text \<open>Most results will depend on certain compatibility conditions between
 @{term "(\<le>\<^bsub>R1\<^esub>)"} and @{term "(\<le>\<^bsub>L2\<^esub>)"}. We next derive some sufficient assumptions
@@ -440,7 +441,7 @@ lemma in_codom_right1_left2_right1_le_if_right1_left2_right1_le:
   by (auto intro: in_codom_if_in_codom_rel_comp)
 
 text \<open>Our main results will be derivable for two different sets of compatibility
-conditions. The next two lemmas show the equivalence_rel between those two sets
+conditions. The next two lemmas show the equivalence between those two sets
 under certain assumptions. In cases where these assumptions are met, we will
 only state the result for one of the two compatibility conditions. The other one
 will then be derivable using one of the following lemmas.\<close>

@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Lattice\<close>
+subsection \<open>Lattice\<close>
 theory Binary_Relations_Lattice
   imports
     Binary_Relations_Order_Base

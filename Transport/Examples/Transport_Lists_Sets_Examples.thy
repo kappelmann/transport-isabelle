@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Example Transports Between Lists and Sets\<close>
+section \<open>Example Transports Between Lists and Sets\<close>
 theory Transport_Lists_Sets_Examples
   imports
     Transport_Prototype

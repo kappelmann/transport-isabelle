@@ -1,5 +1,4 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Order\<close>
 theory Binary_Relations_Order
   imports
     Binary_Relations_Order_Base

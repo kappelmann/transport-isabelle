@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Galois Property\<close>
+subsection \<open>Galois Property\<close>
 theory Transport_Functions_Galois_Property
   imports
     Transport_Functions_Monotone

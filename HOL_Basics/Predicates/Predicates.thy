@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Predicates\<close>
+section \<open>Predicates\<close>
 theory Predicates
   imports
     Functions_Base

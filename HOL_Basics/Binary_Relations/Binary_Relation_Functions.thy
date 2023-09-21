@@ -1,8 +1,9 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Basic Functions\<close>
+section \<open>Binary Relations\<close>
+subsection \<open>Basic Functions\<close>
 theory Binary_Relation_Functions
   imports
-    HOL.HOL
+    HOL_Basics_Base
 begin
 
 paragraph \<open>Summary\<close>

@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Monotone Function Relator\<close>
+section \<open>Monotone Function Relator\<close>
 theory Monotone_Function_Relator
   imports
     Reflexive_Relator

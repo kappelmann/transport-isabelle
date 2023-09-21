@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Basic Order Properties\<close>
+subsection \<open>Basic Order Properties\<close>
 theory Transport_Compositions_Generic_Order_Base
   imports
    Transport_Compositions_Generic_Base
@@ -10,7 +10,7 @@ begin
 
 interpretation flip1 : galois R1 L1 r1 l1 .
 
-subparagraph \<open>Reflexivity\<close>
+subsubsection \<open>Reflexivity\<close>
 
 lemma reflexive_on_in_dom_leftI:
   assumes galois_prop: "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -88,7 +88,7 @@ proof -
 qed
 
 
-subparagraph \<open>Transitivity\<close>
+subsubsection \<open>Transitivity\<close>
 
 text\<open>There are many similar proofs for transitivity. They slightly differ in
 their assumptions, particularly which of @{term "(\<le>\<^bsub>R1\<^esub>)"} and @{term "(\<le>\<^bsub>L2\<^esub>)"} has
@@ -147,7 +147,7 @@ proof (rule transitiveI)
 qed
 
 
-subparagraph \<open>Preorders\<close>
+subsubsection \<open>Preorders\<close>
 
 lemma preorder_on_in_field_leftI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"
@@ -194,7 +194,7 @@ proof -
 qed
 
 
-subparagraph \<open>Symmetry\<close>
+subsubsection \<open>Symmetry\<close>
 
 lemma symmetric_leftI:
   assumes "((\<le>\<^bsub>L1\<^esub>) \<unlhd> (\<le>\<^bsub>R1\<^esub>)) l1 r1"

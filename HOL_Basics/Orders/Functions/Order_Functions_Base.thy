@@ -1,5 +1,6 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Basics\<close>
+subsection \<open>Functions On Orders\<close>
+subsubsection \<open>Basics\<close>
 theory Order_Functions_Base
   imports
     Functions_Monotone

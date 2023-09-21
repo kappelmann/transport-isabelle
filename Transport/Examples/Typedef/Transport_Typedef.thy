@@ -1,3 +1,4 @@
+\<^marker>\<open>creator "Kevin Kappelmann"\<close>
 theory Transport_Typedef
   imports
     "HOL-Library.FSet"

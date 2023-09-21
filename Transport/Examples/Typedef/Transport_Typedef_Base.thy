@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Transport for HOL Type Definitions\<close>
+section \<open>Transport for HOL Type Definitions\<close>
 theory Transport_Typedef_Base
   imports
     HOL_Alignment_Binary_Relations

@@ -61,7 +61,7 @@ lemma equivalence_rel_on_if_equivalence:
     reflexive_on_if_reflexive)
 
 
-subsubsection \<open>Instantiations\<close>
+paragraph \<open>Instantiations\<close>
 
 lemma equivalence_eq: "equivalence_rel (=)"
   using partial_equivalence_rel_eq reflexive_eq by (rule equivalence_relI)

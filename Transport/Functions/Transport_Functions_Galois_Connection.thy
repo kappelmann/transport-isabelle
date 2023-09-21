@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Galois Connection\<close>
+subsection \<open>Galois Connection\<close>
 theory Transport_Functions_Galois_Connection
   imports
     Transport_Functions_Galois_Property

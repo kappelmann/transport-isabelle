@@ -1,4 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
+section \<open>Order Syntax\<close>
 theory HOL_Syntax_Bundles_Orders
   imports HOL.Orderings
 begin

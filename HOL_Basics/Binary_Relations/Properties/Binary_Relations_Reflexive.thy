@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Reflexive\<close>
+subsubsection \<open>Reflexive\<close>
 theory Binary_Relations_Reflexive
   imports
     Functions_Monotone

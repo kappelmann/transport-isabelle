@@ -24,7 +24,7 @@ Includes:
   e.g. @{term "galois.galois_equivalence"}.
 \<^enum> Basic concepts on predicates.
 \<^enum> Syntax bundles for HOL @{dir "HOL_Syntax_Bundles"}.
-\<^enum> Alignments for concepts that have counterparts in the HOL library \<hyphen>
+\<^enum> Alignments for concepts that have counterparts in the HOL library -
   see @{dir "HOL_Alignments"}.\<close>
 
 end

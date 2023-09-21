@@ -1,6 +1,8 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
+section \<open>HOL Syntax Bundles\<close>
+subsection \<open>Basic Syntax\<close>
 theory HOL_Syntax_Bundles_Base
-  imports HOL.HOL
+  imports HOL_Basics_Base
 begin
 
 bundle HOL_ascii_syntax

@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Left Total\<close>
+subsubsection \<open>Left Total\<close>
 theory Binary_Relations_Left_Total
   imports
     Binary_Relation_Functions

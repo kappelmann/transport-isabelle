@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Transport using Bijections\<close>
+section \<open>Transport using Bijections\<close>
 theory Transport_Bijections
   imports
     Functions_Bijection

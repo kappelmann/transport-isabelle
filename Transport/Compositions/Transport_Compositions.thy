@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Transport For Compositions\<close>
+section \<open>Transport For Compositions\<close>
 theory Transport_Compositions
   imports
     Transport_Compositions_Agree

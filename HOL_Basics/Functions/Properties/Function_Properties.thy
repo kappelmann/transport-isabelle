@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Basic Properties\<close>
+subsection \<open>Basic Properties\<close>
 theory Function_Properties
   imports
     Functions_Bijection

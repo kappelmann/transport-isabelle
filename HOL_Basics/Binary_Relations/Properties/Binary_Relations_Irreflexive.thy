@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-paragraph \<open>Irreflexive\<close>
+subsubsection \<open>Irreflexive\<close>
 theory Binary_Relations_Irreflexive
   imports
     Binary_Relation_Functions

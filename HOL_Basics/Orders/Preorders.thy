@@ -85,7 +85,7 @@ lemma preorder_on_if_preorder:
   (intro preorder_onI reflexive_on_if_reflexive transitive_on_if_transitive)
 
 
-subsubsection \<open>Instantiations\<close>
+paragraph \<open>Instantiations\<close>
 
 lemma preorder_eq: "preorder (=)"
   using reflexive_eq transitive_eq by (rule preorderI)

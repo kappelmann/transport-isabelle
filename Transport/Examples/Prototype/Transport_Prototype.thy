@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsection \<open>Transport via Equivalences on PERs (Prototype)\<close>
+section \<open>Transport via Equivalences on PERs (Prototype)\<close>
 theory Transport_Prototype
   imports
     Transport_Rel_If
@@ -308,7 +308,7 @@ method_setup transport_relator_rewrite =
   "Rewrite Transport relator"
 
 
-paragraph \<open>The trp_term command\<close>
+paragraph \<open>The trp\_term command\<close>
 
 text \<open>Parsing\<close>
 

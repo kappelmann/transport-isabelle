@@ -1,5 +1,5 @@
 \<^marker>\<open>creator "Kevin Kappelmann"\<close>
-subsubsection \<open>Relators\<close>
+subsection \<open>Relators\<close>
 theory Function_Relators
   imports
     Binary_Relation_Functions
