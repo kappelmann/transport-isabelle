@@ -6,10 +6,11 @@ at the Asian Symposium on Programming Languages and Systems (APLAS) 2023.
 
 ## Requirements
 
-Isabelle2023 release candidate
-- At the time of writing (21 September, 2023), obtainable from the official website: https://isabelle.in.tum.de
-- Otherwise obtainable by using the mecurial changeset `b5f3d1051b13`.
-  You can run `isabelle/Admin/init -r b5f3d1051b13` to set up this version.
+1. Isabelle2023 release candidate
+  - At the time of writing (21 September, 2023), obtainable from the official website: https://isabelle.in.tum.de
+  - Otherwise obtainable by using the mecurial changeset `b5f3d1051b13`.
+    You can run `isabelle/Admin/init -r b5f3d1051b13` to set up this version.
+2. The `ML_Unification` framework from https://github.com/kappelmann/ml-unification-isabelle
 
 ## Connections Paper <--> Formalisation
 
