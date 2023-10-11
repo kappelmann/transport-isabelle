@@ -39,13 +39,13 @@ session Transport = "HOL" +
     HOL_Syntax_Bundles
     Transport
     Transport_Natural_Functors
-    (*Paper*)
-    Transport_Via_Partial_Galois_Connections_Equivalences_Paper
     (*Examples*)
     Transport_Dep_Fun_Rel_Examples
     Transport_Lists_Sets_Examples
     Transport_Partial_Quotient_Types
-    Transport_Typedef_Base
+    Transport_Typedef
+    (*Paper*)
+    Transport_Via_Partial_Galois_Connections_Equivalences_Paper
   document_files
     "root.tex"
     "root.bib"

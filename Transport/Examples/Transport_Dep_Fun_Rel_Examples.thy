@@ -29,7 +29,7 @@ abbreviation "Zpos \<equiv> ((=\<^bsub>(\<le>)(0 :: int)\<^esub>) :: int \<Right
 lemma Zpos_per [per_intro]: "(Zpos \<equiv>\<^bsub>PER\<^esub> (=)) nat int"
   by fastforce
 
-lemma sub_parametric [transport_in_dom]:
+lemma sub_parametric [trp_in_dom]:
   "([i _ \<Colon> Zpos] \<Rrightarrow> [j _ \<Colon> Zpos | j \<le> i] \<Rrightarrow> Zpos) (-) (-)"
   by fastforce
 
@@ -37,7 +37,7 @@ trp_term nat_sub :: "nat \<Rightarrow> nat \<Rightarrow> nat" where x = "(-) :: 
   and L = "[i _ \<Colon> Zpos] \<Rrightarrow> [j _ \<Colon> Zpos | j \<le> i] \<Rrightarrow> Zpos"
   and R = "[n _ \<Colon> (=)] \<Rrightarrow> [m _ \<Colon> (=)| m \<le> n] \<Rrightarrow> (=)"
   (*fastforce discharges the remaining side-conditions*)
-  by (transport_prover) fastforce+
+  by (trp_prover) fastforce+
 
 thm nat_sub_app_eq
 text \<open>Note: as of now, @{command trp_term} does not rewrite the
@@ -59,7 +59,7 @@ lemma [per_intro]:
     intro: list.rel_transp list.rel_symp iarray.rel_transp iarray.rel_symp
     elim: iarray.rel_cases)+
 
-lemma [transport_in_dom]:
+lemma [trp_in_dom]:
   "([xs _ \<Colon> LRel R] \<Rrightarrow> [i _ \<Colon> (=) | i < length xs] \<Rrightarrow> R) (!) (!)"
   by (fastforce simp: list_all2_lengthD list_all2_nthD2)
 
@@ -75,7 +75,7 @@ declare Rper.partial_equivalence_rel_equivalence [per_intro]
 trp_term iarray_index where x = "(!) :: 'a list \<Rightarrow> _"
   and L = "([xs _ \<Colon> LRel R] \<Rrightarrow> [i _ \<Colon> (=) | i < length xs] \<Rrightarrow> R)"
   and R = "([xs _ \<Colon> IARel R] \<Rrightarrow> [i _ \<Colon> (=) | i < IArray.length xs] \<Rrightarrow> R)"
-  by (transport_prover)
+  by (trp_prover)
   (*fastforce discharges the remaining side-conditions*)
   (fastforce simp: list_all2_lengthD elim: iarray.rel_cases)+
 

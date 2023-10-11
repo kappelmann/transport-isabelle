@@ -107,7 +107,7 @@ Theorem
 
   \<^item> Example 2: @{theory "Transport.Transport_Dep_Fun_Rel_Examples"}
 
-  \<^item> TODO Example 3: \<^url>\<open>https://github.com/kappelmann/Isabelle-Set/blob/fdf59444d9a53b5279080fb4d24893c9efa31160/Isabelle_Set/Integers/Integers_Transport.thy\<close>
+  \<^item> Example 3: \<^url>\<open>https://github.com/kappelmann/Isabelle-Set/blob/fdf59444d9a53b5279080fb4d24893c9efa31160/Isabelle_Set/Integers/Integers_Transport.thy\<close>
 
 \<^item> Proof: Partial Quotient Types are a special case:
   @{theory "Transport.Transport_Partial_Quotient_Types"}

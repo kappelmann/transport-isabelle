@@ -5,6 +5,8 @@ Utilities used by Transport.
 *)
 signature TRANSPORT_UTIL =
 sig
+  val transport_id : string
+
   (* lists *)
   val list_aggregate : ('a * 'b -> 'b) -> ('c -> 'a) -> 'b -> 'c list -> 'b
   val list_max : ('a -> int) -> int -> 'a list -> int
@@ -45,6 +47,8 @@ end
 
 structure Transport_Util : TRANSPORT_UTIL =
 struct
+
+val transport_id = "trp"
 
 fun list_aggregate aggregate transform = List.foldl (aggregate o apfst transform)
 fun list_max f = list_aggregate Int.max f
