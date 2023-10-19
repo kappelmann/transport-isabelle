@@ -1,3 +1,5 @@
+**This formalisation is now part of the AFP. Please refer to https://www.isa-afp.org/entries/Transport.html**
+
 # Transport via Partial Galois Connections and Equivalences
 
 The supplementary material for the paper
